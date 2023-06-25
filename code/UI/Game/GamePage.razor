@@ -175,7 +175,10 @@
     public void StartSong()
     {
         if(CurrentSound.IsPlaying) CurrentSound.Stop();
-        CurrentSound = Sound.FromScreen(SoundName);
+        var split = SoundName.Split('/');
+        var sound = split[split.Length - 1].Replace(".sound", "");
+        //Log.Info(sound);
+        CurrentSound = Sound.FromScreen(sound);
         CurrentTime = Song.Offset;
         LastTime = CurrentTime;
         IsPlaying = true;

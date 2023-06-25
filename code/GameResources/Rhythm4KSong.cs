@@ -9,8 +9,6 @@ namespace Rhythm4K;
 public partial class Rhythm4KSong : GameResource
 {
     public string ChartPath { get; set; }
-    
-    [ResourceType("sound")]
     public string SoundName { get; set; }
     [ResourceType("png")]
     public string CoverArt { get; set; }
