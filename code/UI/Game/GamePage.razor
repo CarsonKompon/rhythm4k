@@ -34,10 +34,14 @@
             <label class="score-big" text=@GetScoreBig() />
             <label class="score-small" text=@GetScoreSmall() /> 
         </div>
-        <div @ref="ChainContainer" class="chain-container">
-            <label class="header">Max Combo</label>
-            <label class="chain" text=@GetMaxCombo() />
-        </div>
+	    <div @ref="ChainContainer" class="chain-container">
+		    <label class="header">Max Combo</label>
+		    <label class="chain" text=@GetMaxCombo() />
+	    </div>
+	    <div class="chain-container">
+		    <label class="header">Accuracy</label>
+		    <label class="chain" text=@((Accuracy*100).ToString("F")+"%")></label>
+		</div>
     </div>
 
     <!-- Holds the Receptors and Arrows -->
@@ -55,7 +59,11 @@
     <!-- Holds your current Combo -->
     <div @ref="ComboContainer" class="combo-container @ShowCombo()">
         <label class="header">Combo</label>
-        <label class="combo" text=@GetCombo() />
+	    <label class="combo" text=@GetCombo() />
+	    @if ( lastJudge is not null )
+	    {
+		    <label class="judgement" text=@Enum.GetName(lastJudge??Judge.Miss)/>
+	    }
     </div>
 
     <label class="crash-text">Hit ESC to open Pause Menu</label>

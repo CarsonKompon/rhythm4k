@@ -68,6 +68,8 @@ public partial class GamePage
 	    }
     }
 
+    private Judge? lastJudge;
+
     private float[] hits = new [] {1f};
 
     private Judge GetJudgement(float time)
@@ -264,8 +266,8 @@ public partial class GamePage
                     if(Combo > MaxCombo) MaxCombo = Combo;
                     var mistake = Math.Abs( note.BakedTime - CurrentTime );
                     hits = hits.Append(1 - mistake/JudgeTimings.Judge4[Judge.Bad]).ToArray();
-                    var judge = GetJudgement(mistake);
-                    Log.Error($"{Enum.GetName(judge)} {Accuracy}%");
+                    lastJudge = GetJudgement(mistake);
+                    //Log.Error($"{Enum.GetName(judge)} {Accuracy}%");
                     //Log.Info();
                 }
 
@@ -294,6 +296,7 @@ public partial class GamePage
                 LivingNotes.Remove(note);
                 ResetCombo();
                 hits = hits.Append(0).ToArray();
+                lastJudge = Judge.Miss;
                 if(note.Arrow != null) note.Arrow.Missed = true;
             }
         }
