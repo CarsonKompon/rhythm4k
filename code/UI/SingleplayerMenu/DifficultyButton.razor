@@ -1,11 +1,15 @@
 @using System;
 @using Sandbox;
 @using Sandbox.UI;
+@attribute [StyleSheet]
 
 @namespace Rhythm4K
 
 <root>
-    <span class="button @DifficultySelected()" onclick=@SetDifficulty >@Chart.DifficultyName</span>
+    <span class="button @DifficultySelected()" onclick=@SetDifficulty >
+        <label class="name">@Chart.DifficultyName</label>
+        <label class="level">@Chart.Difficulty</label>
+    </span>
 </root>
 
 @code
