@@ -5,15 +5,32 @@ MainMenuPage
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 32px;
+    gap: 48px;
 
-    .logo
+    .logo-container
     {
         width: 65%;
         height: 30%;
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
+        flex-direction: column;
+        align-items: center;
+
+        .logo
+        {
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .author
+        {
+            font-family: Poppins;
+            font-size: 24px;
+            font-weight: 300;
+            text-align: center;
+            font-style: italic;
+
+            bottom: 32px;
+        }
     }
 
     .menu
