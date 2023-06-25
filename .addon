@@ -27,13 +27,9 @@
     "HttpAllowList": null,
     "PackageSettings": [
       {
-        "DisplayType": "Boolean",
         "Choices": [],
-        "ConVarName": "rhythm4k.downscroll",
-        "DisplayName": "Downscroll",
-        "DefaultValue": "false",
-        "Description": "",
-        "Group": ""
+        "ConVarName": "",
+        "DisplayName": "New Setting..."
       }
     ],
     "Summary": "A simple 4 key rhythm game that reads Stepmania and Osu!Mania charts",

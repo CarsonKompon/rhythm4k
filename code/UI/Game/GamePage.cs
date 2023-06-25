@@ -1,3 +1,4 @@
+using System.Diagnostics.Tracing;
 using System;
 using System.Collections.Generic;
 using Sandbox;
@@ -99,7 +100,6 @@ public partial class GamePage
                     {
                         float noteTime = arrow.Note.BakedTime;
                         float percent = 100f * ((noteTime - CurrentTime) / ScreenTime);
-                        Log.Info(Downscroll);
                         if(Downscroll)
                         {
                             arrow.Style.Top = Length.Percent(100f-percent);
@@ -165,12 +165,7 @@ public partial class GamePage
             ProgressBar.Style.Width = Length.Percent((CurrentTime / SongLength) * 100f);
         }
 
-        LastTime = CurrentTime;
-    }
 
-    [GameEvent.Client.BuildInput]
-    public void BuildInput()
-    {
         if(!IsPlaying) return;
 
         bool[] pressed = {
@@ -193,25 +188,25 @@ public partial class GamePage
         }
 
         // Hit Arrows
-        List<Note> notes = GetNotesToHit();
+        List<Note> notesToHit = GetNotesToHit();
         float lowestOffset = -1f;
-        for(int i=0; i<notes.Count; i++)
+        float hitOffset = -1f;
+        foreach(Note note in notesToHit)
         {
-            Note note = notes[i];
             if(note.Arrow != null && note.Arrow.Missed) continue;
             bool hit = false;
-            switch((NoteType)note.Type)
+            if((NoteType)note.Type == NoteType.Hold)
             {
-                case NoteType.Hold:
-                    hit = held[note.Lane];
-                    break;
-                default:
-                    hit = pressed[note.Lane];
-                    break;
+                hit = held[note.Lane];
+            }
+            else
+            {
+                hit = pressed[note.Lane];
             }
             if(hit)
             {
                 if(lowestOffset == -1f || note.Offset < lowestOffset) lowestOffset = note.Offset;
+                hitOffset = note.Offset;
                 Score += note.Points;
 
                 if((NoteType)note.Type == NoteType.Normal)
@@ -229,24 +224,124 @@ public partial class GamePage
                     Arrows.Remove(note.Arrow);
                     note.Arrow.Delete();
                 }
+                else
+                {
+                    Log.Warning("Arrow is null");
+                }
+            }
+        }
 
-                notes.Remove(note);
+        if(hitOffset != -1)
+        {
+            string gg = "";
+            for(int i=0; i<4; i++)
+            {
+                gg += (held[i] ? "1" : "0") + " ";
+            }
+            Log.Info(gg);
+            Log.Info("Arrow count: " + notesToHit.Count + " - " + hitOffset + " - " + lowestOffset);
+            if(notesToHit.Count > 0)
+            {
+                Log.Info(notesToHit[0]);
             }
         }
 
         // Remove any arrows that were skipped (if any)
-        foreach(Note note in notes)
+        foreach(Note note in notesToHit)
         {
 
-            if(note.Offset < lowestOffset)
+            if(note.Arrow == null && !note.Arrow.Missed && note.Offset < lowestOffset)
             {
-                Log.Info(note.Offset + " < " + lowestOffset);
                 LivingNotes.Remove(note);
                 ResetCombo();
                 if(note.Arrow != null) note.Arrow.Missed = true;
             }
         }
+
+        LastTime = CurrentTime;
     }
+
+    // [GameEvent.Client.BuildInput]
+    // public void BuildInput()
+    // {
+    //     if(!IsPlaying) return;
+
+    //     bool[] pressed = {
+    //         Input.Pressed("LeftArrow"),
+    //         Input.Pressed("DownArrow"), 
+    //         Input.Pressed("UpArrow"),
+    //         Input.Pressed("RightArrow")
+    //     };
+
+    //     bool[] held = {
+    //         Input.Down("LeftArrow"),
+    //         Input.Down("DownArrow"),
+    //         Input.Down("UpArrow"),
+    //         Input.Down("RightArrow")
+    //     };
+
+    //     foreach(Lane lane in Lanes)
+    //     {
+    //         lane.Receptor.SetClass("pressing", held[lane.LaneIndex]);
+    //     }
+
+    //     // Hit Arrows
+    //     List<Note> notes = GetNotesToHit();
+    //     float lowestOffset = -1f;
+    //     float hitOffset = -1f;
+    //     for(int i=0; i<notes.Count; i++)
+    //     {
+    //         Note note = notes[i];
+    //         if(note.Arrow != null && note.Arrow.Missed) continue;
+    //         bool hit = false;
+    //         switch((NoteType)note.Type)
+    //         {
+    //             case NoteType.Hold:
+    //                 hit = held[note.Lane];
+    //                 break;
+    //             default:
+    //                 hit = pressed[note.Lane];
+    //                 break;
+    //         }
+    //         if(hit)
+    //         {
+    //             if(lowestOffset == -1f || note.Offset < lowestOffset) lowestOffset = note.Offset;
+    //             hitOffset = note.Offset;
+    //             Score += note.Points;
+
+    //             if((NoteType)note.Type == NoteType.Normal)
+    //             {
+    //                 Combo += 1;
+    //                 if(Combo > MaxCombo) MaxCombo = Combo;
+    //             }
+
+    //             LivingNotes.Remove(note);
+    //             if(note.Arrow != null)
+    //             {
+    //                 Receptor receptor = Lanes[note.Lane].Receptor;
+    //                 receptor.Glow(note.Arrow);
+
+    //                 Arrows.Remove(note.Arrow);
+    //                 note.Arrow.Delete();
+    //             }
+
+    //             notes.Remove(note);
+    //         }
+    //     }
+
+    //     // Remove any arrows that were skipped (if any)
+    //     foreach(Note note in notes)
+    //     {
+
+    //         if(note.Offset < lowestOffset && note.Offset != hitOffset)
+    //         {
+    //             Log.Info("skippppp");
+    //             LivingNotes.Remove(note);
+    //             ResetCombo();
+    //             if(note.Arrow != null) note.Arrow.Missed = true;
+    //         }
+    //     }
+    // }
 
     public List<Note> GetNextNotes()
     {

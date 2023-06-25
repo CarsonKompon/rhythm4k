@@ -14,7 +14,7 @@
     background-repeat: repeat;
 
     animation-name: scroll;
-    animation-duration: 10s;
+    animation-duration: 500s;
     animation-iteration-count: infinite;
     animation-timing-function: linear;
 
@@ -28,10 +28,10 @@
 {
     from
     {
-        background-position: 0 0;
+        background-position: 0px 0px;
     }
     to
     {
-        background-position: 128px 128px;
+        background-position: 5000px 5000px;
     }
 }
