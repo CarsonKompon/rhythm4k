@@ -60,7 +60,11 @@ public partial class GamePage
                 {
                     Note note = notes[i];
                     Notes.Remove(note);
-                    if(note.Type == (int)NoteType.Hold) continue;
+                    if(note.Type == (int)NoteType.Hold)
+                    {
+                        LivingNotes.Add(note);
+                        continue;
+                    }
                     Lane lane = Lanes[note.Lane];
                     Arrow arrow = lane.AddChild<Arrow>();
                     arrow.SetNote(note);
@@ -203,13 +207,14 @@ public partial class GamePage
             {
                 hit = pressed[note.Lane];
             }
+
             if(hit)
             {
                 if(lowestOffset == -1f || note.Offset < lowestOffset) lowestOffset = note.Offset;
                 hitOffset = note.Offset;
                 Score += note.Points;
 
-                if((NoteType)note.Type == NoteType.Normal)
+                if((NoteType)note.Type != NoteType.Hold)
                 {
                     Combo += 1;
                     if(Combo > MaxCombo) MaxCombo = Combo;
@@ -231,26 +236,11 @@ public partial class GamePage
             }
         }
 
-        if(hitOffset != -1)
-        {
-            string gg = "";
-            for(int i=0; i<4; i++)
-            {
-                gg += (held[i] ? "1" : "0") + " ";
-            }
-            Log.Info(gg);
-            Log.Info("Arrow count: " + notesToHit.Count + " - " + hitOffset + " - " + lowestOffset);
-            if(notesToHit.Count > 0)
-            {
-                Log.Info(notesToHit[0]);
-            }
-        }
-
         // Remove any arrows that were skipped (if any)
         foreach(Note note in notesToHit)
         {
 
-            if(note.Arrow == null && !note.Arrow.Missed && note.Offset < lowestOffset)
+            if(note.Arrow != null && !note.Arrow.Missed && note.Offset < lowestOffset)
             {
                 LivingNotes.Remove(note);
                 ResetCombo();
