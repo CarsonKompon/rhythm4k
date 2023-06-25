@@ -18,7 +18,7 @@ public static class SongBuilder
 	    {
 		    // so let user know something is not right with .rhythm
 		    Log.Error("The .rhythm file is broken!");
-		    throw new NullReferenceException();
+		    throw new ArgumentNullException();
 	    }
         var song = new Song();
         
