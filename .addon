@@ -35,8 +35,8 @@
         "Group": ""
       }
     ],
-    "Summary": "A simple 4 key rhythm game that reads Stepmania charts",
-    "Description": "A simple 4 key rhythm game that reads Stepmania charts",
+    "Summary": "A simple 4 key rhythm game that reads Stepmania and Osu!Mania charts",
+    "Description": "A simple 4 key rhythm game that reads Stepmania and Osu!Mania charts",
     "Public": true,
     "ControlModes": {
       "Keyboard": true,
