@@ -1,6 +1,7 @@
 using System.Diagnostics.Tracing;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Sandbox;
 using Sandbox.UI;
 
@@ -59,9 +60,18 @@ public partial class GamePage
     //		and set ingame (in song select menu) so that way works too
     private bool Downscroll => Cookie.Get<bool>("rhythm4k.downscroll", false);
 
+    private float Accuracy
+    {
+	    get
+	    {
+		    return hits.Average();
+	    }
+    }
+
+    private float[] hits = new [] {1f};
+
     private Judge GetJudgement(float time)
     {
-	    var absTime = Math.Abs( time );
 	    foreach ( var judge in JudgeTimings.Judge4 )
 	    {
 		    if (time > judge.Value) continue;
@@ -243,6 +253,7 @@ public partial class GamePage
 
             if(hit)
             {
+	            // TODO: Accuracy for holds
 	            if(lowestOffset == -1f || note.Offset < lowestOffset) lowestOffset = note.Offset;
                 hitOffset = note.Offset;
                 Score += note.Points;
@@ -251,8 +262,10 @@ public partial class GamePage
                 {
                     Combo += 1;
                     if(Combo > MaxCombo) MaxCombo = Combo;
-                    var judge = GetJudgement( note.BakedTime - CurrentTime );
-                    Log.Error(Enum.GetName(judge));
+                    var mistake = Math.Abs( note.BakedTime - CurrentTime );
+                    hits = hits.Append(1 - mistake/JudgeTimings.Judge4[Judge.Bad]).ToArray();
+                    var judge = GetJudgement(mistake);
+                    Log.Error($"{Enum.GetName(judge)} {Accuracy}%");
                     //Log.Info();
                 }
 
@@ -280,6 +293,7 @@ public partial class GamePage
             {
                 LivingNotes.Remove(note);
                 ResetCombo();
+                hits = hits.Append(0).ToArray();
                 if(note.Arrow != null) note.Arrow.Missed = true;
             }
         }
