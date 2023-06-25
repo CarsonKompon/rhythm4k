@@ -59,6 +59,29 @@ public class Chart
     }
 
     /// <summary>
+    /// Returns an offset in steps based on BPM changes given a time in the song (in seconds).
+    /// </summary>
+    public float GetOffsetFromTime(float time)
+    {
+        float currentOffset = 0f;
+        float currentTime = 0f;
+        float bpm = BpmChanges[0].BPM;
+        float timeChange = 0f;
+        foreach(BpmChange bpmChange in BpmChanges.OrderBy(o=>o.Offset))
+        {
+            if(currentTime > time) break;
+            timeChange = bpmChange.Offset - currentOffset;
+            currentOffset += timeChange;
+            currentTime += (timeChange/1000f) * ((60f/bpm)*4f);
+            bpm = bpmChange.BPM;
+        }
+        timeChange = time - currentTime;
+        currentOffset += timeChange / ((60f/bpm)*4f) * 1000f;
+        return currentOffset;
+    }
+
+
+    /// <summary>
     /// Check if the chart is valid
     /// </summary>
     public bool IsValid()

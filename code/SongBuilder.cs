@@ -23,6 +23,11 @@ public static class SongBuilder
             // Load stepmania chart
             song =  LoadFromSM(file);
         }
+        else if(file.EndsWith(".osu"))
+        {
+            // Load osu chart
+            song = LoadFromOSU(file);
+        }
 
         // Calculate baked values
         for(int i=0; i<song.Charts.Count; i++)
@@ -33,6 +38,7 @@ public static class SongBuilder
         return song;
     }
 
+    // Stepmania Chart Loading
     public static Song LoadFromSM(string file)
     {
         if(!file.EndsWith(".sm")) return new Song();
@@ -169,6 +175,180 @@ public static class SongBuilder
                 }
                 continue;
             }
+        }
+
+        return song;
+    }
+
+    public static Song LoadFromOSU(string rootFile)
+    {
+        if(!rootFile.EndsWith(".osu")) return new Song();
+
+        Song song = new Song();
+        song.Charts = new List<Chart>();
+        song.Charts = new List<Chart>();
+        string charterName = "";
+
+        List<string> files = new();
+        files.Add(rootFile);
+        if(rootFile.EndsWith("-0.osu"))
+        {
+            int i = 1;
+            while(FileSystem.Mounted.FileExists(rootFile.Replace("-0.osu", "-" + i + ".osu")))
+            {
+                files.Add(rootFile.Replace("-0.osu", "-" + i + ".osu"));
+                i++;
+            }
+        }
+
+        foreach(var file in files)
+        {
+            string text = FileSystem.Mounted.ReadAllText(file);
+            string[] sections = text.Split('[');
+
+            Chart chart = new Chart();
+            chart.Notes = new List<Note>();
+            chart.BpmChanges = new List<BpmChange>();
+            chart.Charter = charterName;
+        
+            foreach(var section in sections)
+            {
+                string[] lines = section.Split('\n');
+                if(lines[0].StartsWith("General"))
+                {
+                    foreach (var line in lines)
+                    {
+                        var split = line.Split(':');
+                        if(split.Length < 2) continue;
+                        var key = split[0].Trim();
+                        var value = split[1].Trim();
+                        switch(key)
+                        {
+                            case "PreviewTime":
+                                song.SampleStart = float.Parse(value);
+                                song.SampleLength = 6f;
+                                break;
+                            case "Mode":
+                                if(value != "3")
+                                {
+                                    Log.Warning("Osu chart " + file + " is not an osu!mania chart, skipping");
+                                    return new Song();
+                                }
+                                break;
+                        }
+                    }
+                }
+                else if(lines[0].StartsWith("Metadata"))
+                {
+                    foreach (var line in lines)
+                    {
+                        var split = line.Split(':');
+                        if(split.Length < 2) continue;
+                        var key = split[0].Trim();
+                        var value = split[1].Trim();
+                        switch(key)
+                        {
+                            case "Title":
+                                if(file == rootFile) song.Name = value;
+                                break;
+                            case "TitleUnicode":
+                                if(file == rootFile) song.Name = value;
+                                break;
+                            case "Artist":
+                                if(file == rootFile) song.Artist = value;
+                                break;
+                            case "ArtistUnicode":
+                                if(file == rootFile) song.Artist = value;
+                                break;
+                            case "Creator":
+                                chart.Charter = value;
+                                break;
+                            case "Version":
+                                chart.DifficultyName = value;
+                                break;
+                        }
+                    }
+                }
+                else if(lines[0].StartsWith("Difficulty"))
+                {
+                    foreach (var line in lines)
+                    {
+                        var split = line.Split(':');
+                        if(split.Length < 2) continue;
+                        var key = split[0].Trim();
+                        var value = split[1].Trim();
+                        switch(key)
+                        {
+                            case "OverallDifficulty":
+                                chart.Difficulty = int.Parse(value);
+                                break;
+                        }
+                    }
+                }
+                else if(lines[0].StartsWith("TimingPoints"))
+                {
+                    for(int i=1; i<lines.Length; i++)
+                    {
+                        var line = lines[i];
+                        var split = line.Split(',');
+                        if(split.Length < 8) continue;
+                        var offset = float.Parse(split[0]);
+                        var beatLength = float.Parse(split[1]);
+                        var bpm = 60000f / beatLength;
+                        var meter = int.Parse(split[2]);
+                        var sampleSet = int.Parse(split[3]);
+                        var sampleIndex = int.Parse(split[4]);
+                        var volume = int.Parse(split[5]);
+                        var uninherited = int.Parse(split[6]);
+                        var effects = int.Parse(split[7]);
+
+                        if(uninherited == 1)
+                        {
+                            chart.BpmChanges.Add(new BpmChange(offset, bpm));
+                        }
+                    }
+                }
+                else if(lines[0].StartsWith("HitObjects"))
+                {
+                    for(int i=1; i<lines.Length; i++)
+                    {
+                        var line = lines[i];
+                        var split = line.Split(',');
+                        if(split.Length < 6) continue;
+                        var x = int.Parse(split[0]);
+                        var y = int.Parse(split[1]);
+                        float time = float.Parse(split[2]) / 1000f;
+                        var type = int.Parse(split[3]);
+                        var hitsound = int.Parse(split[4]);
+                        var objectParams = "";
+                        for (int j = 5; j < split.Length; j++)
+                        {
+                            if(j != 5) objectParams += ",";
+                            objectParams += split[j];
+                        }
+
+                        // TODO: Remove the hard-coded lanecount if we ever support non-4k
+                        var laneCount = 4;
+                        int lane = (int)Math.Clamp(Math.Floor(x * laneCount / 512f), 0, laneCount - 1);
+                        var offset = chart.GetOffsetFromTime(time);
+
+                        switch(type)
+                        {
+                            case 1:
+                                chart.Notes.Add(new Note(offset, lane, NoteType.Normal));
+                                break;
+                            case 128:
+                                var endTime = float.Parse(objectParams.Split(':')[0]) / 1000f;
+                                var endOffset = chart.GetOffsetFromTime(endTime);
+                                var note = new Note(offset, lane, 0, endOffset - offset);
+                                break;
+                        }
+                    }
+                }
+
+            }
+
+            song.Charts.Add(chart);
         }
 
         return song;
