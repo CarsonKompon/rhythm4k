@@ -1,0 +1,39 @@
+@using System;
+@using System.Threading.Tasks;
+@using Sandbox;
+@using Sandbox.UI;
+@using Sandbox.UI.GameMenu;
+@inherits Panel
+@attribute [StyleSheet]
+
+@namespace Rhythm4K
+
+<root>
+    @if(Song == null)
+    {
+        <div class="no-package" >
+            <h1>No Song Selected</h1>
+            <p>Select a song from the list on the left.</p>
+        </div>
+    }
+    else
+    {
+        <img class="cover" src=@FindBackgroundImage() />
+        <div class="song-info">
+            <h1>@Song.Song.Name</h1>
+            <h2>@Song.Song.Artist</h2>
+        </div>
+    }
+</root>
+
+@code
+{
+
+    public Rhythm4KSong Song { get; set; }
+
+
+    string FindBackgroundImage()
+    {
+        return Song.CoverArt;
+    }
+}

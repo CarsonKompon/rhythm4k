@@ -1,0 +1,41 @@
+@using System;
+@using Sandbox;
+@using Sandbox.UI;
+
+@attribute [StyleSheet]
+@inherits Sandbox.UI.NavHostPanel
+@implements Sandbox.Menu.IGameMenuPanel
+
+@namespace Rhythm4K
+
+<root class="mainmenu">
+
+</root>
+
+@code
+{
+    public static string CurrentSong = "";
+
+    public MainMenu()
+    {
+        DefaultUrl = "/";
+
+        AddDestination("/", typeof(MainMenuPage));
+        AddDestination("/settings", typeof(SettingsPage));
+        //AddDestination("/lobby", typeof(LobbyMenuPage));
+        //AddDestination("/lobby/song", typeof(LobbySongPage));
+    }
+
+    [GameEvent.Menu.LobbyJoined]
+    public void OnLobbyJoined()
+    {
+        //Navigate("/lobby");
+    }
+
+    [GameEvent.Menu.LobbyLeave]
+    public void OnLobbyLeave()
+    {
+        Log.Info("left");
+        Navigate("/");
+    }
+}

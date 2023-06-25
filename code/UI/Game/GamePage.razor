@@ -1,0 +1,231 @@
+@using System;
+@using System.Collections.Generic;
+@using Sandbox;
+@using Sandbox.UI;
+@attribute [StyleSheet("/UI/Game/GamePage.razor.scss")]
+
+@namespace Rhythm4K
+
+<root>
+
+    <!-- Holds the Cover Art, Song Info, and Progress -->
+    <div class="song-info">
+        <div class="info-left">
+            <div @ref="CoverArt" class="cover-art"></div>
+            <div class="difficulty-container">
+                <label class="name" text=@GetDifficultyName() />
+                <label class="level" text=@GetDifficultyLevel() />
+            </div>
+        </div>
+        <div class="info-right">
+            <label class="song-title" text=@GetSongTitle() />
+            <label class="song-artist" text=@GetSongArtist() />
+            <div class="song-progress">
+                <div @ref="ProgressBar" class="bar"></div>
+                <label class="song-time" text=@GetSongTime() />
+            </div>
+        </div>
+    </div>
+
+    <!-- Holds your current Score and Max Combo -->
+    <div class="score-info">
+        <label class="header">Score</label>
+        <div class="score-holder">
+            <label class="score-big" text=@GetScoreBig() />
+            <label class="score-small" text=@GetScoreSmall() /> 
+        </div>
+        <div @ref="ChainContainer" class="chain-container">
+            <label class="header">Max Combo</label>
+            <label class="chain" text=@GetMaxCombo() />
+        </div>
+    </div>
+
+    <!-- Holds the Receptors and Arrows -->
+    <div class="game">
+        <div @ref="LaneContainer" class="lane-container">
+
+        </div>
+    </div>
+
+    <!-- Holds the scores of other players -->
+    <div @ref="MultiplayerContainer" class="multiplayer-container">
+
+    </div>
+
+    <!-- Holds your current Combo -->
+    <div @ref="ComboContainer" class="combo-container @ShowCombo()">
+        <label class="header">Combo</label>
+        <label class="combo" text=@GetCombo() />
+    </div>
+
+    <label class="crash-text">Hit ESC to open Pause Menu</label>
+
+</root>
+
+@code
+{
+    public static GamePage Current { get; private set; }
+    public Package SongPackage { get; private set; }
+    public Song Song { get; private set; }
+    public Chart Chart { get; private set; }
+
+    public Panel CoverArt { get; set; }
+    public Panel ProgressBar { get; set; }
+    public Panel ChainContainer { get; set; }
+    public Panel LaneContainer { get; set; }
+    public Panel MultiplayerContainer { get; set; }
+    public Panel ComboContainer { get; set; }
+    public string SoundName { get; set; }
+
+
+    // Game variables
+    public float CurrentBPM = 120f;
+    public float SongLength = 120f;
+    public Sound CurrentSound;
+    public RealTimeSince CurrentTime = 0f;
+    public float LastTime = 0f;
+    public List<Note> Notes = new();
+    public List<Note> LivingNotes = new();
+    public List<Arrow> Arrows = new();
+    public List<Trail> Trails = new();
+    public List<Lane> Lanes = new();
+    public List<BpmChange> BpmChanges = new();
+    public bool IsPlaying = false;
+    public int CritValue = 1;
+    public long Score = 0;
+    public int Combo = 0;
+    public int MaxCombo = 0;
+
+    protected override void OnAfterTreeRender(bool firstTime)
+    {
+        base.OnAfterTreeRender(firstTime);
+
+        if (firstTime)
+        {
+            // Create the Lanes
+            for(int i=0; i<4; i++)
+            {
+                Lane lane = LaneContainer.AddChild<Lane>();
+                lane.SetLane(i);
+                Lanes.Add(lane);
+            }
+
+            Current = this;
+
+            LoadSong(SingleplayerPage.Current.Song, SingleplayerPage.Current.Difficulty);
+        }
+    }
+
+    private void ResetValues()
+    {
+        Score = 0;
+        Combo = 0;
+        MaxCombo = 0;
+        IsPlaying = false;
+        ScreenTime = -1;
+
+        ProgressBar.Style.Width = Length.Percent(0f);
+    }
+
+    public void LoadSong(Rhythm4KSong song, int difficulty)
+    {
+        ResetValues();
+
+        Song = song.Song;
+        Chart = Song.Charts[difficulty];
+        SoundName = song.SoundName;
+
+        CoverArt.Style.BackgroundImage = Texture.Load(song.CoverArt);
+
+        CurrentBPM = Song.BPM;
+        SongLength = Chart.GetSongLength();
+        CritValue = (int)MathF.Floor(10000000f/Chart.TotalChain);
+
+        foreach(Note note in Chart.Notes)
+        {
+            Notes.Add(note);
+        }
+
+        foreach(BpmChange bpmchange in Chart.BpmChanges)
+        {
+            BpmChanges.Add(bpmchange);
+        }
+
+        StartSong();
+    }
+
+    public void StartSong()
+    {
+        CurrentSound = Sound.FromScreen(SoundName);
+        CurrentTime = Song.Offset;
+        LastTime = CurrentTime;
+        IsPlaying = true;
+    }
+
+    public void EndSong()
+    {
+        CurrentSound.Stop();
+        IsPlaying = false;
+    }
+
+
+    public string GetDifficultyName()
+    {
+        return Chart?.DifficultyName ?? "N/A";
+    }
+
+    public string GetDifficultyLevel()
+    {
+        return Chart?.Difficulty.ToString() ?? "N/A";
+    }
+
+    public string GetSongTitle()
+    {
+        return Song.Name ?? "N/A";
+    }
+
+    public string GetSongArtist()
+    {
+        return Song.Artist ?? "N/A";
+    }
+
+    public string GetSongTime()
+    {
+        TimeSpan time = TimeSpan.FromSeconds(CurrentTime);
+        return string.Format("{0:D2}:{1:D2}", time.Minutes, time.Seconds);
+    }
+
+    public string GetScoreBig()
+    {
+        string scoreText = string.Format("{0:D8}", Score);
+        return scoreText.Substring(0, 4);
+    }
+
+    public string GetScoreSmall()
+    {
+        string scoreText = string.Format("{0:D8}", Score);
+        return scoreText.Substring(4, 4);
+    }
+
+    public string GetCombo()
+    {
+        return Combo.ToString();
+    }
+
+    public string GetMaxCombo()
+    {
+        return MaxCombo.ToString();
+    }
+
+    public string ShowCombo()
+    {
+        if(Combo > 5) return "";
+        return "hidden";
+    }
+
+    protected override int BuildHash()
+    {
+        return HashCode.Combine(GetCombo(), GetScoreBig(), GetScoreSmall());
+    }
+
+}

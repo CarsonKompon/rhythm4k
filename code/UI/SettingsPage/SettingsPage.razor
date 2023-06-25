@@ -1,0 +1,79 @@
+@using System;
+@using System.Collections.Generic;
+@using System.Linq;
+@using Sandbox;
+@using Sandbox.MenuSystem;
+@using Sandbox.UI;
+@using Sandbox.UI.GameMenu;
+@inherits Panel
+@attribute [StyleSheet]
+
+@namespace Rhythm4K
+
+<root>
+    <section class="settings">
+        @foreach ( var group in Game.Menu.InputSettings.Actions.GroupBy( x => x.GroupName ) )
+        {
+            <div class="category">
+                <h2>@group.Key</h2>
+
+                <div class="form">
+                @foreach ( InputAction action in group )
+                {
+                    <FormGroup>
+                        <Label>@action.Name</Label>
+                        <Control>
+                            <KeyBind Game="@Game.Menu" Action=@action class="glass with-padding with-grow with-click"></KeyBind>
+                        </Control>
+                    </FormGroup>
+                }
+                </div>
+            </div>
+        }
+    </section>
+
+    <div class="navbar">
+    
+        <div class="left">
+            <span class="btn primary" onclick="@RestoreDefaults">Restore Defaults</span>
+        </div>
+
+        <div class="right">
+            
+            <span class="btn primary" onclick="@SaveChanges">Save Changes</span>
+        </div>
+
+    </div>
+</root>
+
+@code
+{
+    [CascadingParameter]
+    public Package GamePackage { get; set; }   
+
+
+    public void CancelChanges()
+    {
+        foreach (var kb in Descendants.OfType<KeyBind>())
+        {
+            kb.Cancel();
+        }
+    }
+
+    public void RestoreDefaults()
+    {
+        Game.Menu.ResetBinds();
+    }
+
+    public void SaveChanges()
+    {
+        foreach (var kb in Descendants.OfType<KeyBind>())
+        {
+            kb.Apply();
+        }
+
+        Game.Menu.SaveBinds();
+
+        this.Navigate("/");
+    }
+}

@@ -1,0 +1,49 @@
+LobbySongButton
+{
+    transition: transform 0.1s ease-in-out;
+    flex-direction: column;
+    justify-content: center;
+
+    h1
+    {
+        font-size: 24px;
+        font-weight: 800;
+    }
+
+
+    .no-package
+    {
+        aspect-ratio: 1.25;
+        width: 100%;
+        background-color: rgba(white, 0.1);
+        border-radius: 8px;
+        padding: 8px;
+        flex-direction: column;
+    }
+
+    .cover
+    {
+        aspect-ratio: 1;
+        width: 100%;
+    }
+
+    .song-info
+    {
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+
+        h1
+        {
+            font-size: 32px;
+            font-weight: 800;
+        }
+
+        h2
+        {
+            font-size: 18px;
+            font-weight: 400;
+        }
+    }
+}

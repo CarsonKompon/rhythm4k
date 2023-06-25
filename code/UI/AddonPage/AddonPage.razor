@@ -1,0 +1,23 @@
+@using System;
+@using Sandbox;
+@using Sandbox.UI;
+@using Sandbox.UI.GameMenu;
+@inherits Panel
+@attribute [StyleSheet]
+
+@namespace Rhythm4K
+
+<root>
+    <PackageList ShowFilters="@true" Query="ref:carsonk.rhythm4k type:addon sort:trending" OnSelected="@OnPackageSelected" Take=@(50)></PackageList>
+    <a class="button" href="/"> &lt; Back</span>
+</root>
+
+@code
+{
+    void OnPackageSelected(Package package)
+    {
+        if(SingleplayerPage.Current is SingleplayerPage sp)
+            sp.MountAddon(package);
+        this.Navigate("/");
+    }
+}

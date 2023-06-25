@@ -1,0 +1,46 @@
+@using System;
+@using Sandbox;
+@using Sandbox.UI;
+
+@attribute [StyleSheet("/UI/MainMenu.razor.scss")]
+@inherits Sandbox.UI.NavHostPanel
+
+@namespace Rhythm4K
+
+<root class="mainmenu">
+
+</root>
+
+@code
+{
+    public static string CurrentSong = "";
+
+    public GameMenu()
+    {
+        DefaultUrl = "/";
+
+        AddDestination("/", typeof(SingleplayerPage));
+        AddDestination("/addons", typeof(AddonPage));
+        AddDestination("/game", typeof(GamePage));
+        AddDestination("/settings", typeof(SettingsPage));
+    }
+
+    protected override void OnAfterTreeRender( bool firstTime )
+    {
+        base.OnAfterTreeRender( firstTime );
+    }
+
+		
+
+    [GameEvent.Menu.LobbyJoined]
+    public void OnLobbyJoined()
+    {
+        Navigate("/lobby");
+    }
+
+    [GameEvent.Menu.LobbyLeave]
+    public void OnLobbyLeave()
+    {
+        Navigate("/");
+    }
+}

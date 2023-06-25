@@ -1,0 +1,75 @@
+{
+  "Title": "Rhythm4K",
+  "Type": "game",
+  "Org": "carsonk",
+  "Ident": "rhythm4k",
+  "Tags": null,
+  "Schema": 1,
+  "HasAssets": true,
+  "AssetsPath": "",
+  "Resources": null,
+  "MenuResources": "/*\n/code/*",
+  "HasCode": true,
+  "CodePath": "/code/",
+  "PackageReferences": [],
+  "EditorReferences": null,
+  "Metadata": {
+    "MaxPlayers": 64,
+    "MinPlayers": 1,
+    "GameNetworkType": "Multiplayer",
+    "MapSelect": "Empty",
+    "MapList": [],
+    "RankType": "None",
+    "PerMapRanking": false,
+    "LeaderboardType": "None",
+    "ProjectTemplate": null,
+    "CsProjName": "",
+    "HttpAllowList": null,
+    "PackageSettings": [
+      {
+        "Choices": [],
+        "ConVarName": "rhythm4k.song",
+        "DisplayName": "Song",
+        "DefaultValue": "",
+        "Description": "",
+        "Group": ""
+      }
+    ],
+    "Summary": "A simple 4 key rhythm game that reads Stepmania charts",
+    "Description": "A simple 4 key rhythm game that reads Stepmania charts",
+    "Public": true,
+    "ControlModes": {
+      "Keyboard": true,
+      "Gamepad": true
+    },
+    "InputSettings": {
+      "Actions": [
+        {
+          "Name": "UpArrow",
+          "KeyboardCode": "UPARROW",
+          "GamepadCode": "DpadNorth",
+          "GroupName": "Controls"
+        },
+        {
+          "Name": "DownArrow",
+          "KeyboardCode": "DOWNARROW",
+          "GamepadCode": "DpadSouth",
+          "GroupName": "Controls"
+        },
+        {
+          "Name": "LeftArrow",
+          "KeyboardCode": "LEFTARROW",
+          "GamepadCode": "DpadEast",
+          "GroupName": "Controls"
+        },
+        {
+          "Name": "RightArrow",
+          "KeyboardCode": "RIGHTARROW",
+          "GamepadCode": "DpadWest",
+          "GroupName": "Controls"
+        }
+      ]
+    },
+    "ReplaceTags": "rhythm ddr stepmania music"
+  }
+}

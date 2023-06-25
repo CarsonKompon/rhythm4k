@@ -1,0 +1,411 @@
+GamePage
+{
+    font-family: Poppins;
+    text-shadow: 2px 2px black;
+    background-color: black;
+    color: white;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+
+}
+
+.song-info
+{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    margin: 50px;
+    font-size: 42px;
+
+    height: 300px;
+
+    .info-left
+    {
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 20px;
+
+        .cover-art
+        {
+            width: 200px;
+            height: 200px;
+            background-position: center;
+            background-size: cover;
+        }
+
+        .difficulty-container
+        {
+            font-size: 28px;
+            justify-content: space-between;
+
+            .difficulty-level
+            {
+                color: #3C6EA0;
+                top: 22%;
+                font-family: WhiteRabbit;
+            }
+        }
+    }
+
+    .info-right
+    {
+        flex-direction: column;
+        margin-top: 20px;
+        margin-bottom: 80px;
+        padding: 0px 20px 0px 0px;
+        justify-content: center;
+
+        .song-title
+        {
+            font-size: 38px;
+        }
+
+        .song-artist
+        {
+            color: #3C6EA0;
+            font-size: 24px;
+            top: -4px;
+            padding-bottom: 10px;
+        }
+
+        .song-progress
+        {
+            font-family: WhiteRabbit;
+            box-shadow: 2px 2px black;
+            font-size: 28px;
+            text-align: right;
+            background-color: grey;
+            width: 300px;
+            height: 32px;
+
+            .bar
+            {
+                background-color: #3C6EA0;
+                width: 50%;
+            }
+
+            .song-time
+            {
+                position: absolute;
+                top: 5px;
+                right: 2px;
+            }
+        }
+    }
+}
+
+.score-info
+{
+    position: absolute;
+    top: 0;
+    right: 40px;
+    margin: 50px;
+
+    font-size: 52px;
+    flex-direction: column;
+    padding: 10px 20px;
+
+    .header
+    {
+        font-size: 30px;
+    }
+
+    .score-holder
+    {
+        font-family: WhiteRabbit;
+        align-items: flex-end;
+        .score-big
+        {
+            font-size: 62px;
+        }
+
+        .score-small
+        {
+            color: #223952;
+        }
+    }
+
+    .chain-container
+    {
+        flex-direction: column;
+        .chain
+        {
+            font-family: WhiteRabbit;
+        }
+    }
+}
+
+.game
+{
+    position: absolute;
+    left: 50%;
+    background-color: black;
+    border-left: 4px solid white;
+    border-right: 4px solid white;
+    width: 600px;
+    height: 100%;
+    transform: translateX(-50%, 0%);
+
+    .lane-container
+    {
+        position: absolute;
+        top: 100px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        padding-left: 5px;
+        padding-right: 5px;
+        flex-basis: 100%;
+        justify-content: space-around;
+
+        Lane
+        {
+            width: 24%;
+            justify-content: center;
+
+            Receptor
+            {
+                z-index: 5;
+                position: absolute;
+                background-size: contain;
+                width: 142px;
+                height: 142px;
+                transition: transform 0.02s ease-in;
+
+                &.pressing
+                {
+                    transform: translate(-23% 0%) scale(0.9);
+                }
+
+                .receptor-arrow
+                {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    background-size: contain;
+
+                    &.lane-0
+                    {
+                        background-image: url("/sprites/arrows/alloy/receptor-left.png");
+                    }
+
+                    &.lane-1
+                    {
+                        background-image: url("/sprites/arrows/alloy/receptor-down.png");
+                    }
+
+                    &.lane-2
+                    {
+                        background-image: url("/sprites/arrows/alloy/receptor-up.png");
+                    }
+
+                    &.lane-3
+                    {
+                        background-image: url("/sprites/arrows/alloy/receptor-right.png");
+                    }
+                }
+
+                .receptor-glow
+                {
+                    z-index: 1;
+                    position: absolute;
+                    width: 150%;
+                    height: 150%;
+                    left: -26%;
+                    top: -26%;
+                    background-size: contain;
+                    opacity: 0;
+                    transition: opacity 0.05s ease-in;
+
+                    &.show
+                    {
+                        opacity: 1;
+                    }
+
+                    &.lane-0
+                    {
+                        background-image: url("/sprites/arrows/alloy/receptor-press-left.png");
+                    }
+
+                    &.lane-1
+                    {
+                        background-image: url("/sprites/arrows/alloy/receptor-press-down.png");
+                    }
+
+                    &.lane-2
+                    {
+                        background-image: url("/sprites/arrows/alloy/receptor-press-up.png");
+                    }
+
+                    &.lane-3
+                    {
+                        background-image: url("/sprites/arrows/alloy/receptor-press-right.png");
+                    }
+                }
+            }
+
+            Arrow
+            {
+                z-index: 10;
+                position: absolute;
+                background-size: contain;
+                width: 142px;
+                height: 142px;
+                //transform: scaleY(1.65);
+                
+
+                &.lane-0
+                {
+                    background-image: url("/sprites/arrows/alloy/arrow-left.png");
+                }
+
+                &.lane-1
+                {
+                    background-image: url("/sprites/arrows/alloy/arrow-down.png");
+                }
+
+                &.lane-2
+                {
+                    background-image: url("/sprites/arrows/alloy/arrow-up.png");
+                }
+
+                &.lane-3
+                {
+                    background-image: url("/sprites/arrows/alloy/arrow-right.png");
+                }
+            }
+
+            Trail
+            {
+                //background-color: rgb(red, 0.5);
+                z-index: 1;
+                position: absolute;
+                width: 142px;
+                padding-bottom: 142px;
+                // overflow: hidden;
+
+                &.downscroll
+                {
+                    padding-bottom: 0px;
+
+                    .cap
+                    {
+                        top: 0px;
+                    }
+                }
+
+                .trunk
+                {
+                    width: 100%;
+                    height: 100%;
+                    top: 71px;
+                    position: absolute;
+                    background-size: contain;
+                    background-repeat: repeat-y;
+                    align-content: stretch;
+                    // background-image: url("/sprites/arrows/alloy/hold.png");
+
+                }
+
+                .cap
+                {
+                    position: absolute;
+                    width: 142px;
+                    height: 71px;
+                    bottom: -0px;
+                    overflow: visible;
+                    background-size: contain;
+                    align-content: stretch;
+                    // background-image: url("/sprites/arrows/alloy/hold-cap.png");
+                }
+            }
+        }
+    }
+}
+
+.multiplayer-container
+{
+    position: absolute;
+    top: 300px;
+    right: 40px;
+    width: 300px;
+    flex-direction: column;
+
+    MultiplayerScore
+    {
+        height: auto;
+        padding: 10px;
+
+        .position
+        {
+            font-family: WhiteRabbit;
+            font-size: 42px;
+            font-weight: 500;
+            align-self: center;
+            padding-right: 10px;
+        }
+
+        .container
+        {
+            flex-direction: column;
+
+            .name
+            {
+                font-weight: 500;
+            }
+
+            .score-container
+            {
+                font-family: WhiteRabbit;
+                font-size: 32px;
+                align-items: flex-end;
+
+                .score-small
+                {
+                    color: #536f8d;
+                    font-size: 26px;
+                }
+            }
+        }
+    }
+}
+
+.combo-container
+{
+    z-index: 500;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    flex-direction: column;
+    transform: translate(-50%, -50%);
+    text-align: center;
+
+    .header
+    {
+        font-size: 20px;
+    }
+
+    .combo
+    {
+        font-family: WhiteRabbit;
+        font-size: 52px;
+    }
+
+    &.hide
+    {
+        opacity: 0;
+    }
+}
+
+.crash-text
+{
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    padding: 20px;
+    color: grey;
+}

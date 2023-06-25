@@ -1,0 +1,36 @@
+@using System;
+@using Sandbox;
+@using Sandbox.UI;
+
+@namespace Rhythm4K
+
+<root>
+    <span class="button @DifficultySelected()" onclick=@SetDifficulty >@Chart.DifficultyName</span>
+</root>
+
+@code
+{
+    public Chart Chart { get; set; }
+
+    public void SetDifficulty()
+    {
+        if(SingleplayerPage.Current is SingleplayerPage sp)
+        {
+            sp.SetDifficulty(sp.Song.Song.Charts.IndexOf(Chart));
+        }
+    }
+
+    public string DifficultySelected()
+    {
+        if(SingleplayerPage.Current is SingleplayerPage sp)
+        {
+            return sp.Song.Song.Charts.IndexOf(Chart) == sp.Difficulty ? "selected" : "";
+        }
+        return "";
+    }
+
+    protected override int BuildHash()
+    {
+        return HashCode.Combine(DifficultySelected());
+    }
+}
