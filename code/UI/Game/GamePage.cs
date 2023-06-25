@@ -11,6 +11,29 @@ public static class NoteTimings{
     public const float Critical = 0.046f;
 }
 
+// Based on stepmania Judges: https://i.imgur.com/mmygOBv.png 
+
+public enum Judge
+{
+	Marvelous,
+	Perfect,
+	Great,
+	Good,
+	Bad,
+	Miss
+}
+public static class JudgeTimings {
+	//i play etterna with that :)
+	public static readonly Dictionary<Judge, float> Judge4 = new (){
+		{Judge.Marvelous, 0.022f},
+		{Judge.Perfect, 0.045f},
+		{Judge.Great, 0.090f},
+		{Judge.Good, 0.135f},
+		{Judge.Bad, 0.180f}
+	};
+}
+
+
 public partial class GamePage
 {
 
@@ -31,14 +54,28 @@ public partial class GamePage
     }
     private float _ScreenTime = -1f;
 
+    //NOTE: i think this should be a convar. that way you can actually toogle downscroll in main menu.
+    //		however in stepmania based rhythm games settings like this is bound to a profile
+    //		and set ingame (in song select menu) so that way works too
     private bool Downscroll => Cookie.Get<bool>("rhythm4k.downscroll", false);
+
+    private Judge GetJudgement(float time)
+    {
+	    var absTime = Math.Abs( time );
+	    foreach ( var judge in JudgeTimings.Judge4 )
+	    {
+		    if (time > judge.Value) continue;
+		    return judge.Key;
+	    }
+
+	    return Judge.Miss;
+    }
 
     [GameEvent.Client.Frame]
     private void OnFrame()
     {
-        if(IsPlaying)
-        {
-            // Check for BPM Change
+	    if(!IsPlaying) return;
+        // Check for BPM Change
             if(BpmChanges.Count > 0)
             {
                 foreach(BpmChange bpmChange in BpmChanges)
@@ -167,12 +204,8 @@ public partial class GamePage
             }
 
             ProgressBar.Style.Width = Length.Percent((CurrentTime / SongLength) * 100f);
-        }
 
-
-        if(!IsPlaying) return;
-
-        bool[] pressed = {
+            bool[] pressed = {
             Input.Pressed("LeftArrow"),
             Input.Pressed("DownArrow"), 
             Input.Pressed("UpArrow"),
@@ -210,7 +243,7 @@ public partial class GamePage
 
             if(hit)
             {
-                if(lowestOffset == -1f || note.Offset < lowestOffset) lowestOffset = note.Offset;
+	            if(lowestOffset == -1f || note.Offset < lowestOffset) lowestOffset = note.Offset;
                 hitOffset = note.Offset;
                 Score += note.Points;
 
@@ -218,6 +251,9 @@ public partial class GamePage
                 {
                     Combo += 1;
                     if(Combo > MaxCombo) MaxCombo = Combo;
+                    var judge = GetJudgement( note.BakedTime - CurrentTime );
+                    Log.Error(Enum.GetName(judge));
+                    //Log.Info();
                 }
 
                 LivingNotes.Remove(note);
