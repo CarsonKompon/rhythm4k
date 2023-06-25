@@ -10,8 +10,18 @@ public static class SongBuilder
 {
     public static Song Load(string file)
     {
+	    // if you setup file incorrectly (like i did it myself)
+	    // it will not load the char and throw error about source is null
+	    
+	    // took me a while to figure it out
+	    if ( file is null )
+	    {
+		    // so let user know something is not right with .rhythm
+		    Log.Error("The .rhythm file is broken!");
+		    throw new NullReferenceException();
+	    }
         var song = new Song();
-
+        
         if(!FileSystem.Mounted.FileExists(file))
         {
             Log.Warning($"Chart file {file} does not exist");
