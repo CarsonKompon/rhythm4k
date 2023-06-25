@@ -190,6 +190,7 @@ SingleplayerPage
                 span
                 {
                     background-color: grey;
+                    flex-shrink: 0;
 
                     &.selected
                     {
