@@ -52,7 +52,10 @@
                     </div>
                 }
             </div>
+            <div class="buttons">
+                <span class="button" onclick=@Settings>Settings</span>
             <span class="button start-game @CanPlay()" onclick=@StartGame>Start Game</span>
+            </div>
         </div>
     </div>
 </root>
@@ -81,6 +84,11 @@
         {
             Current = this;
         }
+    }
+
+    protected void Settings()
+    {
+        this.Navigate("/settings");
     }
 
     protected void StartGame()

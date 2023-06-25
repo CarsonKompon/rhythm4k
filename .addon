@@ -27,10 +27,11 @@
     "HttpAllowList": null,
     "PackageSettings": [
       {
+        "DisplayType": "Boolean",
         "Choices": [],
-        "ConVarName": "rhythm4k.song",
-        "DisplayName": "Song",
-        "DefaultValue": "",
+        "ConVarName": "rhythm4k.downscroll",
+        "DisplayName": "Downscroll",
+        "DefaultValue": "false",
         "Description": "",
         "Group": ""
       }

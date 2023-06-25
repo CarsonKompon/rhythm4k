@@ -12,24 +12,50 @@
 
 <root>
     <section class="settings">
-        @foreach ( var group in Game.Menu.InputSettings.Actions.GroupBy( x => x.GroupName ) )
+        @if(Game.IsMainMenuVisible && Game.Menu != null)
         {
-            <div class="category">
-                <h2>@group.Key</h2>
+            <div class="left">
+                @foreach ( var group in Game.Menu.InputSettings.Actions.GroupBy( x => x.GroupName ) )
+                {
+                    <div class="category">
+                        <h2>@group.Key</h2>
 
-                <div class="form">
-                @foreach ( InputAction action in group )
+                        <div class="form">
+                        @foreach ( InputAction action in group )
+                        {
+                            <FormGroup>
+                                <Label>@action.Name</Label>
+                                <Control>
+                                    <KeyBind Game="@Game.Menu" Action=@action class="glass with-padding with-grow with-click"></KeyBind>
+                                </Control>
+                            </FormGroup>
+                        }
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+
+        <div class="right">
+            <div class="category">
+                <h2>Options</h2>
+                @if(Game.IsMainMenuVisible)
+                {
+                    <div class="not-working">
+                        These settings are currently only available through the in-game settings menu.
+                    </div>
+                }
+                else
                 {
                     <FormGroup>
-                        <Label>@action.Name</Label>
+                        <Label>Downscroll</Label>
                         <Control>
-                            <KeyBind Game="@Game.Menu" Action=@action class="glass with-padding with-grow with-click"></KeyBind>
+                            <SwitchControl Value:bind=@Downscroll />
                         </Control>
                     </FormGroup>
                 }
-                </div>
             </div>
-        }
+        </div>
     </section>
 
     <div class="navbar">
@@ -49,7 +75,13 @@
 @code
 {
     [CascadingParameter]
-    public Package GamePackage { get; set; }   
+    public Package GamePackage { get; set; }  
+
+    public bool Downscroll
+    {
+        get => Cookie.Get<bool>("rhythm4k.downscroll", false);
+        set => Cookie.Set("rhythm4k.downscroll", value);
+    }
 
 
     public void CancelChanges()
@@ -67,12 +99,15 @@
 
     public void SaveChanges()
     {
-        foreach (var kb in Descendants.OfType<KeyBind>())
+        if(Game.IsMainMenuVisible)
         {
-            kb.Apply();
-        }
+            foreach (var kb in Descendants.OfType<KeyBind>())
+            {
+                kb.Apply();
+            }
 
-        Game.Menu.SaveBinds();
+            Game.Menu.SaveBinds();
+        }
 
         this.Navigate("/");
     }

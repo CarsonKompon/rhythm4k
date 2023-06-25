@@ -114,6 +114,24 @@
 
             LoadSong(SingleplayerPage.Current.Song, SingleplayerPage.Current.Difficulty);
         }
+
+        if(Cookie.Get<bool>("rhythm4k.downscroll", false))
+        {
+            LaneContainer.Style.Top = Length.Pixels(-100f);  
+            foreach(Lane lane in Lanes)
+            {
+                lane.Style.Top = Length.Pixels(-171f);
+                lane.Receptor.Style.Bottom = Length.Pixels(-171f);
+            }
+        }
+        else
+        {
+            LaneContainer.Style.Top = Length.Pixels(0f);
+            foreach(Lane lane in Lanes)
+            {
+                lane.Style.Top = Length.Pixels(0f);
+            }
+        }
     }
 
     private void ResetValues()

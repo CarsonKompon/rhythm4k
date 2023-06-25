@@ -99,6 +99,7 @@ public partial class GamePage
                     {
                         float noteTime = arrow.Note.BakedTime;
                         float percent = 100f * ((noteTime - CurrentTime) / ScreenTime);
+                        Log.Info(Downscroll);
                         if(Downscroll)
                         {
                             arrow.Style.Top = Length.Percent(100f-percent);
@@ -110,7 +111,6 @@ public partial class GamePage
 
                         if(!arrow.Missed && CurrentTime > noteTime + NoteTimings.Error)
                         {
-                            Log.Info("Missed arrow");
                             ResetCombo();
                             arrow.Missed = true;
                         }
@@ -242,7 +242,6 @@ public partial class GamePage
             {
                 Log.Info(note.Offset + " < " + lowestOffset);
                 LivingNotes.Remove(note);
-                Log.Info("Skipped arrow");
                 ResetCombo();
                 if(note.Arrow != null) note.Arrow.Missed = true;
             }
