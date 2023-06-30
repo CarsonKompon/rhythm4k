@@ -93,6 +93,8 @@
 
     protected void StartGame()
     {
+        if(CanPlay() == "disabled") return;
+        
         this.Navigate("/game");
         GamePage.Current?.LoadSong(Song, Difficulty);
     }
