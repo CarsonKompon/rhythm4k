@@ -23,8 +23,5 @@ public partial class Rhythm4KGame : GameManager
         // Create a pawn
         var pawn = new RhythmPlayer();
         client.Pawn = pawn;
-
-        // Make voice chat 2d
-        client.Voice.WantsStereo = false;
     }
 }
