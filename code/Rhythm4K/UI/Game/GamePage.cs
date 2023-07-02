@@ -38,6 +38,11 @@ public static class JudgeTimings {
 public partial class GamePage
 {
 
+    public virtual string LeftInput => "LeftArrow";
+    public virtual string DownInput => "DownArrow";
+    public virtual string UpInput => "UpArrow";
+    public virtual string RightInput => "RightArrow";
+
     private float ScreenTime
     {
         get
@@ -218,17 +223,17 @@ public partial class GamePage
             ProgressBar.Style.Width = Length.Percent((CurrentTime / SongLength) * 100f);
 
             bool[] pressed = {
-            Input.Pressed("LeftArrow"),
-            Input.Pressed("DownArrow"), 
-            Input.Pressed("UpArrow"),
-            Input.Pressed("RightArrow")
+            Input.Pressed(LeftInput),
+            Input.Pressed(DownInput), 
+            Input.Pressed(UpInput),
+            Input.Pressed(RightInput)
         };
 
         bool[] held = {
-            Input.Down("LeftArrow"),
-            Input.Down("DownArrow"),
-            Input.Down("UpArrow"),
-            Input.Down("RightArrow")
+            Input.Down(LeftInput),
+            Input.Down(DownInput),
+            Input.Down(UpInput),
+            Input.Down(RightInput)
         };
 
         foreach(Lane lane in Lanes)
@@ -242,7 +247,9 @@ public partial class GamePage
         float hitOffset = -1f;
         foreach(Note note in notesToHit)
         {
-            if(note.Arrow != null && note.Arrow.Missed) continue;
+            Arrow arrow = Arrows.FirstOrDefault(a => a.Note.Offset == note.Offset && a.Note.Lane == note.Lane && a.Note.Type == note.Type);
+            if(arrow != null && arrow.Missed) continue;
+
             bool hit = false;
             if((NoteType)note.Type == NoteType.Hold)
             {
@@ -272,13 +279,13 @@ public partial class GamePage
                 }
 
                 LivingNotes.Remove(note);
-                if(note.Arrow != null)
+                if(arrow != null)
                 {
                     Receptor receptor = Lanes[note.Lane].Receptor;
-                    receptor.Glow(note.Arrow);
+                    receptor.Glow(arrow);
 
-                    Arrows.Remove(note.Arrow);
-                    note.Arrow.Delete();
+                    Arrows.Remove(arrow);
+                    arrow.Delete();
                 }
                 else
                 {
@@ -402,7 +409,7 @@ public partial class GamePage
     public void FinishedSong()
     {
         IsPlaying = false;
-        this.Navigate("/");
+        this.Navigate("/songs");
     }
 
     public List<Note> GetNotesToHit()

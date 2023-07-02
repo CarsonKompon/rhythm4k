@@ -5,7 +5,6 @@
     top: 10%;
     left: 10%;
     background-color: rgba(black, 0.5);
-    backdrop-filter: blur(2px);
     font-family: Poppins;
     color: white;
 
@@ -16,6 +15,7 @@
         font-size: 32px;
         font-weight: 800;
         text-align: center;
+        flex-shrink: 0;
     }
 
     .button
@@ -30,6 +30,7 @@
         cursor: pointer;
         transition: all 0.1s ease-in-out;
         margin: 8px;
+        flex-shrink: 0;
 
         &:hover
         {
@@ -119,7 +120,7 @@
     }
 }
 
-SingleplayerPage
+SongSelectPage
 {
     .body
     {
@@ -151,7 +152,7 @@ SingleplayerPage
                 gap: 16px;
                 justify-content: center;
                 
-                LobbySongButton
+                SongButton
                 {
                     flex-shrink: 0;
                     aspect-ratio: 1;
@@ -174,15 +175,18 @@ SingleplayerPage
 
         .right
         {
-            LobbySongButton
+
+            SongButton
             {
                 height: 400px;
                 align-items: center;
                 color: white;
+                flex-shrink: 0;
             }
 
             .difficulties
             {
+                background-color: rgba(white, 0.1);
                 flex-grow: 1;
                 overflow-y: scroll;
                 flex-direction: column;
@@ -190,7 +194,7 @@ SingleplayerPage
                 span
                 {
                     background-color: grey;
-                    width: 100%;
+                    flex-grow: 1;
 
                     &.selected
                     {
@@ -202,7 +206,7 @@ SingleplayerPage
             .buttons
             {
                 flex-direction: column;
-                
+                flex-shrink: 0;
             }
 
             .start-game

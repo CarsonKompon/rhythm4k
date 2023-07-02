@@ -1,8 +1,9 @@
 @using System;
 @using System.Collections.Generic;
+@using System.Linq;
 @using Sandbox;
 @using Sandbox.UI;
-@attribute [StyleSheet("/UI/Game/GamePage.razor.scss")]
+@attribute [StyleSheet]
 
 @namespace Rhythm4K
 
@@ -45,7 +46,7 @@
     </div>
 
     <!-- Holds the Receptors and Arrows -->
-    <div class="game">
+    <div class="game-section">
         <div @ref="LaneContainer" class="lane-container">
 
         </div>
@@ -66,7 +67,7 @@
 	    }
     </div>
 
-    <label class="crash-text">Hit ESC to open Pause Menu</label>
+    @* <label class="crash-text">Hit ESC to open Pause Menu</label> *@
 
 </root>
 
@@ -84,6 +85,7 @@
     public Panel MultiplayerContainer { get; set; }
     public Panel ComboContainer { get; set; }
     public string SoundName { get; set; }
+    public string CoverArtName { get; set; }
 
 
     // Game variables
@@ -108,8 +110,11 @@
     {
         base.OnAfterTreeRender(firstTime);
 
-        if (firstTime)
+        if(LaneContainer.Children.Count() != 4)
         {
+            // Destroy the current children
+            LaneContainer.DeleteChildren(true);
+            Lanes.Clear();
             // Create the Lanes
             for(int i=0; i<4; i++)
             {
@@ -117,10 +122,11 @@
                 lane.SetLane(i);
                 Lanes.Add(lane);
             }
+        }
 
-            Current = this;
-
-            LoadSong(SingleplayerPage.Current.Song, SingleplayerPage.Current.Difficulty);
+        if (firstTime)
+        {
+            LoadSong();
         }
 
         if(Cookie.Get<bool>("rhythm4k.downscroll", false))
@@ -153,15 +159,27 @@
         ProgressBar.Style.Width = Length.Percent(0f);
     }
 
-    public void LoadSong(Rhythm4KSong song, int difficulty)
+    public void SetSong(Rhythm4KSong song, int difficulty)
     {
-        ResetValues();
-
         Song = song.Song;
         Chart = Song.Charts[difficulty];
         SoundName = song.SoundName;
+        CoverArtName = song.CoverArt;
 
-        CoverArt.Style.BackgroundImage = Texture.Load(song.CoverArt);
+        if(ProgressBar is not null) LoadSong();
+    }
+
+    public void LoadSong()
+    {
+        if(Chart is null)
+        {
+            Log.Warning("Song could not be found!!");
+            return;
+        }
+
+        ResetValues();
+
+        CoverArt.Style.BackgroundImage = Texture.Load(CoverArtName);
 
         CurrentBPM = Song.BPM;
         SongLength = Chart.GetSongLength();
@@ -255,7 +273,7 @@
 
     protected override int BuildHash()
     {
-        return HashCode.Combine(GetCombo(), GetScoreBig(), GetScoreSmall());
+        return HashCode.Combine(GetCombo(), GetScoreBig(), GetScoreSmall(), GetSongTime());
     }
 
 }

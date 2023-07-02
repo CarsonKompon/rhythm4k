@@ -1,0 +1,27 @@
+@using System;
+@using System.Collections.Generic;
+@using System.Linq;
+@using Sandbox;
+@using Sandbox.UI;
+@attribute [StyleSheet]
+
+@inherits Sandbox.UI.NavHostPanel
+@namespace Rhythm4K
+
+<root>
+
+</root>
+
+@code
+{
+    public Rhythm4KMenu()
+    {
+        DefaultUrl = "/";
+
+        AddDestination("/", typeof(SongSelectPage));
+        AddDestination("/songs", typeof(SongSelectPage));
+        AddDestination("/addons", typeof(AddonPage));
+        AddDestination("/game", typeof(GamePage));
+        AddDestination("/settings", typeof(SettingsPage));
+    }
+}

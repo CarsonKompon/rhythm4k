@@ -33,6 +33,21 @@ MainMenuPage
         }
     }
 
+    .start-text
+    {
+        font-family: Poppins;
+        font-size: 48px;
+        font-weight: 800;
+
+        inputhint
+        {
+            transform: scale(2);
+            margin: 0px 24px;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
     .menu
     {
         flex-direction: column;

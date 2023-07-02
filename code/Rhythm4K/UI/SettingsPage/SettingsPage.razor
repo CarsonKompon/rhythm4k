@@ -61,7 +61,10 @@
     <div class="navbar">
     
         <div class="left">
-            <span class="btn primary" onclick="@RestoreDefaults">Restore Defaults</span>
+            @if(Game.IsMainMenuVisible)
+            {
+                <span class="btn primary" onclick="@RestoreDefaults">Restore Defaults</span>
+            }
         </div>
 
         <div class="right">
@@ -109,6 +112,6 @@
             Game.Menu.SaveBinds();
         }
 
-        this.Navigate("/");
+        this.Navigate("/songs");
     }
 }

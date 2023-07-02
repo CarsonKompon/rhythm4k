@@ -1,11 +1,12 @@
 @using System;
 @using System.Collections.Generic;
+@using System.Linq;
 @using Sandbox;
 @using Sandbox.Menu;
 @using Sandbox.UI;
 @using Sandbox.UI.GameMenu;
 @inherits Panel
-@attribute [StyleSheet("/UI/LobbyMenu/LobbyMenuPage.razor.scss")]
+@attribute [StyleSheet]
 
 @namespace Rhythm4K
 
@@ -28,7 +29,7 @@
                     @foreach (var item in Rhythm4KSong.All)
                     {
                         //<span class="button" onclick=@(() => { SongIdent = item.Ident; CurrentSong = item; })>@item.Name</span>
-                        <LobbySongButton Song=@item onclick=@(() => SetSong(item) ) />
+                        <SongButton Song=@item onclick=@(() => SetSong(item) ) />
                     }
                 </div>
             }
@@ -37,7 +38,7 @@
         <div class="right">
             <div class="info">
                 <h2>Song</h2>
-                <LobbySongButton Song=@Song ></LobbySongButton>
+                <SongButton Song=@Song ></SongButton>
                 @if(Song != null)
                 {
                     <h2>Difficulty</h2>
@@ -60,30 +61,19 @@
     </div>
 </root>
 
+
 @code
 {
+    public Rhythm4KSong Song { get; set; }
+    public int Difficulty { get; set; } = -1;
+
+    private bool IsDirty = false;
 
     public async void MountAddon(Package package)
     {
         await package.MountAsync(true);
-    }
-}
-
-
-@code
-{
-    public static SingleplayerPage Current { get; set; }
-    public Rhythm4KSong Song { get; set; }
-    public int Difficulty { get; set; } = -1;
-
-    protected override void OnAfterTreeRender(bool firstTime)
-    {
-        base.OnAfterTreeRender(firstTime);
-
-        if(firstTime)
-        {
-            Current = this;
-        }
+        StateHasChanged();
+        Log.Info($"Mounted {package.Title}");
     }
 
     protected void Settings()
@@ -94,13 +84,19 @@
     protected void StartGame()
     {
         if(CanPlay() == "disabled") return;
-        
         this.Navigate("/game");
-        GamePage.Current?.LoadSong(Song, Difficulty);
+        if(Ancestors.FirstOrDefault(x => x is Rhythm4KMenu) is Rhythm4KMenu menu)
+        {
+            if(menu.Descendants.FirstOrDefault(x => x is GamePage) is GamePage gp)
+            {
+                gp.SetSong(Song, Difficulty);
+            }
+        }
     }
 
     public void SetSong(Rhythm4KSong song)
     {
+        Log.Info("Setting song to " + song.Song.Name);
         Difficulty = -1;
         Song = song;
     }

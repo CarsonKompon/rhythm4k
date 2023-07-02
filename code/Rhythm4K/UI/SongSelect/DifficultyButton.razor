@@ -1,4 +1,6 @@
 @using System;
+@using System.Collections.Generic;
+@using System.Linq;
 @using Sandbox;
 @using Sandbox.UI;
 @attribute [StyleSheet]
@@ -18,17 +20,17 @@
 
     public void SetDifficulty()
     {
-        if(SingleplayerPage.Current is SingleplayerPage sp)
+        if(Ancestors.Where(x => x is SongSelectPage).FirstOrDefault() is SongSelectPage ss)
         {
-            sp.SetDifficulty(sp.Song.Song.Charts.IndexOf(Chart));
+            ss.SetDifficulty(ss.Song.Song.Charts.IndexOf(Chart));
         }
     }
 
     public string DifficultySelected()
     {
-        if(SingleplayerPage.Current is SingleplayerPage sp)
+        if(Ancestors.Where(x => x is SongSelectPage).FirstOrDefault() is SongSelectPage ss)
         {
-            return sp.Song.Song.Charts.IndexOf(Chart) == sp.Difficulty ? "selected" : "";
+            return ss.Song.Song.Charts.IndexOf(Chart) == ss.Difficulty ? "selected" : "";
         }
         return "";
     }
