@@ -1,0 +1,93 @@
+@using System;
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+
+<root>
+	@if(BackgroundVideo is not null)
+	{
+		<Image Texture=@(BackgroundVideo.Texture) class="background" />
+	}
+	<div class="content" style="left: @(Random.Shared.Float(-Shake, Shake))px; top: @(Random.Shared.Float(-Shake, Shake))px;">
+		<p>A game by</p>
+		<h1>Carson Kompon</h1>
+	</div>
+</root>
+
+@code
+{
+	public static CarsonIntroPanel Instance { get; private set; }
+	public static bool SkipIntro { get; set; } = false;
+
+	[Property] GameObject EnableAfter { get; set; }
+
+	public TimeSince timeSinceStart = 0;
+	float Shake = 0;
+
+	VideoPlayer BackgroundVideo;
+
+	protected override void OnStart()
+	{
+		base.OnStart();
+		timeSinceStart = 0;
+
+		Sound.StopAll(0);
+
+		if(SkipIntro)
+		{
+			SkipIntro = false;
+			if(EnableAfter.IsValid()) EnableAfter.Enabled = true;
+			GameObject.Destroy();
+			return;
+		}
+
+		BackgroundVideo = new VideoPlayer();
+		BackgroundVideo.Muted = true;
+		BackgroundVideo.Repeat = true;
+		BackgroundVideo.Play( FileSystem.Mounted, "sprites/space_loop.mp4" );
+
+		Instance = this;
+	}
+
+	protected override void OnTreeFirstBuilt()
+	{
+		base.OnTreeFirstBuilt();
+		timeSinceStart = 0;
+	}
+
+	protected override void OnDestroy()
+	{
+		base.OnDestroy();
+
+		BackgroundVideo?.Stop();
+		BackgroundVideo?.Dispose();
+	}
+
+	protected override void OnUpdate()
+	{
+		Shake = Shake.LerpTo(0, 6f * Time.Delta);
+
+		if(timeSinceStart > 4.5f)
+		{
+			if(EnableAfter.IsValid()) EnableAfter.Enabled = true;
+			GameObject.Destroy();
+		}
+		else if(timeSinceStart >= 3f)
+		{
+			SetClass("hide", true);
+			SetClass("show", false);
+		}
+		else if( timeSinceStart >= 1.5f)
+		{
+			if(!HasClass("show"))
+			{
+				Shake = 100;
+			}
+			SetClass( "show", true);
+		}
+
+		BackgroundVideo?.Present();
+	}
+
+	protected override int BuildHash() => System.HashCode.Combine( Time.Now );
+}

@@ -1,0 +1,81 @@
+MainMenuFrontPage
+{
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    padding: 64px;
+    gap: 48px;
+    font-family: Orbitron;
+    justify-content: space-between;
+
+    .logo-container
+    {
+        flex-direction: column;
+        gap: 0px;
+
+        .logo
+        {
+            background-size: contain;
+            background-repeat: no-repeat;
+            height: 250px;
+        }
+
+        h1
+        {
+            font-size: 164px;
+            font-weight: 900;
+        }
+
+        .author
+        {
+            font-size: 32px;
+            font-weight: 300;
+            text-align: center;
+            font-style: italic;
+        }
+    }
+
+    .start-text
+    {
+        font-family: Poppins;
+        font-size: 48px;
+        font-weight: 800;
+
+        inputhint
+        {
+            transform: scale(2);
+            margin: 0px 24px;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+    .menu
+    {
+        flex-grow: 1;
+        flex-direction: column;
+        justify-content: center;
+        gap: 32px;
+
+        font-size: 42px;
+        font-weight: 800;
+
+        .button
+        {
+            font-size: 64px;
+            text-shadow: 5px 5px 1px black;
+            transition: all 0.1s ease-in-out;
+            cursor: pointer;
+
+            &:hover
+            {
+                transform: scale(1.1);
+            }
+
+            &:active
+            {
+                transform: scale(0.9);
+            }
+        }
+    }
+}

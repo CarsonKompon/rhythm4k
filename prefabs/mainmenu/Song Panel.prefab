@@ -1,0 +1,50 @@
+{
+  "RootObject": {
+    "__guid": "c52733e5-a8df-4f01-9bc9-2073680c7664",
+    "Name": "song panel",
+    "Tags": "panel",
+    "Enabled": true,
+    "NetworkMode": 2,
+    "Components": [
+      {
+        "__type": "WorldPanel",
+        "__guid": "f46970db-6896-43d3-8cdf-012fc69ea387",
+        "HorizontalAlign": "Center",
+        "LookAtCamera": false,
+        "PanelSize": "1024,256",
+        "RenderScale": 1,
+        "VerticalAlign": "Center"
+      },
+      {
+        "__type": "SongListPanel",
+        "__guid": "f45b5d3f-333b-4a2a-baec-88e002d1ab11",
+        "MyStringValue": "Hello World!"
+      }
+    ],
+    "Children": [
+      {
+        "__guid": "58b6b8d4-cd80-4dde-9866-cb47f881ca31",
+        "Name": "Collider",
+        "Rotation": "0,0.7071068,0,0.7071068",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "Components": [
+          {
+            "__type": "PlaneCollider",
+            "__guid": "f3c313e2-f870-4b18-ab5b-a6c3b33d6dae",
+            "Center": "0,0,0",
+            "IsTrigger": false,
+            "Scale": "16.7,55",
+            "Static": true
+          }
+        ]
+      }
+    ]
+  },
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "ResourceVersion": 1,
+  "__version": 1,
+  "__references": []
+}

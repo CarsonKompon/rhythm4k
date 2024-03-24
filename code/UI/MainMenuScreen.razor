@@ -1,0 +1,18 @@
+@using Sandbox;
+@using Sandbox.UI;
+@namespace Rhythm4K
+@inherits PanelComponent
+
+<root>
+	<MainMenu />
+</root>
+
+@code
+{
+	protected override void OnStart()
+	{
+		base.OnStart();
+
+		BeatmapSet.LoadAll();
+	}
+}

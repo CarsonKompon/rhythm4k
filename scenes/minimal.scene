@@ -1,0 +1,513 @@
+{
+  "__guid": "9f832399-4887-46b0-8f21-2ee284f538e2",
+  "GameObjects": [
+    {
+      "__guid": "3ee1c9f4-07be-4e0b-8b23-67bee2d8ec8a",
+      "Name": "Camera",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "Components": [
+        {
+          "__type": "CameraComponent",
+          "__guid": "a5f9521c-435e-4477-829c-63e1d9d7adc3",
+          "BackgroundColor": "1,1,1,1",
+          "ClearFlags": "All",
+          "FieldOfView": 60,
+          "IsMainCamera": true,
+          "Orthographic": false,
+          "OrthographicHeight": 1204,
+          "Priority": 1,
+          "RenderExcludeTags": "",
+          "RenderTags": "",
+          "TargetEye": "None",
+          "Viewport": "0,0,1,1",
+          "ZFar": 10000,
+          "ZNear": 10
+        },
+        {
+          "__type": "Bloom",
+          "__guid": "b69c5c14-c21e-465c-935a-c656267f6351",
+          "BloomColor": {
+            "color": [
+              {
+                "c": "1,1,1,1"
+              },
+              {
+                "t": 1,
+                "c": "1,1,1,1"
+              }
+            ],
+            "alpha": []
+          },
+          "BloomCurve": [
+            {
+              "y": 0.5
+            },
+            {
+              "x": 1,
+              "y": 1
+            }
+          ],
+          "Mode": "Additive",
+          "Strength": 0.5,
+          "Threshold": 0.5,
+          "ThresholdWidth": 0.5
+        },
+        {
+          "__type": "Tonemapping",
+          "__guid": "e4821adb-6421-4c6d-be34-78555f1bbf72",
+          "ExposureCompensation": 0,
+          "MaximumExposure": 2,
+          "MinimumExposure": 1,
+          "Rate": 1
+        },
+        {
+          "__type": "Sharpen",
+          "__guid": "9bb512c4-fcb9-4930-ae18-228a3ca005d9",
+          "Scale": 0.2
+        },
+        {
+          "__type": "MusicPlayer",
+          "__guid": "d9e02d6c-7c09-48d8-8a06-b98520bb1c37",
+          "Sound": "sounds/music/menu-music.sound"
+        },
+        {
+          "__type": "MainMenuCameraManager",
+          "__guid": "3865c893-fd56-461b-89fb-ecc683b7eeeb",
+          "FrontPageCamera": {
+            "_type": "gameobject",
+            "go": "debaac08-50f9-40de-9493-8015f8280960"
+          },
+          "OptionsPageCamera": {
+            "_type": "gameobject",
+            "go": "efd37291-348d-4e78-bee4-e0f62b640206"
+          },
+          "PlayPageCamera": {
+            "_type": "gameobject",
+            "go": "e1093b4a-24b9-4dd4-b524-8e22f1d53f35"
+          },
+          "SongSelectPageCamera": {
+            "_type": "gameobject",
+            "go": "d0612e12-b3fe-4e90-9684-4164d74dd9c0"
+          }
+        }
+      ]
+    },
+    {
+      "__guid": "c114ae8e-84fb-4182-abe3-f1941120215a",
+      "Name": "Carson Intro",
+      "Position": "-126.4292,-187.5311,115.5769",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "Components": [
+        {
+          "__type": "ScreenPanel",
+          "__guid": "0e5d0624-b00a-4d84-8fe4-f0edf1b1bb8d",
+          "AutoScreenScale": true,
+          "Opacity": 1,
+          "Scale": 1,
+          "ZIndex": 50
+        },
+        {
+          "__type": "CarsonIntroPanel",
+          "__guid": "184385db-c474-4f4c-9814-a6614c6e740b"
+        }
+      ]
+    },
+    {
+      "__guid": "4d95cd53-bf92-4e77-816b-ac40b5edb5ee",
+      "Name": "Main Menu",
+      "Position": "-126.4292,-187.5311,115.5769",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "Components": [
+        {
+          "__type": "ScreenPanel",
+          "__guid": "dfedd2bf-dc6e-4c06-8681-f31306071308",
+          "AutoScreenScale": true,
+          "Opacity": 1,
+          "Scale": 1,
+          "ZIndex": 100
+        },
+        {
+          "__type": "MainMenuScreen",
+          "__guid": "f14cb509-9fcf-4389-9a00-7809a1c9e799"
+        }
+      ]
+    },
+    {
+      "__guid": "e3d0ee96-22dd-4bc9-a586-7a1d4cef42be",
+      "Name": "Sun",
+      "Position": "-126.4292,-187.5311,115.5769",
+      "Tags": "light_directional,light",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "Components": [
+        {
+          "__type": "DirectionalLight",
+          "__guid": "8ac45885-5e50-44e1-b5c7-9afbf65bbc26",
+          "FogMode": "Enabled",
+          "FogStrength": 1,
+          "LightColor": "0.91373,0.98039,1,1",
+          "Shadows": true,
+          "SkyColor": "0.05882,0.07451,0.08235,1"
+        }
+      ]
+    },
+    {
+      "__guid": "971a284c-dbe5-46d4-a257-3eb9e16d6c2c",
+      "Name": "Globe",
+      "Position": "129.0822,-45.99046,-17.09949",
+      "Rotation": "0.047414,0,0,0.9988753",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "Children": [
+        {
+          "__guid": "2188e77c-72ce-4fc5-8d37-1f7a91a01b6f",
+          "Name": "Ball Model",
+          "Position": "0,0,0",
+          "Enabled": true,
+          "NetworkMode": 2,
+          "Components": [
+            {
+              "__type": "ModelRenderer",
+              "__guid": "e5d648cc-ca4e-447f-b5c5-0058f54bb3dd",
+              "BodyGroups": 18446744073709551615,
+              "MaterialOverride": "materials/dark/dev_grid_dark.vmat",
+              "Model": "models/dev/sphere.vmdl",
+              "RenderType": "On",
+              "Tint": "1,1,1,1"
+            },
+            {
+              "__type": "RotateConstantly",
+              "__guid": "057bd185-4691-49e8-abd8-befb5867d0a6",
+              "RotationSpeed": "0,-2,0"
+            }
+          ],
+          "Children": [
+            {
+              "__guid": "51cbbdb4-0a33-4e47-acc3-d93334f94f95",
+              "Name": "Banner",
+              "Position": "0,0,0.0000002384186",
+              "Scale": "0.2719812,0.2719812,0.2719812",
+              "Enabled": true,
+              "NetworkMode": 2,
+              "Components": [
+                {
+                  "__type": "ModelRenderer",
+                  "__guid": "60e65cde-278e-4cb5-b6a6-93efd7e31a72",
+                  "BodyGroups": 18446744073709551615,
+                  "Model": "models/globe_banner.vmdl",
+                  "RenderType": "Off",
+                  "Tint": "1,1,1,1"
+                },
+                {
+                  "__type": "RotateConstantly",
+                  "__guid": "fe2fe3dc-26c7-4ef8-b494-9178d7da0238",
+                  "RotationSpeed": "0,-15,0"
+                },
+                {
+                  "__type": "MonitorComponent",
+                  "__guid": "2c138bda-7bb7-43f9-a856-524542647714",
+                  "AttributeName": "",
+                  "DebugDraw": false,
+                  "MaxUpdatesPerSecond": 15,
+                  "Model": {
+                    "_type": "component",
+                    "component_id": "60e65cde-278e-4cb5-b6a6-93efd7e31a72",
+                    "go": "51cbbdb4-0a33-4e47-acc3-d93334f94f95",
+                    "component_type": "ModelRenderer"
+                  },
+                  "ScreenMaterial": "materials/globe_banner.vmat"
+                },
+                {
+                  "__type": "TexturePanel",
+                  "__guid": "beaedc89-0946-4bac-9c05-9c1d5a8ce24b",
+                  "CurrentPanelBounds": {},
+                  "CurrentPanelScale": 0,
+                  "CurrentPanelScaleFromScreen": 0,
+                  "CurrentPanelScaleToScreen": 0,
+                  "CurrentScreenSize": "1094,615",
+                  "CustomPanelBounds": {
+                    "Size": "1024,256"
+                  },
+                  "MarginPercent": 0,
+                  "TextureTarget": {
+                    "_type": "component",
+                    "component_id": "2c138bda-7bb7-43f9-a856-524542647714",
+                    "go": "51cbbdb4-0a33-4e47-acc3-d93334f94f95",
+                    "component_type": "MonitorComponent"
+                  },
+                  "UseScreenBounds": false
+                },
+                {
+                  "__type": "FixTransparency",
+                  "__guid": "cf96414e-9962-4359-a108-dae70ad706a1",
+                  "modelRenderer": {
+                    "_type": "component",
+                    "component_id": "60e65cde-278e-4cb5-b6a6-93efd7e31a72",
+                    "go": "51cbbdb4-0a33-4e47-acc3-d93334f94f95",
+                    "component_type": "ModelRenderer"
+                  }
+                }
+              ],
+              "Children": [
+                {
+                  "__guid": "b782fdfe-256b-4b90-8ffc-aa609f5450cf",
+                  "Name": "Panels",
+                  "Position": "0,0,0",
+                  "Enabled": true,
+                  "NetworkMode": 2,
+                  "Components": [
+                    {
+                      "__type": "GlobeBanner",
+                      "__guid": "36d00845-6078-4abd-b8a2-9b47d32ff739"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "__guid": "c379e973-3ac4-41d8-a4b0-675e056d1723",
+      "Name": "Smoke",
+      "Position": "241.7217,-3.645116,-76.23391",
+      "Tags": "particles",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "Components": [
+        {
+          "__type": "ParticleEffect",
+          "__guid": "403a4b20-ff7b-430e-85dd-d659583487f5",
+          "Alpha": {
+            "Type": "Curve",
+            "CurveA": [
+              {
+                "in": -4.0000024,
+                "out": 4.0000024
+              },
+              {
+                "x": 0.20812808,
+                "y": 0.475
+              },
+              {
+                "x": 1
+              }
+            ],
+            "Constants": "1,0,0,0"
+          },
+          "ApplyColor": true,
+          "ApplyRotation": true,
+          "ApplyShape": true,
+          "Bounce": {
+            "Constants": "1,0,0,0"
+          },
+          "Brightness": {
+            "Constants": "1,0,0,0"
+          },
+          "Bumpiness": {},
+          "Collision": false,
+          "CollisionRadius": 1,
+          "Damping": {
+            "Constants": "0.1,0,0,0"
+          },
+          "DieOnCollisionChance": {},
+          "Force": true,
+          "ForceDirection": "0,0,108.5998",
+          "ForceScale": {
+            "Constants": "1,0,0,0"
+          },
+          "Friction": {
+            "Constants": "1,0,0,0"
+          },
+          "Gradient": {
+            "Type": "Range",
+            "GradientA": {
+              "color": [
+                {
+                  "t": 0.5,
+                  "c": "1,1,1,1"
+                }
+              ],
+              "alpha": []
+            },
+            "GradientB": {
+              "color": [
+                {
+                  "t": 0.5,
+                  "c": "1,1,1,1"
+                }
+              ],
+              "alpha": []
+            },
+            "ConstantA": "0,0,0,1",
+            "ConstantB": "0,0,0,1"
+          },
+          "Lifetime": {
+            "Type": "Range",
+            "Evaluation": "Particle",
+            "Constants": "5,8,0,0"
+          },
+          "MaxParticles": 5000,
+          "PerParticleTimeScale": {
+            "Constants": "1,0.4,0,0"
+          },
+          "PreWarm": 0,
+          "PushStrength": {},
+          "Roll": {
+            "Type": "Range",
+            "Evaluation": "Particle",
+            "Constants": "0,360,0,0"
+          },
+          "Scale": {
+            "Type": "Range",
+            "Evaluation": "Particle",
+            "CurveA": [
+              {}
+            ],
+            "Constants": "1,2,0,0"
+          },
+          "SequenceId": {},
+          "SequenceSpeed": {
+            "Constants": "0.5,0,0,0"
+          },
+          "SequenceTime": {
+            "Constants": "1,0,0,0"
+          },
+          "SheetSequence": true,
+          "Space": "World",
+          "StartVelocity": {
+            "Type": "Range",
+            "Evaluation": "Particle",
+            "Constants": "-70,70,0,0"
+          },
+          "Stretch": {},
+          "TimeScale": 1,
+          "Tint": "1,1,1,1"
+        },
+        {
+          "__type": "ParticleSpriteRenderer",
+          "__guid": "2797c923-6f40-441f-81ef-e1c13664f784",
+          "Additive": false,
+          "BlurAmount": 0.5,
+          "BlurOpacity": 0.91,
+          "BlurSpacing": 0.73,
+          "DepthFeather": 0,
+          "FaceVelocity": false,
+          "FogStrength": 1,
+          "LeadingTrail": true,
+          "MotionBlur": false,
+          "Opaque": false,
+          "RotationOffset": 0,
+          "Scale": 1,
+          "Shadows": true,
+          "SortMode": "Unsorted",
+          "Texture": "materials/particles/shapes/circle1.vtex"
+        },
+        {
+          "__type": "ParticleBoxEmitter",
+          "__guid": "2ac75256-7580-4783-8ad3-7b8caa31556b",
+          "Burst": 0,
+          "Delay": 0,
+          "DestroyOnEnd": false,
+          "Duration": 10,
+          "Loop": true,
+          "OnEdge": false,
+          "Rate": 178.24,
+          "Size": "175.7,299.7,124.6996"
+        }
+      ]
+    },
+    {
+      "__guid": "94f6ad63-b460-4928-976f-84b0c32e5bd2",
+      "Name": "Camera Positions",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "Children": [
+        {
+          "__guid": "debaac08-50f9-40de-9493-8015f8280960",
+          "Name": "Front Page",
+          "Enabled": true,
+          "NetworkMode": 2
+        },
+        {
+          "__guid": "e1093b4a-24b9-4dd4-b524-8e22f1d53f35",
+          "Name": "Play Page",
+          "Position": "72.96117,74.97603,1.847654",
+          "Rotation": "0.02316115,0.05650399,-0.3785685,0.9235566",
+          "Enabled": true,
+          "NetworkMode": 2
+        },
+        {
+          "__guid": "efd37291-348d-4e78-bee4-e0f62b640206",
+          "Name": "Options Page",
+          "Position": "-174.6223,-280.0065,34.11837",
+          "Rotation": "0.005530843,-0.0108732,0.4533494,0.8912494",
+          "Enabled": true,
+          "NetworkMode": 2
+        },
+        {
+          "__guid": "d0612e12-b3fe-4e90-9684-4164d74dd9c0",
+          "Name": "Song Select Page",
+          "Position": "26.25223,7.345755,-12.00878",
+          "Rotation": "0.01194247,0.0223295,-0.4714637,0.8815218",
+          "Enabled": true,
+          "NetworkMode": 2
+        }
+      ]
+    },
+    {
+      "__guid": "51ca35c4-742d-4ab7-bf94-4e3e32a35fee",
+      "Name": "Song List Carousel",
+      "Position": "-35.28885,-119.4626,-20.61403",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "Components": [
+        {
+          "__type": "SongListCarousel",
+          "__guid": "4d34be53-c2d7-4830-92ae-406a3a3fd5b9",
+          "SongPanelCount": 24,
+          "SongPanelPrefab": {
+            "_type": "gameobject",
+            "prefab": "prefabs/mainmenu/song panel.prefab"
+          },
+          "SongXSpread": 110.00071,
+          "SongYSpread": 63.5,
+          "TargetAngle": 1.8325958
+        }
+      ]
+    }
+  ],
+  "SceneProperties": {
+    "FixedUpdateFrequency": 50,
+    "Lerping": true,
+    "MaxFixedUpdates": 5,
+    "NetworkFrequency": 60,
+    "ThreadedAnimation": true,
+    "TimeScale": 1,
+    "UseFixedUpdate": true,
+    "NavMesh": {
+      "Enabled": false,
+      "IncludeStaticBodies": true,
+      "IncludeKeyframedBodies": true,
+      "EditorAutoUpdate": true,
+      "AgentHeight": 64,
+      "AgentRadius": 16,
+      "AgentStepSize": 18,
+      "AgentMaxSlope": 40,
+      "ExcludedBodies": "",
+      "IncludedBodies": ""
+    }
+  },
+  "Title": "minimal",
+  "Description": "",
+  "LastSaved": "2024-03-24T18:41:49.9645143-04:00",
+  "ResourceVersion": 1,
+  "__version": 1,
+  "__references": [
+    "matek.dev_grid_dark"
+  ]
+}

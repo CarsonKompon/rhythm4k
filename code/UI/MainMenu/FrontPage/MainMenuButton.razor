@@ -1,0 +1,24 @@
+@using System;
+@using Sandbox;
+@using Sandbox.UI;
+@inherits Panel
+@attribute [StyleSheet]
+
+@namespace Rhythm4K
+
+<root>
+    <div class="backing" />
+    @Text
+</root>
+
+@code
+{
+    public string Text { get; set; }
+    public string Subtitle { get; set; }
+
+    protected override void OnClick(MousePanelEvent e)
+    {
+        base.OnClick(e);
+        GlobeBanner.Instance.Subtitle = Subtitle;
+    }
+}

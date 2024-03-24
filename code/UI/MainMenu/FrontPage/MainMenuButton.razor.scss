@@ -1,0 +1,52 @@
+MainMenuButton
+{
+    flex-direction: column;
+    padding: 8px;
+    font-size: 64px;
+    width: 700px;
+    pointer-events: all;
+
+    .backing
+    {
+        position: absolute;
+        top: 0;
+        left: -128px;
+        width: 800px;
+        height: 100%;
+        background-color: black;
+        transform: skewX(-30deg) scaleY(0);
+        transition: transform 0.1s ease-out;
+        opacity: 0;
+    }
+
+    label
+    {
+        color: black;
+    }
+
+    &:hover
+    {
+        sound-in: ui_hover;
+
+        .backing
+        {
+            opacity: 1;
+            transform: skewX(-30deg) scaleY(1);
+        }
+
+        label
+        {
+            color: white;
+        }
+    }
+
+    &:active
+    {
+        sound-in: ui_forward;
+
+        &.back
+        {
+            sound-in: ui_back;
+        }
+    }
+}

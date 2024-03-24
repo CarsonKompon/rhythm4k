@@ -1,0 +1,61 @@
+@using System.Linq;
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+
+@namespace Rhythm4K
+
+<root>
+	<div class="title">@Index</div>
+</root>
+
+@code
+{
+
+	[Property, TextArea] public string MyStringValue { get; set; } = "Hello World!";
+
+	public int Index { get; set; } = 0;
+	public BeatmapSet Set => BeatmapSet.All[Index % BeatmapSet.All.Count()];
+
+	bool Grabbing = false;
+	Vector2 GrabPos = Vector2.Zero;
+
+	protected override void OnUpdate()
+	{
+		base.OnUpdate();
+
+		if(Grabbing)
+		{
+			var drag = Mouse.Position - GrabPos;
+
+			SongListCarousel.Instance.AngleOffset = -drag.y / 360f;
+
+			if(!Input.Down("click"))
+			{
+				if(drag.Length < 16)
+				{
+					// Clicked
+					Click();
+				}
+				SongListCarousel.Instance.LockOffset();
+				Grabbing = false;
+			}
+		}
+	}
+
+	public void Click()
+	{
+
+	}
+
+	public void Grab()
+	{
+		GrabPos = Mouse.Position;
+		Grabbing = true;
+	}
+
+	/// <summary>
+	/// the hash determines if the system should be rebuilt. If it changes, it will be rebuilt
+	/// </summary>
+	protected override int BuildHash() => System.HashCode.Combine( MyStringValue );
+}

@@ -1,0 +1,22 @@
+MainMenuPlayPage
+{
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    padding: 64px;
+    gap: 48px;
+    font-family: Orbitron;
+    justify-content: space-between;
+
+    .menu
+    {
+        flex-grow: 1;
+        flex-direction: column;
+        justify-content: center;
+        gap: 32px;
+        top: 180px;
+
+        font-size: 42px;
+        font-weight: 800;
+    }
+}

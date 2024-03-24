@@ -1,0 +1,116 @@
+GlobeBanner
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	flex-direction: column;
+	justify-content: center;
+	font-weight: bold;
+    font-family: Orbitron;
+	border-top: 24px solid #fff;
+	border-bottom: 24px solid #fff;
+	background-color: rgba(white, 0.3);
+
+	.title
+	{
+		font-size: 64px;
+		color: #fff;
+		transform: scaleY(5);
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		width: 100%;
+		justify-content: space-evenly;
+	}
+
+	.subtitle
+	{
+		position: absolute;
+		font-size: 24px;
+		color: #fff;
+		transform: scaleY(5);
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		width: 100%;
+		justify-content: space-around;
+		opacity: 0.2;
+
+		&.top
+		{
+			top: 48px;
+			animation: left-to-right 10s linear infinite;
+
+			&.inner
+			{
+				left: -100%;
+				animation: inner-left-to-right 10s linear infinite;
+			}
+		}
+
+		&.bottom
+		{
+			bottom: 48px;
+			animation: right-to-left 30s linear infinite;
+			font-size: 20px;
+
+			&.inner
+			{
+				right: -100%;
+				animation: inner-right-to-left 30s linear infinite;
+			}
+		}
+	}
+}
+
+@keyframes left-to-right
+{
+	0%
+	{
+		left: 0%;
+	}
+
+	100%
+	{
+		left: 100%;
+	}
+}
+
+@keyframes inner-left-to-right
+{
+	0%
+	{
+		left: -100%;
+	}
+
+	100%
+	{
+		left: 0%;
+	}
+}
+
+@keyframes right-to-left
+{
+	0%
+	{
+		right: 0%;
+	}
+
+	100%
+	{
+		right: 100%;
+	}
+}
+
+@keyframes inner-right-to-left
+{
+	0%
+	{
+		right: -100%;
+	}
+
+	100%
+	{
+		right: 0%;
+	}
+}

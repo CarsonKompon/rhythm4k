@@ -1,0 +1,92 @@
+{
+  "Title": "rhythm4k_scene",
+  "Type": "game",
+  "Org": "local",
+  "Ident": "rhythm4k_scene",
+  "Tags": null,
+  "Schema": 1,
+  "HasAssets": true,
+  "AssetsPath": "",
+  "Resources": null,
+  "HasCode": true,
+  "CodePath": "/code/",
+  "PackageReferences": [],
+  "EditorReferences": null,
+  "Metadata": {
+    "MaxPlayers": 64,
+    "MinPlayers": 1,
+    "TickRate": 50,
+    "GameNetworkType": "Multiplayer",
+    "MapSelect": "Unrestricted",
+    "MapList": [
+      "facepunch.flatgrass"
+    ],
+    "RankType": "None",
+    "PerMapRanking": false,
+    "LeaderboardType": "None",
+    "CsProjName": "",
+    "StartupScene": "scenes/minimal.scene",
+    "ProjectTemplate": null,
+    "ControlModes": {
+      "Keyboard": true
+    },
+    "InputSettings": {
+      "Actions": [
+        {
+          "Name": "Up",
+          "KeyboardCode": "UPARROW",
+          "GamepadCode": "DpadNorth",
+          "GroupName": "Menu"
+        },
+        {
+          "Name": "Down",
+          "KeyboardCode": "DOWNARROW",
+          "GamepadCode": "DpadSouth",
+          "GroupName": "Menu"
+        },
+        {
+          "Name": "Left",
+          "KeyboardCode": "LEFTARROW",
+          "GamepadCode": "DpadEast",
+          "GroupName": "Menu"
+        },
+        {
+          "Name": "Right",
+          "KeyboardCode": "RIGHTARROW",
+          "GamepadCode": "DpadWest",
+          "GroupName": "Menu"
+        },
+        {
+          "Name": "ButtonA",
+          "KeyboardCode": "D",
+          "GamepadCode": "DpadEast",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "ButtonB",
+          "KeyboardCode": "F",
+          "GamepadCode": "DpadNorth",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "ButtonC",
+          "KeyboardCode": "J",
+          "GamepadCode": "Y",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "ButtonD",
+          "KeyboardCode": "K",
+          "GamepadCode": "B",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "Click",
+          "KeyboardCode": "MOUSE1",
+          "GroupName": "Other"
+        }
+      ],
+      "__guid": "083680a3-d5ee-4f17-8b47-d36c31cceaa9"
+    }
+  }
+}

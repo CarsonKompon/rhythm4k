@@ -1,0 +1,33 @@
+@using System;
+@using Sandbox;
+@using Sandbox.UI;
+@inherits Panel
+@attribute [StyleSheet]
+
+@namespace Rhythm4K
+
+<root>
+    <div class="logo-container">
+        <h1>Rhythm4K</h1>
+        <div class="author">By Carson Kompon</div>
+    </div>
+
+    <div class="menu">
+        <MainMenuButton Text="Play" Subtitle="Play the Game" onclick=@PlayButton/>
+        <MainMenuButton Text="Options" Subtitle="Customize the Game" onclick=@OptionsButton />
+        <MainMenuButton Text="Quit" onclick=@Game.Close/>
+    </div>
+</root>
+
+@code
+{
+    void PlayButton()
+    {
+        MainMenu.Instance.Navigate("/play");
+    }
+
+    void OptionsButton()
+    {
+        MainMenu.Instance.Navigate("/options");
+    }
+}

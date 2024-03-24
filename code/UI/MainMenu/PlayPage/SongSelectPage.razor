@@ -1,0 +1,29 @@
+@using System;
+@using Sandbox;
+@using Sandbox.UI;
+@inherits Panel
+@attribute [StyleSheet]
+
+@namespace Rhythm4K
+
+<root
+    <div class="menu">
+
+        <MainMenuButton Text="Back" onclick=@BackButton class="back"/>
+    </div>
+</root>
+
+@code
+{
+    void BrowseButton()
+    {
+        MainMenu.Instance.Navigate("/browse");
+    
+    }
+
+    void BackButton()
+    {
+        MainMenu.Instance.Navigate("/play");
+    }
+
+}

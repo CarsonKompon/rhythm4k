@@ -1,0 +1,104 @@
+OsuPage
+{
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    top: 5%;
+    left: 5%;
+    color: white;
+
+    padding: 16px;
+    gap: 8px;
+    font-family: Orbitron;
+    pointer-events: all;
+
+    flex-direction: column;
+
+    > .background
+    {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: linear-gradient(rgb(68, 68, 68), rgb(0, 0, 0));
+        transform: skewX(1deg);
+    }
+
+    .navbar
+    {
+        padding-right: 32px;
+        width: 100%;
+        flex-shrink: 0;
+        justify-content: space-between;
+
+        .buttons
+        {
+            gap: 8px;
+        }
+
+        dropdown
+        {
+            min-width: 250px;
+        }
+
+        .search
+        {
+            gap: 8px;
+
+            .textentry
+            {
+                background-color: rgba(white, 0.05);
+                min-width: 400px;
+            }
+        }
+    }
+
+    .content
+    {
+        flex-wrap: wrap;
+        overflow-y: scroll;
+        flex-grow: 1;
+        padding: 32px;;
+        gap: 16px;
+        justify-content: center;
+
+        .load-more
+        {
+            width: 300px;
+            height: 172px;
+            background-color: rgba(black, 0.4);
+            justify-content: center;
+            align-items: center;
+            transition: all 0.05s ease-in-out;
+            font-family: Chakra Petch;
+            font-size: 24px;
+            cursor: pointer;
+
+            &:hover
+            {
+                transform: scale(1.1);
+            }
+
+            &:active
+            {
+                transform: scale(0.9);
+            }
+        }
+    }
+
+    > .button
+    {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+    }
+
+    .button
+    {
+        font-size: 24px;
+        background-color: rgba(black, 0.4);
+        padding: 8px;
+        cursor: pointer;
+    }
+}

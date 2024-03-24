@@ -1,0 +1,37 @@
+@using System;
+@using System.Collections.Generic;
+@using System.Linq;
+@using Sandbox;
+@using Sandbox.UI;
+@using Rhythm4K.Osu;
+@attribute [StyleSheet]
+
+@inherits Sandbox.UI.NavHostPanel
+@namespace Rhythm4K
+
+<root>
+
+</root>
+
+@code
+{
+    public static MainMenu Instance { get; private set; }
+    public Action<long> OnExit { get; set; } = delegate { };
+
+    public MainMenu()
+    {
+        DefaultUrl = "/";
+
+        AddDestination("/", typeof(MainMenuFrontPage));
+        AddDestination("/play", typeof(MainMenuPlayPage));
+        AddDestination("/browse", typeof(OsuPage));
+        AddDestination("/song-select", typeof(SongSelectPage));
+        @* AddDestination("/songs", typeof(SongSelectPage));
+        AddDestination("/osu", typeof(OsuPage));
+        AddDestination("/addons", typeof(AddonPage));
+        AddDestination("/game", typeof(GamePage));
+        AddDestination("/settings", typeof(SettingsPage)); *@
+
+        Instance = this;
+    }
+}

@@ -1,0 +1,76 @@
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+
+<root>
+	<div class="subtitle top">
+		<label>Rhythm4K</label>
+		<label>Rhythm4K</label>
+		<label>Rhythm4K</label>
+		<label>Rhythm4K</label>
+		<label>Rhythm4K</label>
+		<label>Rhythm4K</label>
+		<label>Rhythm4K</label>
+		<label>Rhythm4K</label>
+	</div>
+	<div class="inner subtitle top">
+		<label>Rhythm4K</label>
+		<label>Rhythm4K</label>
+		<label>Rhythm4K</label>
+		<label>Rhythm4K</label>
+		<label>Rhythm4K</label>
+		<label>Rhythm4K</label>
+		<label>Rhythm4K</label>
+		<label>Rhythm4K</label>
+	</div>
+	<div class="title">
+		@if(true)
+		{
+			var text = string.IsNullOrEmpty(Subtitle) ? Text : Subtitle;
+			<label>@text</label>
+			<label>@text</label>
+		}
+	</div>
+	<div class="subtitle bottom">
+		<label>by Carson Kompon</label>
+		<label>by Carson Kompon</label>
+		<label>by Carson Kompon</label>
+		<label>by Carson Kompon</label>
+		<label>by Carson Kompon</label>
+		<label>by Carson Kompon</label>
+		<label>by Carson Kompon</label>
+	</div>
+	<div class="inner subtitle bottom">
+		<label>by Carson Kompon</label>
+		<label>by Carson Kompon</label>
+		<label>by Carson Kompon</label>
+		<label>by Carson Kompon</label>
+		<label>by Carson Kompon</label>
+		<label>by Carson Kompon</label>
+		<label>by Carson Kompon</label>
+	</div>
+</root>
+
+@code
+{
+	public static GlobeBanner Instance { get; private set; }
+	public string Subtitle { get; set; }
+
+	string[] FlavourText = new string[]
+	{
+		"Feel the Rhythm",
+		"4 keys are plenty!",
+		"Rhythmic Excellence"
+	};
+
+	int index = 0;
+	string Text => FlavourText[index];
+
+	protected override void OnStart()
+	{
+		index = System.Random.Shared.Int( 0, FlavourText.Length - 1 );
+		Instance = this;
+	}
+
+	protected override int BuildHash() => System.HashCode.Combine( index, Subtitle );
+}

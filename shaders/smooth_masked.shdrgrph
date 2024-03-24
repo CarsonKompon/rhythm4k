@@ -1,0 +1,173 @@
+{
+  "Model": null,
+  "Description": "",
+  "BlendMode": "Masked",
+  "nodes": [
+    {
+      "_class": "TextureSampler",
+      "Image": "materials/emojis/enemies_1-fluent_color.png",
+      "Sampler": {
+        "Filter": "Point"
+      },
+      "UI": {
+        "Name": "Color",
+        "Default": "1,1,1,1",
+        "ImageFormat": "BC7",
+        "SrgbRead": true,
+        "PrimaryGroup": {
+          "Name": "Color"
+        },
+        "CreateInput": "CreateInputTexture2D"
+      },
+      "Identifier": "0",
+      "Position": "928,208",
+      "Coords": {
+        "Identifier": "5",
+        "Output": "Result"
+      }
+    },
+    {
+      "_class": "Float2",
+      "Value": "1,1",
+      "Name": "TexCoordScale",
+      "IsAttribute": false,
+      "UI": {
+        "PrimaryGroup": {
+          "Name": "Texture Coordinates",
+          "Priority": 5
+        }
+      },
+      "Identifier": "1",
+      "Position": "464,272"
+    },
+    {
+      "_class": "TextureCoord",
+      "UseSecondaryCoord": false,
+      "Tiling": "1,1",
+      "Identifier": "2",
+      "Position": "464,192"
+    },
+    {
+      "_class": "TextureSampler",
+      "Image": "materials/emojis/enemies_1-fluent_color.png",
+      "Sampler": {
+        "Filter": "Point"
+      },
+      "UI": {
+        "Name": "Translucency",
+        "Default": "1,1,1,1",
+        "Extension": "Trans",
+        "ColorSpace": "Linear",
+        "ImageFormat": "BC7",
+        "PrimaryGroup": {
+          "Name": "Translucent",
+          "Priority": 1
+        },
+        "CreateInput": "CreateInputTexture2D"
+      },
+      "Identifier": "3",
+      "Position": "928,480",
+      "Coords": {
+        "Identifier": "5",
+        "Output": "Result"
+      }
+    },
+    {
+      "_class": "Result",
+      "DefaultOpacity": 1,
+      "DefaultRoughness": 1,
+      "DefaultMetalness": 0,
+      "DefaultAmbientOcclusion": 1,
+      "Identifier": "4",
+      "Position": "1536,192",
+      "Albedo": {
+        "Identifier": "8",
+        "Output": "Result"
+      },
+      "Opacity": {
+        "Identifier": "7",
+        "Output": "Result"
+      }
+    },
+    {
+      "_class": "TileAndOffset",
+      "DefaultTile": "1,1",
+      "DefaultOffset": "0,0",
+      "WrapTo01": false,
+      "Identifier": "5",
+      "Position": "688,208",
+      "Coords": {
+        "Identifier": "2",
+        "Output": "Result"
+      },
+      "Tile": {
+        "Identifier": "1",
+        "Output": "Result"
+      },
+      "Offset": {
+        "Identifier": "6",
+        "Output": "Result"
+      }
+    },
+    {
+      "_class": "Float2",
+      "Value": "1,1",
+      "Name": "TexCoordOffset",
+      "IsAttribute": false,
+      "UI": {
+        "PrimaryGroup": {
+          "Name": "Texture Coordinates",
+          "Priority": 5
+        }
+      },
+      "Identifier": "6",
+      "Position": "464,384"
+    },
+    {
+      "_class": "Branch",
+      "Name": "Alpha from Colour",
+      "Operator": "Equal",
+      "Enabled": true,
+      "UI": {},
+      "Identifier": "7",
+      "Position": "1200,384",
+      "True": {
+        "Identifier": "0",
+        "Output": "A"
+      },
+      "False": {
+        "Identifier": "3",
+        "Output": "Result"
+      }
+    },
+    {
+      "_class": "Branch",
+      "Name": "Solid Color",
+      "Operator": "Equal",
+      "Enabled": false,
+      "UI": {
+        "PrimaryGroup": {
+          "Name": "ColorSettings"
+        },
+        "SecondaryGroup": {
+          "Name": ""
+        }
+      },
+      "Identifier": "8",
+      "Position": "1296,96",
+      "True": {
+        "Identifier": "9",
+        "Output": "RGB"
+      },
+      "False": {
+        "Identifier": "0",
+        "Output": "Result"
+      }
+    },
+    {
+      "_class": "VertexColor",
+      "Identifier": "9",
+      "Position": "1072,64"
+    }
+  ]
+}

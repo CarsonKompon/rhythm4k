@@ -1,0 +1,95 @@
+CarsonIntroPanel
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #1e1d25;
+	color: white;
+	font-family: Poppins;
+	font-size: 64px;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	transition: all 1s ease;
+
+	.content
+	{
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+	}
+
+	.background
+	{
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		// background-image: url("/ui/space_loop.mp4");
+		background-size: cover;
+		opacity: 0;
+		transition: all 1s ease;
+	}
+
+	p
+	{
+		text-transform: lowercase;
+		font-size: 24px;
+		transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+		&:intro
+		{
+			font-size: 0px;
+			sound-in: intro_blip;
+		}
+	}
+
+	h1
+	{
+		font-size: 0px;
+		font-weight: 800;
+		text-transform: uppercase;
+		transition: all 0.5s ease-out;
+	}
+
+	&.show
+	{
+		sound-in: intro_explode;
+
+		h1
+		{
+			font-size: 64px;
+		}
+		
+		.background
+		{
+			opacity: 0.5;
+		}
+	}
+
+	&.hide
+	{
+		sound-in: intro_explode_fade;
+		opacity: 0;
+
+		p
+		{
+			font-size: 0px;
+		}	
+
+		h1
+		{
+			font-size: 0px;
+		}
+		
+		.background
+		{
+			opacity: 0.5;
+		}
+	}
+
+	
+}

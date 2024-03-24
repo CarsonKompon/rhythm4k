@@ -1,0 +1,204 @@
+@using System;
+@using System.Collections.Generic;
+@using System.Linq;
+@using System.IO;
+@using System.IO.Compression;
+@using Sandbox;
+@using Sandbox.UI;
+@using Sandbox.UI.GameMenu;
+@inherits Panel
+@attribute [StyleSheet]
+
+@namespace Rhythm4K.Osu
+
+<root>
+    <div class="background" />
+    <div class="navbar">
+        <div class="buttons">
+            <a class="button" href="/play"> &lt; Back</a>
+        </div>
+
+        <div class="search">
+            <DropDown @ref="StatusDropDown" onchange=@Search />
+            <TextEntry onsubmit=@Search Value:bind=@SearchText Tooltip="Search for songs by title, artist, or URL" Placeholder="Enter a search query..." ></TextEntry>
+            <span class="button" onclick=@Search>Search</span>
+        </div>
+    </div>
+
+    <div class="content">
+        @if(Loading)
+        {
+            <span class="loading">Loading...</span>
+        }
+        else
+        {
+            @foreach(var beatmap in LoadedBeatmaps)
+            {
+                <OsuButton BeatmapSet=@beatmap />
+            }
+            @if(LoadedBeatmaps.Count() > 0 && Page < MaxPages)
+            {
+                <span class="load-more" onclick=@LoadMoreBeatmaps>Load more...</span>
+            }
+        }
+    </div>
+</root>
+
+@code
+{
+	public List<OsuBeatmapSet> LoadedBeatmaps { get; set; } = new List<OsuBeatmapSet>();
+	public string SearchText { get; set; } = "";
+	public int Page { get; set; } = 0;
+	public int MaxPages { get; set; } = 0;
+	public bool Loading { get; private set; } = false;
+	public bool Downloading { get; private set; } = false;
+
+    DropDown StatusDropDown { get; set; }
+
+    private string lastQuery = "";
+    private const string BASE_QUERY = "https://beatconnect.io/api/search/?&m=mania&diff_range=0-10&token=afa1dc64301e47aab7f21ab65d6a7b4c";
+
+    record DownloadEntry(OsuBeatmapSet beatmap, string coverUrl);
+    List<DownloadEntry> DownloadQueue = new List<DownloadEntry>();
+
+    protected override void OnAfterTreeRender(bool firstTime)
+    {
+        base.OnAfterTreeRender(firstTime);
+
+        if (firstTime)
+        {
+            LoadTopBeatmaps();
+
+            StatusDropDown.Options = new()
+            {
+                new Option("All", 0),
+                new Option("Ranked", 1),
+                @* new Option("Approved", 2), *@
+                new Option("Qualified", 2),
+                new Option("Loved", 3),
+                new Option("Unranked", 4),
+            };
+            StatusDropDown.Selected = StatusDropDown.Options[1];
+        }
+    }
+
+    public override void Tick()
+    {
+        base.Tick();
+
+        if (DownloadQueue.Count > 0 && !Downloading)
+        {
+            var entry = DownloadQueue[0];
+            DownloadQueue.RemoveAt(0);
+            DownloadBeatmap(entry.beatmap, entry.coverUrl);
+        }
+    }
+
+    private async void Search()
+    {
+        Loading = true;
+        lastQuery = BASE_QUERY + "&s=" + StatusDropDown.Selected.Title.ToString().ToLower() + "&q=" + SearchText;
+        Log.Info(lastQuery);
+        var response = await Http.RequestJsonAsync<OsuSearch>(lastQuery);
+        LoadedBeatmaps = response.BeatmapSets;
+        MaxPages = response.MaxPage;
+        Page = 0;
+        Loading = false;
+    }
+
+    private async void LoadTopBeatmaps()
+    {
+        Loading = true;
+        lastQuery = BASE_QUERY;
+        var response = await Http.RequestJsonAsync<OsuSearch>(lastQuery);
+        LoadedBeatmaps = response.BeatmapSets;
+        MaxPages = response.MaxPage;
+        Page = 0;
+        Loading = false;
+    }
+
+    private async void LoadMoreBeatmaps()
+    {
+        Page++;
+        var response = await Http.RequestJsonAsync<OsuSearch>(lastQuery + "&p=" + Page.ToString());
+        LoadedBeatmaps.AddRange(response.BeatmapSets);
+    }
+
+    public void QueueDownload(OsuBeatmapSet beatmap, string coverUrl)
+    {
+        DownloadQueue.Add(new DownloadEntry(beatmap, coverUrl));
+    }
+
+    public async void DownloadBeatmap(OsuBeatmapSet beatmapSet, string coverUrl = "")
+	{
+		if(beatmapSet.IsDownloaded())
+		{
+			return;
+		}
+
+		if (Downloading)
+		{
+			Log.Info("You can only download one map at a time");
+			return;
+		}
+
+		Log.Info("Downloading beatmap \"" + beatmapSet.Title + "\"...");
+		Downloading = true;
+
+		// Get the bytes of the file
+		string url = "https://beatconnect.io/b/" + beatmapSet.Id.ToString() + "/";
+		if (beatmapSet.UniqueId is not null) url += beatmapSet.UniqueId.ToString();
+		else url += "null";
+		@* url += "?novideo=1"; *@
+		Log.Info("downloading from url:");
+		Log.Info(url);
+
+		byte[] fileData = await Http.RequestBytesAsync(url);
+        try
+        {
+            ZipArchive archive = new ZipArchive(new MemoryStream(fileData));
+
+            // Save the contents of the archive
+            string dir = $"beatmaps/{beatmapSet.GetFullSongId()}";
+            FileSystem.Data.CreateDirectory(dir);
+            int idd = 0;
+            foreach (var entry in archive.Entries)
+            {
+                string path = dir + "/" + entry.FullName;
+                if (path.Trim().EndsWith(".osu"))
+                {
+                    path = path.Insert(path.Length - 4, "-" + idd.ToString());
+                    idd++;
+                }
+                Log.Info("Saving file " + path);
+                Stream zipStream = entry.Open();
+                Stream fileStream = FileSystem.Data.OpenWrite(path);
+                await zipStream.CopyToAsync(fileStream);
+                fileStream.Close();
+                zipStream.Close();
+            }
+            FileSystem.Data.WriteAllText(dir + "/cover-image.txt", coverUrl);
+
+            // TODO: Try loading the song to make sure it was valid so we can throw an exception if it wasn't
+            //await SongBuilder.LoadFromOsuFolder(beatmapSet.GetFullSongId(), coverUrl);
+        }
+        catch (Exception e)
+        {
+            Log.Error(e.Message);
+            Log.Error(e.StackTrace);
+        }
+        finally
+        {
+            if(Descendants.Where(x => x is OsuButton btn && btn.BeatmapSet == beatmapSet).FirstOrDefault() is OsuButton button)
+            {
+                button.Downloading = false;
+            }
+            Downloading = false;
+        }
+    }
+
+    protected override int BuildHash()
+    {
+        return HashCode.Combine(Loading, LoadedBeatmaps.Count());
+    }
+}
