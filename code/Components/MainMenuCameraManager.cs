@@ -12,6 +12,7 @@ public sealed class MainMenuCameraManager : Component
 	[Property] public GameObject PlayPageCamera { get; set; }
 	[Property] public GameObject OptionsPageCamera { get; set; }
 	[Property] public GameObject SongSelectPageCamera { get; set; }
+	[Property] public GameObject SongSelectCarousel { get; set; }
 
 	Transform TargetTransform;
 
@@ -29,7 +30,7 @@ public sealed class MainMenuCameraManager : Component
 		Transform.Rotation = Rotation.Slerp( Transform.Rotation, TargetTransform.Rotation, delta );
 		Transform.Position = Vector3.Lerp( Transform.Position, TargetTransform.Position, delta );
 
-		string url = MainMenu.Instance.CurrentUrl;
+		string url = MainMenu.Instance?.CurrentUrl ?? "";
 		if ( currentUrl != url )
 		{
 			currentUrl = url;
@@ -39,6 +40,7 @@ public sealed class MainMenuCameraManager : Component
 
 	public void SetTarget( string page )
 	{
+		SongSelectCarousel.Enabled = false;
 		switch ( page )
 		{
 			case "/":
@@ -51,6 +53,7 @@ public sealed class MainMenuCameraManager : Component
 				FocusCamera( OptionsPageCamera.Transform.World );
 				break;
 			case "/song-select":
+				SongSelectCarousel.Enabled = true;
 				FocusCamera( SongSelectPageCamera.Transform.World );
 				break;
 		}

@@ -86,6 +86,10 @@
             "_type": "gameobject",
             "go": "e1093b4a-24b9-4dd4-b524-8e22f1d53f35"
           },
+          "SongSelectCarousel": {
+            "_type": "gameobject",
+            "go": "51ca35c4-742d-4ab7-bf94-4e3e32a35fee"
+          },
           "SongSelectPageCamera": {
             "_type": "gameobject",
             "go": "d0612e12-b3fe-4e90-9684-4164d74dd9c0"
@@ -188,7 +192,7 @@
             {
               "__guid": "51cbbdb4-0a33-4e47-acc3-d93334f94f95",
               "Name": "Banner",
-              "Position": "0,0,0.0000002384186",
+              "Position": "0,0,0",
               "Scale": "0.2719812,0.2719812,0.2719812",
               "Enabled": true,
               "NetworkMode": 2,
@@ -227,7 +231,7 @@
                   "CurrentPanelScale": 0,
                   "CurrentPanelScaleFromScreen": 0,
                   "CurrentPanelScaleToScreen": 0,
-                  "CurrentScreenSize": "1094,615",
+                  "CurrentScreenSize": "878,494",
                   "CustomPanelBounds": {
                     "Size": "1024,256"
                   },
@@ -504,7 +508,7 @@
   },
   "Title": "minimal",
   "Description": "",
-  "LastSaved": "2024-03-24T18:41:49.9645143-04:00",
+  "LastSaved": "2024-03-24T19:28:16.1348689-04:00",
   "ResourceVersion": 1,
   "__version": 1,
   "__references": [

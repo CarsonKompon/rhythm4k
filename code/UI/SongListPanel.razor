@@ -1,3 +1,4 @@
+@using System;
 @using System.Linq;
 @using Sandbox;
 @using Sandbox.UI;
@@ -6,16 +7,21 @@
 @namespace Rhythm4K
 
 <root>
-	<div class="title">@Index</div>
+	@if(Index < 0 || Index >= BeatmapSet.All.Count()) return;
+	<img src="@Set.CoverArt" class="cover" />
+	<div class="info">
+		<div class="title">@(Set.Name)</div>
+		<div class="subtitle">
+			<label class="artist">@(Set.Artist)</label>
+			<label class="charter">@(Set.BPM)BPM</label>
+		</div>
+	</div>
 </root>
 
 @code
 {
-
-	[Property, TextArea] public string MyStringValue { get; set; } = "Hello World!";
-
-	public int Index { get; set; } = 0;
-	public BeatmapSet Set => BeatmapSet.All[Index % BeatmapSet.All.Count()];
+	public int Index { get; set; } = -1;
+	public BeatmapSet Set => BeatmapSet.All[Index];
 
 	bool Grabbing = false;
 	Vector2 GrabPos = Vector2.Zero;
@@ -28,7 +34,15 @@
 		{
 			var drag = Mouse.Position - GrabPos;
 
-			SongListCarousel.Instance.AngleOffset = -drag.y / 360f;
+			var carousel = SongListCarousel.Instance;
+			carousel.AngleOffset = -drag.y / 360f;
+			if ( MathF.Abs( carousel.LastOffset - carousel.AngleOffset ) >= MathF.PI * 2f / (float)carousel.SongPanelCount )
+			{
+				Sound.Play( "ui_hover" );
+				carousel.LastOffset = carousel.AngleOffset;
+				carousel.LockOffset();
+				GrabPos = Mouse.Position;
+			}
 
 			if(!Input.Down("click"))
 			{
@@ -37,7 +51,7 @@
 					// Clicked
 					Click();
 				}
-				SongListCarousel.Instance.LockOffset();
+				carousel.LockOffset();
 				Grabbing = false;
 			}
 		}
@@ -54,8 +68,5 @@
 		Grabbing = true;
 	}
 
-	/// <summary>
-	/// the hash determines if the system should be rebuilt. If it changes, it will be rebuilt
-	/// </summary>
-	protected override int BuildHash() => System.HashCode.Combine( MyStringValue );
+	protected override int BuildHash() => System.HashCode.Combine( Index, SongListCarousel.Instance.SelectedIndex );
 }

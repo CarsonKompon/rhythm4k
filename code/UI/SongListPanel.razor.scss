@@ -6,15 +6,49 @@ SongListPanel
 	right: 0;
 	bottom: 0;
 	background-color: #444;
-	justify-content: center;
-	align-items: center;
-	font-weight: bold;
-	border-radius: 20px;
 
-	.title
+	img
 	{
-		font-size: 25px;
-		font-family: Poppins;
-		color: #fff;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-size: cover;
+		background-position: center;
+		background-repeat: no-repeat;
+		z-index: -100;
+	}
+
+	.info
+	{
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: rgba(0, 0, 0, 0.76);
+		color: white;
+		flex-direction: column;
+		justify-content: space-evenly;
+		align-items: center;
+		text-align: center;
+		font-family: Orbitron;
+		font-size: 20px;
+		text-shadow: 0 0 10px black;
+
+		.title
+		{
+			font-size: 32px;
+			font-weight: 800;
+		}
+
+		.subtitle
+		{
+			width: 100%;
+			padding-left: 20px;
+			padding-right: 20px;
+			justify-content: space-between;
+		}
 	}
 }

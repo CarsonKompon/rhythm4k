@@ -1,4 +1,5 @@
 using System;
+using System.Reflection.Metadata.Ecma335;
 using Sandbox;
 
 namespace Rhythm4K;
@@ -8,13 +9,41 @@ public sealed class SongListCarousel : Component
 	public static SongListCarousel Instance { get; private set; }
 
 	[Property] GameObject SongPanelPrefab { get; set; }
-	[Property] int SongPanelCount { get; set; } = 16;
+	[Property] public int SongPanelCount { get; set; } = 16;
 	[Property] float SongXSpread { get; set; } = 100f;
 	[Property] float SongYSpread { get; set; } = 100f;
 	[Property] float TargetAngle { get; set; } = 0f;
 	public float AngleOffset { get; set; } = 0f;
+	public float LastOffset { get; set; } = 0f;
 
-	int SelectedIndex { get; set; } = 0;
+	public int SelectedIndex
+	{
+		get => _selectedIndex;
+		private set
+		{
+			_selectedIndex = value;
+			var panelIndex = value;
+			while ( panelIndex < 0 )
+			{
+				panelIndex += SongPanelCount;
+			}
+			for ( int i = panelIndex - 4; i <= panelIndex + 4; i++ )
+			{
+				int offset = i - panelIndex;
+				var panel = SongPanels[(i + SongPanelCount * 2) % SongPanelCount];
+				var panelScript = panel.Components.Get<SongListPanel>();
+				int totalAm = BeatmapSet.All.Count();
+				int ind = _selectedIndex;
+				while ( ind < 0 )
+				{
+					ind += totalAm;
+				}
+				panelScript.Index = (ind + totalAm + offset) % totalAm;
+
+			}
+		}
+	}
+	private int _selectedIndex = 0;
 	float CurrentAngle { get; set; } = 0f;
 	List<GameObject> SongPanels { get; set; } = new();
 
@@ -37,21 +66,23 @@ public sealed class SongListCarousel : Component
 			panel.SetParent( GameObject );
 			panel.Transform.LocalPosition = new Vector3( MathF.Cos( angle ) * SongXSpread, 0f, MathF.Sin( angle ) * SongYSpread );
 			panel.Transform.Rotation = Rotation.From( 0f, 90f, 0f );
-			var panelScript = panel.Components.Get<SongListPanel>();
-			panelScript.Index = i;
 			angle -= MathF.PI * 2f / (float)SongPanelCount;
 			SongPanels.Add( panel );
 		}
+		SelectedIndex = 0;
 	}
 
 	protected override void OnUpdate()
 	{
 		TargetAngle = SelectedIndex * MathF.PI * 2f / (float)SongPanelCount;
-		CurrentAngle = MathX.Lerp( CurrentAngle, TargetAngle + AngleOffset, Time.Delta * 10f );
+		CurrentAngle = MathX.LerpDegrees( CurrentAngle, TargetAngle + AngleOffset, Time.Delta * 10f );
+
+		Log.Info( SelectedIndex );
 
 		var mouseWheel = Input.MouseWheel.y;
 		if ( mouseWheel != 0 )
 		{
+			Sound.Play( "ui_hover" );
 			SelectedIndex -= Math.Sign( mouseWheel );
 		}
 		else if ( Input.Pressed( "Down" ) )
