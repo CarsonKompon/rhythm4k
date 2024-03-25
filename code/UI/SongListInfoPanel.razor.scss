@@ -1,0 +1,132 @@
+SongListInfoPanel
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #444;
+	justify-content: space-between;
+	align-items: center;
+	font-weight: bold;
+	padding: 16px;
+	flex-direction: column;
+	font-family: Orbitron;
+	font-size: 32px;
+	color: white;
+	text-shadow: 0 0 10px black;
+	pointer-events: all;
+	
+	img
+	{
+		width: 100%;
+		background-size: cover;
+		background-position: center;
+		aspect-ratio: 3;
+	}
+
+	h1
+	{
+		font-size: 38px;
+		text-align: center;
+	}
+
+	.artist
+	{
+		font-size: 24px;
+		font-weight: 400;
+		text-align: center;
+	}
+
+	.chart-list
+	{
+		width: 100%;
+		flex-grow: 1;
+		flex-direction: column;
+		max-height: 300px;
+		overflow-y: scroll;
+		gap: 8px;
+
+		.chart
+		{
+			width: 100%;
+			flex-shrink: 0;
+			justify-content: space-between;
+			align-items: center;
+			background-color: #2c2c2c;
+			padding: 8px;
+
+			.info
+			{
+				flex-direction: column;
+				
+				h3
+				{
+					font-size: 32px;
+					font-weight: 800;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+				}
+
+				h4
+				{
+					font-size: 12px;
+					font-weight: 400;
+				}
+			}
+
+			.difficulty
+			{
+				flex-shrink: 0;
+			}
+
+			&:hover
+			{
+				background-color: #797979;
+			}
+		}
+	}
+
+	.buttons
+	{
+		width: 100%;
+		justify-content: space-evenly;
+	}
+
+	MainMenuButton
+	{
+		width: 200px;
+		font-size: 42px;
+		justify-content: center;
+		align-items: center;
+
+		.backing
+		{
+			left: 0px;
+			width: 100%;
+			transform: skewX(-10deg) scaleY(0);
+		}
+
+		label
+		{
+			color: rgba(255, 255, 255, 0.781);
+		}
+
+		&.disabled
+		{
+			pointer-events: none;
+			label
+			{
+				color: rgba(255, 255, 255, 0.315);
+			}
+		}
+
+		&:hover
+		{
+			.backing
+			{
+				transform: skewX(-10deg) scaleY(1);
+			}
+		}
+	}
+}

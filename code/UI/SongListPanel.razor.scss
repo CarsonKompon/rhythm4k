@@ -49,6 +49,17 @@ SongListPanel
 			padding-left: 20px;
 			padding-right: 20px;
 			justify-content: space-between;
+
+			.artist
+			{
+				text-overflow: ellipsis;
+				overflow: hidden;
+			}
+			
+			.score
+			{
+				flex-shrink: 0;
+			}
 		}
 	}
 }

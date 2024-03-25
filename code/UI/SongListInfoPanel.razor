@@ -1,0 +1,56 @@
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+
+@namespace Rhythm4K
+
+<root>
+	@if(true)
+	{
+		var set = BeatmapSet.All[Index];
+		<img src=@set.CoverArt />
+		<h1>@set.Name</h1>
+		<h3 class="artist">@set.Artist</h3>
+		<div class="chart-list">
+			@foreach(var chart in set.Beatmaps.OrderBy(x => x.Difficulty))
+			{
+				<div class="chart">
+					<div class="info">
+						<h3>@(!string.IsNullOrEmpty(chart.DifficultyName) ? chart.DifficultyName : (!string.IsNullOrEmpty(chart.Name) ? chart.Name : "Unknown"))</h3>
+						<h4>by @(!string.IsNullOrEmpty(chart.Charter) ? chart.Charter : "Unknown")</h4>
+					</div>
+					<div class="difficulty">@chart.Difficulty</div>
+				</div>
+			}
+		</div>
+		<div class="buttons">
+			<MainMenuButton Text="Play" onclick=@BackButton class="disabled"/>
+			<MainMenuButton Text="Back" onclick=@BackButton class="back"/>
+		</div>
+	}
+</root>
+
+@code
+{
+
+	public int Index
+	{
+		get
+		{
+			var index = SongListCarousel.Instance.SelectedIndex;
+			var count = BeatmapSet.All.Count;
+			while(index < 0)
+			{
+				index += count;
+			}
+			return index % count;
+		}
+	}
+
+	void BackButton()
+	{
+		MainMenu.Instance.Navigate("/play");
+	}
+
+	protected override int BuildHash() => System.HashCode.Combine( Index );
+}

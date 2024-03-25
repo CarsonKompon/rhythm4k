@@ -231,7 +231,7 @@
                   "CurrentPanelScale": 0,
                   "CurrentPanelScaleFromScreen": 0,
                   "CurrentPanelScaleToScreen": 0,
-                  "CurrentScreenSize": "878,494",
+                  "CurrentScreenSize": "1061,597",
                   "CustomPanelBounds": {
                     "Size": "1024,256"
                   },
@@ -407,13 +407,163 @@
           "Opaque": false,
           "RotationOffset": 0,
           "Scale": 1,
-          "Shadows": true,
+          "Shadows": false,
           "SortMode": "Unsorted",
           "Texture": "materials/particles/shapes/circle1.vtex"
         },
         {
           "__type": "ParticleBoxEmitter",
           "__guid": "2ac75256-7580-4783-8ad3-7b8caa31556b",
+          "Burst": 0,
+          "Delay": 0,
+          "DestroyOnEnd": false,
+          "Duration": 10,
+          "Loop": true,
+          "OnEdge": false,
+          "Rate": 178.24,
+          "Size": "175.7,299.7,124.6996"
+        }
+      ]
+    },
+    {
+      "__guid": "cc2617a1-3ea3-4576-af47-ad4faacdaa4b",
+      "Name": "Smoke (1)",
+      "Position": "-38.34272,-249.2696,-100.4587",
+      "Tags": "particles",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "Components": [
+        {
+          "__type": "ParticleEffect",
+          "__guid": "9507533f-803e-477d-bf13-4428fecaf9f4",
+          "Alpha": {
+            "Type": "Curve",
+            "CurveA": [
+              {
+                "in": -4.0000024,
+                "out": 4.0000024
+              },
+              {
+                "x": 0.20812808,
+                "y": 0.475
+              },
+              {
+                "x": 1
+              }
+            ],
+            "Constants": "1,0,0,0"
+          },
+          "ApplyColor": true,
+          "ApplyRotation": true,
+          "ApplyShape": true,
+          "Bounce": {
+            "Constants": "1,0,0,0"
+          },
+          "Brightness": {
+            "Constants": "1,0,0,0"
+          },
+          "Bumpiness": {},
+          "Collision": false,
+          "CollisionRadius": 1,
+          "Damping": {
+            "Constants": "0.1,0,0,0"
+          },
+          "DieOnCollisionChance": {},
+          "Force": true,
+          "ForceDirection": "0,0,108.5998",
+          "ForceScale": {
+            "Constants": "1,0,0,0"
+          },
+          "Friction": {
+            "Constants": "1,0,0,0"
+          },
+          "Gradient": {
+            "Type": "Range",
+            "GradientA": {
+              "color": [
+                {
+                  "t": 0.5,
+                  "c": "1,1,1,1"
+                }
+              ],
+              "alpha": []
+            },
+            "GradientB": {
+              "color": [
+                {
+                  "t": 0.5,
+                  "c": "1,1,1,1"
+                }
+              ],
+              "alpha": []
+            },
+            "ConstantA": "0,0,0,1",
+            "ConstantB": "0,0,0,1"
+          },
+          "Lifetime": {
+            "Type": "Range",
+            "Evaluation": "Particle",
+            "Constants": "5,8,0,0"
+          },
+          "MaxParticles": 5000,
+          "PerParticleTimeScale": {
+            "Constants": "1,0.4,0,0"
+          },
+          "PreWarm": 0,
+          "PushStrength": {},
+          "Roll": {
+            "Type": "Range",
+            "Evaluation": "Particle",
+            "Constants": "0,360,0,0"
+          },
+          "Scale": {
+            "Type": "Range",
+            "Evaluation": "Particle",
+            "CurveA": [
+              {}
+            ],
+            "Constants": "1,2,0,0"
+          },
+          "SequenceId": {},
+          "SequenceSpeed": {
+            "Constants": "0.5,0,0,0"
+          },
+          "SequenceTime": {
+            "Constants": "1,0,0,0"
+          },
+          "SheetSequence": true,
+          "Space": "World",
+          "StartVelocity": {
+            "Type": "Range",
+            "Evaluation": "Particle",
+            "Constants": "-70,70,0,0"
+          },
+          "Stretch": {},
+          "TimeScale": 1,
+          "Tint": "1,1,1,1"
+        },
+        {
+          "__type": "ParticleSpriteRenderer",
+          "__guid": "93651552-a78b-454f-9a3a-c1c5023f8eb7",
+          "Additive": false,
+          "BlurAmount": 0.5,
+          "BlurOpacity": 0.91,
+          "BlurSpacing": 0.73,
+          "DepthFeather": 0,
+          "FaceVelocity": false,
+          "FogStrength": 1,
+          "LeadingTrail": true,
+          "MotionBlur": false,
+          "Opaque": false,
+          "RotationOffset": 0,
+          "Scale": 1,
+          "Shadows": false,
+          "SortMode": "Unsorted",
+          "Texture": "materials/particles/shapes/circle1.vtex"
+        },
+        {
+          "__type": "ParticleBoxEmitter",
+          "__guid": "337536fb-cac7-424f-9ed0-da598c1911cf",
           "Burst": 0,
           "Delay": 0,
           "DestroyOnEnd": false,
@@ -456,8 +606,8 @@
         {
           "__guid": "d0612e12-b3fe-4e90-9684-4164d74dd9c0",
           "Name": "Song Select Page",
-          "Position": "26.25223,7.345755,-12.00878",
-          "Rotation": "0.01194247,0.0223295,-0.4714637,0.8815218",
+          "Position": "31.65883,0.03831151,-14.15643",
+          "Rotation": "0.050069,0.05466101,-0.6735957,0.7353735",
           "Enabled": true,
           "NetworkMode": 2
         }
@@ -466,7 +616,7 @@
     {
       "__guid": "51ca35c4-742d-4ab7-bf94-4e3e32a35fee",
       "Name": "Song List Carousel",
-      "Position": "-35.28885,-119.4626,-20.61403",
+      "Position": "-97.26666,-138.9301,-37.10004",
       "Enabled": true,
       "NetworkMode": 2,
       "Components": [
@@ -481,6 +631,31 @@
           "SongXSpread": 110.00071,
           "SongYSpread": 63.5,
           "TargetAngle": 1.8325958
+        }
+      ],
+      "Children": [
+        {
+          "__guid": "d18e18b4-8c2b-40d4-bfce-3b27590d3b17",
+          "Name": "Info Panel",
+          "Position": "178.0244,5.939362,2.850662",
+          "Rotation": "0,0,0.8660254,0.5000001",
+          "Enabled": true,
+          "NetworkMode": 2,
+          "Components": [
+            {
+              "__type": "WorldPanel",
+              "__guid": "25956695-e149-48b3-976d-ff7a45dea74e",
+              "HorizontalAlign": "Center",
+              "LookAtCamera": false,
+              "PanelSize": "1024,1600",
+              "RenderScale": 1,
+              "VerticalAlign": "Center"
+            },
+            {
+              "__type": "SongListInfoPanel",
+              "__guid": "f87ff152-269d-418c-96e2-9a1e4f4290f8"
+            }
+          ]
         }
       ]
     }
@@ -508,7 +683,7 @@
   },
   "Title": "minimal",
   "Description": "",
-  "LastSaved": "2024-03-24T19:28:16.1348689-04:00",
+  "LastSaved": "2024-03-24T23:29:52.8482291-04:00",
   "ResourceVersion": 1,
   "__version": 1,
   "__references": [

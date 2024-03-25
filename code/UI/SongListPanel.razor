@@ -13,7 +13,7 @@
 		<div class="title">@(Set.Name)</div>
 		<div class="subtitle">
 			<label class="artist">@(Set.Artist)</label>
-			<label class="charter">@(Set.BPM)BPM</label>
+			<label class="score">0000000</label>
 		</div>
 	</div>
 </root>
@@ -59,7 +59,28 @@
 
 	public void Click()
 	{
-
+		int index = SongListCarousel.Instance.SelectedIndex;
+		int count = BeatmapSet.All.Count();
+		while(index < 0)
+		{
+			index += count;
+		}
+		index = index % count;
+		if(index != Index)
+		{
+			Log.Info($"Selected {index} (from {Index}) with diff {index - Index}");
+			var diff = index - Index;
+			if(Math.Abs(diff) > count / 2)
+			{
+				diff = diff > 0 ? diff - count : diff + count;
+			}
+			SongListCarousel.Instance.SelectedIndex -= diff;
+			Sound.Play( "ui_select" );
+		}
+		else
+		{
+			Sound.Play( "ui_back" );
+		}
 	}
 
 	public void Grab()

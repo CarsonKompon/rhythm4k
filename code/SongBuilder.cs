@@ -13,17 +13,7 @@ public static class SongBuilder
     // Osu Folder Loading
     public static async Task LoadFromOsuFolder( string fullId, string thumb = "" )
     {
-        string path = "beatmaps/" + fullId + "/";
-        foreach ( var file in FileSystem.Data.FindFile( "beatmaps/" + fullId, "*.osu" ) )
-        {
-            if ( file.Trim().EndsWith( "-0.osu" ) )
-            {
-                path += file;
-                break;
-            }
-        }
-
-        var beatmapSet = LoadFromOSU( path, false );
+        var beatmapSet = LoadFromOSU( fullId, false );
         beatmapSet.ChartPath = fullId;
         beatmapSet.OsuId = fullId;
 
@@ -34,7 +24,7 @@ public static class SongBuilder
         // Calculate baked values
         for ( int i = 0; i < beatmapSet.Beatmaps.Count; i++ )
         {
-            beatmapSet.Beatmaps[i].BakeValues();
+            beatmapSet.Beatmaps[i]?.BakeValues();
         }
 
         string coverPath = "beatmaps/" + fullId + "/cover-image.txt";
@@ -186,31 +176,28 @@ public static class SongBuilder
         return beatmapSet;
     }
 
-    public static BeatmapSet LoadFromOSU( string rootFile, bool mounted = true )
+    public static BeatmapSet LoadFromOSU( string fullId, bool mounted = true )
     {
-        if ( !rootFile.EndsWith( ".osu" ) ) return new BeatmapSet();
-
         var fs = mounted ? FileSystem.Mounted : FileSystem.Data;
         BeatmapSet song = new BeatmapSet();
         song.Beatmaps = new List<Beatmap>();
         string charterName = "";
 
         List<string> files = new();
-        files.Add( rootFile );
-        if ( rootFile.EndsWith( "-0.osu" ) )
+        var path = "beatmaps/" + fullId + "/";
+        foreach ( var file in FileSystem.Data.FindFile( path, "*.osu" ) )
         {
-            int i = 1;
-            while ( fs.FileExists( rootFile.Replace( "-0.osu", "-" + i + ".osu" ) ) )
-            {
-                files.Add( rootFile.Replace( "-0.osu", "-" + i + ".osu" ) );
-                i++;
-            }
+            Log.Info( file );
+            files.Add( file );
         }
 
         foreach ( var file in files )
         {
-            string text = fs.ReadAllText( file );
+            string text = fs.ReadAllText( path + file );
+            if ( string.IsNullOrEmpty( text ) ) continue;
             string[] sections = text.Split( '[' );
+            bool isFirst = file.EndsWith( "-0.osu" );
+            bool validMap = true;
 
             Beatmap beatmap = new Beatmap();
             beatmap.Notes = new List<Note>();
@@ -242,7 +229,8 @@ public static class SongBuilder
                                 if ( value != "3" )
                                 {
                                     Log.Warning( "Osu chart " + file + " is not an osu!mania chart, skipping" );
-                                    return new BeatmapSet();
+                                    validMap = false;
+                                    //return new BeatmapSet();
                                 }
                                 break;
                         }
@@ -259,16 +247,16 @@ public static class SongBuilder
                         switch ( key )
                         {
                             case "Title":
-                                if ( file == rootFile ) song.Name = value;
+                                if ( isFirst ) song.Name = value;
                                 break;
                             case "TitleUnicode":
-                                if ( file == rootFile ) song.Name = value;
+                                if ( isFirst ) song.Name = value;
                                 break;
                             case "Artist":
-                                if ( file == rootFile ) song.Artist = value;
+                                if ( isFirst ) song.Artist = value;
                                 break;
                             case "ArtistUnicode":
-                                if ( file == rootFile ) song.Artist = value;
+                                if ( isFirst ) song.Artist = value;
                                 break;
                             case "Creator":
                                 beatmap.Charter = value;
@@ -358,7 +346,8 @@ public static class SongBuilder
 
             }
 
-            song.Beatmaps.Add( beatmap );
+            if ( validMap )
+                song.Beatmaps.Add( beatmap );
         }
 
         return song;

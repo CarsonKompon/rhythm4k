@@ -179,8 +179,7 @@
             }
             FileSystem.Data.WriteAllText(dir + "/cover-image.txt", coverUrl);
 
-            // TODO: Try loading the song to make sure it was valid so we can throw an exception if it wasn't
-            //await SongBuilder.LoadFromOsuFolder(beatmapSet.GetFullSongId(), coverUrl);
+            await SongBuilder.LoadFromOsuFolder(beatmapSet.GetFullSongId(), coverUrl);
         }
         catch (Exception e)
         {

@@ -11,12 +11,13 @@ SongSelectPage
     .menu
     {
         position: absolute;
-        bottom: 98px;
+        bottom: 88px;
         left: 64px;
         flex-grow: 1;
         flex-direction: column;
         justify-content: center;
         gap: 32px;
+        pointer-events: all;
 
         font-size: 42px;
         font-weight: 800;

@@ -1,6 +1,7 @@
 using System;
 using System.Reflection.Metadata.Ecma335;
 using Sandbox;
+using Sandbox.UI;
 
 namespace Rhythm4K;
 
@@ -19,10 +20,12 @@ public sealed class SongListCarousel : Component
 	public int SelectedIndex
 	{
 		get => _selectedIndex;
-		private set
+		set
 		{
 			_selectedIndex = value;
 			var panelIndex = value;
+			int totalAm = BeatmapSet.All.Count();
+			if ( totalAm <= 0 ) return;
 			while ( panelIndex < 0 )
 			{
 				panelIndex += SongPanelCount;
@@ -32,7 +35,6 @@ public sealed class SongListCarousel : Component
 				int offset = i - panelIndex;
 				var panel = SongPanels[(i + SongPanelCount * 2) % SongPanelCount];
 				var panelScript = panel.Components.Get<SongListPanel>();
-				int totalAm = BeatmapSet.All.Count();
 				int ind = _selectedIndex;
 				while ( ind < 0 )
 				{
@@ -50,6 +52,7 @@ public sealed class SongListCarousel : Component
 	int Moving { get; set; } = 0;
 	TimeSince TimeSinceHeld { get; set; } = 0f;
 	TimeSince TimeSinceMoved { get; set; } = 0f;
+	WorldInput worldInput;
 
 	protected override void OnAwake()
 	{
@@ -70,6 +73,9 @@ public sealed class SongListCarousel : Component
 			SongPanels.Add( panel );
 		}
 		SelectedIndex = 0;
+
+		worldInput = new WorldInput();
+		worldInput.Enabled = true;
 	}
 
 	protected override void OnUpdate()
@@ -77,10 +83,16 @@ public sealed class SongListCarousel : Component
 		TargetAngle = SelectedIndex * MathF.PI * 2f / (float)SongPanelCount;
 		CurrentAngle = MathX.LerpDegrees( CurrentAngle, TargetAngle + AngleOffset, Time.Delta * 10f );
 
-		Log.Info( SelectedIndex );
+		if ( worldInput is not null )
+		{
+			var camRay = Scene.Camera.ScreenPixelToRay( Mouse.Position );
+			worldInput.Ray = new Ray( camRay.Position, camRay.Forward );
+			worldInput.MouseLeftPressed = Input.Down( "click" );
+			worldInput.MouseWheel = -Input.MouseWheel;
+		}
 
 		var mouseWheel = Input.MouseWheel.y;
-		if ( mouseWheel != 0 )
+		if ( mouseWheel != 0 && worldInput.Hovered is null )
 		{
 			Sound.Play( "ui_hover" );
 			SelectedIndex -= Math.Sign( mouseWheel );
