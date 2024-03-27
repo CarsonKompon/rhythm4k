@@ -8,13 +8,15 @@
 	@if(true)
 	{
 		var set = BeatmapSet.All[Index];
+		var list = set.Beatmaps.OrderBy(x => x.Difficulty).ToList();
 		<img src=@set.CoverArt />
 		<h1>@set.Name</h1>
 		<h3 class="artist">@set.Artist</h3>
 		<div class="chart-list">
-			@foreach(var chart in set.Beatmaps.OrderBy(x => x.Difficulty))
+			@foreach(var chart in list)
 			{
-				<div class="chart">
+				var index = list.IndexOf(chart);
+				<div class="chart @(index == SelectedIndex ? "selected" : "")" onclick=@(() => Select(index))>
 					<div class="info">
 						<h3>@(!string.IsNullOrEmpty(chart.DifficultyName) ? chart.DifficultyName : (!string.IsNullOrEmpty(chart.Name) ? chart.Name : "Unknown"))</h3>
 						<h4>by @(!string.IsNullOrEmpty(chart.Charter) ? chart.Charter : "Unknown")</h4>
@@ -24,7 +26,7 @@
 			}
 		</div>
 		<div class="buttons">
-			<MainMenuButton Text="Play" onclick=@BackButton class="disabled"/>
+			<MainMenuButton Text="Play" onclick=@PlayButton class=@(SelectedIndex == -1 ? "disabled" : "")/>
 			<MainMenuButton Text="Back" onclick=@BackButton class="back"/>
 		</div>
 	}
@@ -46,11 +48,27 @@
 			return index % count;
 		}
 	}
+	public static int SelectedIndex = -1;
+
+	void PlayButton()
+	{
+		if(SelectedIndex == -1)
+			return;
+
+		var set = BeatmapSet.All[Index];
+		var list = set.Beatmaps.OrderBy(x => x.Difficulty).ToList();
+		MainMenuScreen.Instance.FadeToPlay(list.ElementAt(SelectedIndex));
+	}
 
 	void BackButton()
 	{
-		MainMenu.Instance.Navigate("/play");
+		MainMenuScreen.Instance?.Navigate("/play");
 	}
 
-	protected override int BuildHash() => System.HashCode.Combine( Index );
+	void Select(int index)
+	{
+		SelectedIndex = index;
+	}
+
+	protected override int BuildHash() => System.HashCode.Combine( Index, SelectedIndex );
 }

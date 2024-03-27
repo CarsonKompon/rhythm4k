@@ -22,7 +22,6 @@ public class BeatmapSet
 
     public static async void LoadAll()
     {
-        All = new();
         if ( FileSystem.Data.DirectoryExists( "beatmaps" ) )
         {
             foreach ( var directory in FileSystem.Data.FindDirectory( "beatmaps" ) )

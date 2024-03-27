@@ -135,7 +135,8 @@
         },
         {
           "__type": "MainMenuScreen",
-          "__guid": "f14cb509-9fcf-4389-9a00-7809a1c9e799"
+          "__guid": "f14cb509-9fcf-4389-9a00-7809a1c9e799",
+          "SingleplayerScene": "scenes/minimal.scene"
         }
       ]
     },
@@ -231,7 +232,7 @@
                   "CurrentPanelScale": 0,
                   "CurrentPanelScaleFromScreen": 0,
                   "CurrentPanelScaleToScreen": 0,
-                  "CurrentScreenSize": "1061,597",
+                  "CurrentScreenSize": "878,494",
                   "CustomPanelBounds": {
                     "Size": "1024,256"
                   },
@@ -683,7 +684,7 @@
   },
   "Title": "minimal",
   "Description": "",
-  "LastSaved": "2024-03-24T23:29:52.8482291-04:00",
+  "LastSaved": "2024-03-25T21:42:32.6696144-04:00",
   "ResourceVersion": 1,
   "__version": 1,
   "__references": [

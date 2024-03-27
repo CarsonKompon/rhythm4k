@@ -4,12 +4,15 @@ namespace Rhythm4K;
 
 public class Beatmap
 {
+    public static Beatmap Loaded { get; set; }
+
     public string Name { get; set; }
     public string Charter { get; set; }
     public float Difficulty { get; set; }
     public string DifficultyName { get; set; }
     public List<BpmChange> BpmChanges { get; set; }
     public List<Note> Notes { get; set; }
+    public int Lanes { get; set; }
     public int TotalNotes { get; set; }
     public int TotalChain { get; set; }
 

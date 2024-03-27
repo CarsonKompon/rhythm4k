@@ -11,7 +11,16 @@ MainMenu
     // animation-duration: 500s;
     // animation-iteration-count: infinite;
     // animation-timing-function: linear;
-    
+
+    .navigator-canvas
+    {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
 }
 
 .hidden

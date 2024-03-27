@@ -1,0 +1,131 @@
+@using System;
+@using Sandbox;
+@using Sandbox.UI;
+@using System.IO;
+@using System.IO.Compression;
+@using Rhythm4K.Osu;
+@inherits Panel
+@attribute [StyleSheet]
+
+@namespace Rhythm4K
+
+<root class="@(Downloading ? "" : "hide")">
+    <div class="background" />
+    <span @ref="CoverImage" class="image">
+		<span class="overlay downloading">Downloading <i>cached</i></span>
+	</span>
+</root>
+
+@code
+{
+    public static SongDownloadPanel Instance { get; set; }
+
+    public bool Downloading { get; private set; } = false;
+
+    Panel CoverImage { get; set; }
+    string CoverUrl { get; set; }
+
+    record DownloadEntry(OsuBeatmapSet beatmap, string coverUrl);
+    List<DownloadEntry> DownloadQueue = new List<DownloadEntry>();
+
+    protected override void OnAfterTreeRender(bool firstTime)
+    {
+        base.OnAfterTreeRender(firstTime);
+        Instance = this;
+    }
+
+    public override void Tick()
+    {
+        base.Tick();
+
+        if (DownloadQueue.Count > 0 && !Downloading)
+        {
+            var entry = DownloadQueue[0];
+            DownloadQueue.RemoveAt(0);
+            DownloadBeatmap(entry.beatmap, entry.coverUrl);
+        }
+    }
+
+
+    public void QueueDownload(OsuBeatmapSet beatmap, string coverUrl)
+    {
+        DownloadQueue.Add(new DownloadEntry(beatmap, coverUrl));
+    }
+
+    public async void DownloadBeatmap(OsuBeatmapSet beatmapSet, string coverUrl = "")
+	{
+		if(beatmapSet.IsDownloaded())
+		{
+			return;
+		}
+
+		if (Downloading)
+		{
+			Log.Info("You can only download one map at a time");
+			return;
+		}
+        
+        if(beatmapSet.Covers.TryGetValue("cover", out var coverImage))
+        {
+            CoverUrl = coverImage.ToString();
+            CoverImage.Style.SetBackgroundImage(CoverUrl);
+        }
+		Log.Info("Downloading beatmap \"" + beatmapSet.Title + "\"...");
+		Downloading = true;
+
+		// Get the bytes of the file
+		string url = "https://beatconnect.io/b/" + beatmapSet.Id.ToString() + "/";
+		if (beatmapSet.UniqueId is not null) url += beatmapSet.UniqueId.ToString();
+		else url += "null";
+		@* url += "?novideo=1"; *@
+		Log.Info("downloading from url:");
+		Log.Info(url);
+
+        byte[] fileData = await Http.RequestBytesAsync(url);
+        try
+        {
+            ZipArchive archive = new ZipArchive(new MemoryStream(fileData));
+
+            // Save the contents of the archive
+            string dir = $"beatmaps/{beatmapSet.GetFullSongId()}";
+            FileSystem.Data.CreateDirectory(dir);
+            int idd = 0;
+            foreach (var entry in archive.Entries)
+            {
+                string path = dir + "/" + entry.FullName;
+                if (path.Trim().EndsWith(".osu"))
+                {
+                    path = path.Insert(path.Length - 4, "-" + idd.ToString());
+                    idd++;
+                }
+                Log.Info("Saving file " + path);
+                Stream zipStream = entry.Open();
+                Stream fileStream = FileSystem.Data.OpenWrite(path);
+                await zipStream.CopyToAsync(fileStream);
+                fileStream.Close();
+                zipStream.Close();
+            }
+            FileSystem.Data.WriteAllText(dir + "/cover-image.txt", coverUrl);
+
+            await SongBuilder.LoadFromOsuFolder(beatmapSet.GetFullSongId(), coverUrl);
+        }
+        catch (Exception e)
+        {
+            Log.Error(e.Message);
+            Log.Error(e.StackTrace);
+        }
+        finally
+        {
+            if(Descendants.Where(x => x is OsuButton btn && btn.BeatmapSet == beatmapSet).FirstOrDefault() is OsuButton button)
+            {
+                button.Downloading = false;
+            }
+            Downloading = false;
+        }
+    }
+
+    protected override int BuildHash()
+    {
+        return HashCode.Combine(Downloading, CoverUrl);
+    }
+}

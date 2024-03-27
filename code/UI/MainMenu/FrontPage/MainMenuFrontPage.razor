@@ -13,21 +13,17 @@
     </div>
 
     <div class="menu">
-        <MainMenuButton Text="Play" Subtitle="Play the Game" onclick=@PlayButton/>
-        <MainMenuButton Text="Options" Subtitle="Customize the Game" onclick=@OptionsButton />
+        <a href="/play">
+            <MainMenuButton Text="Play" Subtitle="Play the Game" />
+        </a>
+        <a href="/options">
+            <MainMenuButton Text="Options" Subtitle="Customize the Game" href="/options" />
+        </a>
         <MainMenuButton Text="Quit" onclick=@Game.Close/>
     </div>
 </root>
 
 @code
 {
-    void PlayButton()
-    {
-        MainMenu.Instance.Navigate("/play");
-    }
 
-    void OptionsButton()
-    {
-        MainMenu.Instance.Navigate("/options");
-    }
 }

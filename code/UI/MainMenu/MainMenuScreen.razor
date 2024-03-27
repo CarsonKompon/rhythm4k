@@ -1,0 +1,57 @@
+@using Sandbox;
+@using Sandbox.UI;
+@namespace Rhythm4K
+@inherits PanelComponent
+
+<root>
+    <div class="fade-overlay" style="opacity: @fade" />
+	<MainMenu @ref="MainMenu" />
+	<SongDownloadPanel />
+</root>
+
+@code
+{
+	public static MainMenuScreen Instance { get; private set; }
+
+	[Property] public SceneFile SingleplayerScene { get; set; }
+	MainMenu MainMenu { get; set;}
+
+	public string CurrentUrl => MainMenu?.CurrentUrl ?? "";
+	float fade = 0f;
+	protected override void OnStart()
+	{
+		base.OnStart();
+
+		if(BeatmapSet.All.Count == 0)
+		{
+			BeatmapSet.LoadAll();
+		}
+
+		Instance = this;
+	}
+
+	public async void FadeToPlay(Beatmap beatmap)
+	{
+        MainMenuCameraManager.Instance.FadingOut = true;
+        fade = 0f;
+
+        while (fade < 1f)
+        {
+            fade += Time.Delta / 2f;
+            await Task.Frame();
+        }
+
+        Beatmap.Loaded = beatmap;
+        Scene.Load(SingleplayerScene);
+	}
+
+	public void Navigate(string destination)
+	{
+		MainMenu?.Navigate(destination);
+	}
+
+	protected override int BuildHash()
+    {
+        return System.HashCode.Combine(fade);
+    }
+}

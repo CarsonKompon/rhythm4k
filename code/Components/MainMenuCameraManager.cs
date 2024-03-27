@@ -17,6 +17,7 @@ public sealed class MainMenuCameraManager : Component
 	Transform TargetTransform;
 
 	string currentUrl = "";
+	public bool FadingOut = false;
 
 	protected override void OnAwake()
 	{
@@ -26,11 +27,17 @@ public sealed class MainMenuCameraManager : Component
 
 	protected override void OnUpdate()
 	{
+		if ( FadingOut )
+		{
+			Transform.Position -= Transform.Rotation.Forward * Time.Delta * 50f;
+			return;
+		}
+
 		float delta = 1f - MathF.Pow( 0.5f, Time.Delta * 10f );
 		Transform.Rotation = Rotation.Slerp( Transform.Rotation, TargetTransform.Rotation, delta );
 		Transform.Position = Vector3.Lerp( Transform.Position, TargetTransform.Position, delta );
 
-		string url = MainMenu.Instance?.CurrentUrl ?? "";
+		string url = MainMenuScreen.Instance?.CurrentUrl ?? "";
 		if ( currentUrl != url )
 		{
 			currentUrl = url;
@@ -55,6 +62,7 @@ public sealed class MainMenuCameraManager : Component
 			case "/song-select":
 				SongSelectCarousel.Enabled = true;
 				FocusCamera( SongSelectPageCamera.Transform.World );
+				SongListCarousel.Instance?.Refresh();
 				break;
 		}
 	}

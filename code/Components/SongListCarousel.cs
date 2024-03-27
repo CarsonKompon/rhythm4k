@@ -16,6 +16,7 @@ public sealed class SongListCarousel : Component
 	[Property] float TargetAngle { get; set; } = 0f;
 	public float AngleOffset { get; set; } = 0f;
 	public float LastOffset { get; set; } = 0f;
+	bool firstLoad = true;
 
 	public int SelectedIndex
 	{
@@ -41,8 +42,8 @@ public sealed class SongListCarousel : Component
 					ind += totalAm;
 				}
 				panelScript.Index = (ind + totalAm + offset) % totalAm;
-
 			}
+			SongListInfoPanel.SelectedIndex = -1;
 		}
 	}
 	private int _selectedIndex = 0;
@@ -53,15 +54,13 @@ public sealed class SongListCarousel : Component
 	TimeSince TimeSinceHeld { get; set; } = 0f;
 	TimeSince TimeSinceMoved { get; set; } = 0f;
 	WorldInput worldInput;
+	public TimeSince Timer { get; set; } = 0f;
 
 	protected override void OnAwake()
 	{
 		Instance = this;
 		TimeSinceMoved = 0f;
-	}
 
-	protected override void OnStart()
-	{
 		float angle = 0f;
 		for ( int i = 0; i < SongPanelCount; i++ )
 		{
@@ -71,11 +70,21 @@ public sealed class SongListCarousel : Component
 			panel.Transform.Rotation = Rotation.From( 0f, 90f, 0f );
 			angle -= MathF.PI * 2f / (float)SongPanelCount;
 			SongPanels.Add( panel );
+			var panelScript = panel.Components.Get<SongListPanel>();
 		}
+	}
+
+	protected override void OnStart()
+	{
 		SelectedIndex = 0;
 
 		worldInput = new WorldInput();
 		worldInput.Enabled = true;
+	}
+
+	protected override void OnDestroy()
+	{
+		worldInput.Enabled = false;
 	}
 
 	protected override void OnUpdate()
@@ -147,5 +156,15 @@ public sealed class SongListCarousel : Component
 		var indexIncrement = (int)MathF.Round( AngleOffset / (MathF.PI * 2f / (float)SongPanelCount) );
 		SelectedIndex += indexIncrement;
 		AngleOffset = 0f;
+	}
+
+	public void Refresh()
+	{
+		if ( firstLoad )
+		{
+			SelectedIndex = 0;
+			firstLoad = false;
+		}
+		Timer = 0f;
 	}
 }

@@ -280,6 +280,9 @@ public static class SongBuilder
                             case "OverallDifficulty":
                                 beatmap.Difficulty = float.Parse( value );
                                 break;
+                            case "CircleSize":
+                                beatmap.Lanes = int.Parse( value );
+                                break;
                         }
                     }
                 }

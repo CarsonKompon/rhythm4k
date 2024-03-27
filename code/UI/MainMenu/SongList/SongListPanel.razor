@@ -89,5 +89,5 @@
 		Grabbing = true;
 	}
 
-	protected override int BuildHash() => System.HashCode.Combine( Index, SongListCarousel.Instance.SelectedIndex );
+	protected override int BuildHash() => System.HashCode.Combine( Index, SongListCarousel.Instance?.SelectedIndex );
 }
