@@ -25,7 +25,8 @@ public sealed class SongListCarousel : Component
 		{
 			_selectedIndex = value;
 			var panelIndex = value;
-			int totalAm = BeatmapSet.All.Count();
+			var all = BeatmapSet.All;
+			int totalAm = all.Count();
 			if ( totalAm <= 0 ) return;
 			while ( panelIndex < 0 )
 			{

@@ -49,6 +49,20 @@
 		}
 	}
 	public static int SelectedIndex = -1;
+	public int lastIndex = 0;
+
+	protected override void OnUpdate()
+	{
+		if(lastIndex != Index)
+		{
+			var set = BeatmapSet.All[Index];
+			if ( set is not null )
+			{
+				MainMenuScreen.Instance.PlaySong( set );
+			}
+			lastIndex = Index;
+		}
+	}
 
 	void PlayButton()
 	{

@@ -6,6 +6,35 @@ MainMenuScreen
 	right: 0;
 	bottom: 0;
 
+    .now-playing
+    {
+        position: absolute;
+        bottom: 16px;
+        left: 16px;
+        font-family: Orbitron;
+        align-items: center;
+        gap: 8px;
+        font-size: 42px;
+        
+        .info
+        {
+            flex-direction: column;
+            gap: -8px;
+            
+            .title
+            {
+                font-size: 20px;
+                font-weight: 700;
+                margin-bottom: 8px;
+            }
+            
+            .artist
+            {
+                font-size: 16px;
+            }
+        }
+    }
+
 	.fade-overlay
     {
         position: absolute;

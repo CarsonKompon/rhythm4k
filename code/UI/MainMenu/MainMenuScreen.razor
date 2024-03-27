@@ -1,12 +1,25 @@
+@using System;
+@using System.Collections.Generic;
 @using Sandbox;
 @using Sandbox.UI;
 @namespace Rhythm4K
+@implements IMusicPlayer
 @inherits PanelComponent
 
 <root>
     <div class="fade-overlay" style="opacity: @fade" />
 	<MainMenu @ref="MainMenu" />
 	<SongDownloadPanel />
+	@if((MainMenu?.CurrentUrl ?? "") == "/")
+	{
+		<div class="now-playing">
+			<i>music_note</i>
+			<div class="info">
+				<label class="title">@(CurrentSong is null ? ("Rhythm4K Menu") : CurrentSong.Name</label>
+				<label class="artist">@(CurrentSong is null ? ("Carson Kompon") : CurrentSong.Artist</label>
+			</div>
+		</div>
+	}
 </root>
 
 @code
@@ -18,16 +31,133 @@
 
 	public string CurrentUrl => MainMenu?.CurrentUrl ?? "";
 	float fade = 0f;
+
+	BeatmapSet CurrentSong;
+	public MusicPlayer Music { get; set; }
+	TimeSince TimeSinceLastSong = 0;
+
+	public ReadOnlySpan<float> Spectrum => (Music is null) ? null : Music.Spectrum;
+	[Property] public Action OnBeat { get; set; }
+	[Property] public float PeakThreshold { get; set; } = 1.08f;
+    public float AdjustedPeakThreshold { get; private set; } = 0f;
+
+	public bool IsPeaking { get; set; } = false;
+	public float Energy { get; set; } = 0f;
+    public float EnergyHistoryAverage { get; set; } = 0f;
+    public float PeakKickVolume { get; set; } = 0f;
+    List<float> EnergyHistory = new();
+
 	protected override void OnStart()
 	{
 		base.OnStart();
+
+		Instance = this;
 
 		if(BeatmapSet.All.Count == 0)
 		{
 			BeatmapSet.LoadAll();
 		}
+		Beatmap.Loaded = null;
 
-		Instance = this;
+		PlayRandomSong();
+	}
+
+	protected override void OnDestroy()
+	{
+		Music?.Stop();
+		Music?.Dispose();
+	}
+	protected override void OnUpdate()
+	{
+		base.OnUpdate();
+
+		if(Music is null) return;
+		Music.Position = Scene.Camera.Transform.Position;
+		Music.Volume = Music.Volume.LerpTo(1f, Time.Delta * 2f);
+
+		var spectrum = Music.Spectrum;
+
+        // Energy Calculations
+        var energy = 0f;
+        float length = spectrum.Length;
+        for ( int i = 0; i < length; i++ )
+        {
+            energy += spectrum[i];
+        }
+        energy /= length;
+        Energy = Energy.LerpTo( energy, Time.Delta * 30f );
+
+        EnergyHistory.Add( energy );
+        if ( EnergyHistory.Count > 64 ) EnergyHistory.RemoveAt( 0 );
+
+        // Energy History Average
+        EnergyHistoryAverage = 0f;
+        for ( int i = 0; i < EnergyHistory.Count; i++ )
+        {
+            EnergyHistoryAverage += EnergyHistory[i];
+        }
+        EnergyHistoryAverage /= EnergyHistory.Count;
+
+        // Beat Detection
+        float energySum = 0f;
+        foreach ( var energyValue in EnergyHistory )
+        {
+            energySum += energyValue;
+        }
+        float energyMean = energySum / EnergyHistory.Count;
+
+        float variance = 0f;
+        foreach ( var energyValue in EnergyHistory )
+        {
+            variance += (energyValue - energyMean) * (energyValue - energyMean);
+        }
+        float energyStdDev = (float)Math.Sqrt( variance / EnergyHistory.Count );
+
+        // Adjusted Peak Threshold Calculation
+        AdjustedPeakThreshold = PeakThreshold * energyStdDev;
+
+        if ( EnergyHistoryAverage > 0.05f && Energy > EnergyHistoryAverage + AdjustedPeakThreshold )
+        {
+            if ( !IsPeaking )
+            {
+                OnBeat?.Invoke();
+            }
+            IsPeaking = true;
+        }
+        else
+        {
+            IsPeaking = false;
+        }
+	}
+
+	void PlayRandomSong()
+	{
+		Music?.Dispose();
+		CurrentSong = BeatmapSet.All.OrderBy(x => System.Guid.NewGuid() ).FirstOrDefault();
+		if(CurrentSong is null || System.Random.Shared.Float() < 0.1)
+		{
+			Music = MusicPlayer.Play(FileSystem.Mounted, "sounds/music/menu-music.mp3");
+			CurrentSong = null;
+		}
+		else
+		{
+			Music = MusicPlayer.Play(FileSystem.Data, CurrentSong.GetFullPath() + CurrentSong.AudioFilename);
+		}
+		Music.OnFinished += PlayRandomSong;
+		TimeSinceLastSong = 0;
+	}
+
+	public void PlaySong(BeatmapSet beatmapSet)
+	{
+		Music?.Stop();
+		Music?.Dispose();
+		Music = MusicPlayer.Play(FileSystem.Data, beatmapSet.GetFullPath() + beatmapSet.AudioFilename);
+		Log.Info(beatmapSet.SampleStart);
+		Music.Seek(beatmapSet.SampleStart / 1000f);
+		Music.OnFinished += PlayRandomSong;
+		Music.Volume = 0f;
+		TimeSinceLastSong = 0;
+		CurrentSong = beatmapSet;
 	}
 
 	public async void FadeToPlay(Beatmap beatmap)

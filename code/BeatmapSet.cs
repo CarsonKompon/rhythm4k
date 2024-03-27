@@ -18,6 +18,11 @@ public class BeatmapSet
 
     public string AudioFilename;
 
+    public string GetFullPath()
+    {
+        return $"beatmaps/{ChartPath}/";
+    }
+
     public static List<BeatmapSet> All { get; set; } = new();
 
     public static async void LoadAll()
