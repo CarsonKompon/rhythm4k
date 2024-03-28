@@ -1,4 +1,5 @@
 using Sandbox;
+using System.Threading.Tasks;
 
 namespace Rhythm4K;
 
@@ -24,12 +25,15 @@ public class BeatmapSet
     }
 
     public static List<BeatmapSet> All { get; set; } = new();
+    public static int BeatmapsToLoad { get; private set; } = 0;
 
-    public static async void LoadAll()
+    public static async Task LoadAll()
     {
         if ( FileSystem.Data.DirectoryExists( "beatmaps" ) )
         {
-            foreach ( var directory in FileSystem.Data.FindDirectory( "beatmaps" ) )
+            var folders = FileSystem.Data.FindDirectory( "beatmaps" );
+            BeatmapsToLoad = folders.Count();
+            foreach ( var directory in folders )
             {
                 await SongBuilder.LoadFromOsuFolder( directory );
             }

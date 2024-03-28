@@ -249,7 +249,7 @@
                   "CurrentPanelScale": 0,
                   "CurrentPanelScaleFromScreen": 0,
                   "CurrentPanelScaleToScreen": 0,
-                  "CurrentScreenSize": "1034,582",
+                  "CurrentScreenSize": "878,494",
                   "CustomPanelBounds": {
                     "Size": "1024,256"
                   },
@@ -761,7 +761,7 @@
   },
   "Title": "minimal",
   "Description": "",
-  "LastSaved": "2024-03-27T18:12:17.3017275-04:00",
+  "LastSaved": "2024-03-28T12:16:40.5136307-04:00",
   "ResourceVersion": 1,
   "__version": 1,
   "__references": [

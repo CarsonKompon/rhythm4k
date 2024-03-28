@@ -1,0 +1,37 @@
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+
+@namespace Rhythm4K
+
+<root>
+	<div class="loading">
+		<h1>Pre-loading songs...</h1>
+		<div class="progress-bar">
+			<div class="fill" style="width: @(BeatmapSet.All.Count / (float)BeatmapSet.BeatmapsToLoad * 100f)%"></div>
+		</div>
+		<p>@($"{BeatmapSet.All.Count} / {BeatmapSet.BeatmapsToLoad}")</p>
+	</div>
+</root>
+
+@code
+{
+
+	[Property] SceneFile MenuScene { get; set; }
+
+	protected override void OnStart()
+	{
+		Load();
+	}
+
+	async void Load()
+	{
+		BeatmapSet.All.Clear();
+		Beatmap.Loaded = null;
+		await BeatmapSet.LoadAll();
+		
+		Scene.Load(MenuScene);
+	}
+
+	protected override int BuildHash() => System.HashCode.Combine( BeatmapSet.All.Count );
+}

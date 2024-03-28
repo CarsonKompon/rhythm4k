@@ -84,7 +84,8 @@ public sealed class SongListCarousel : Component
 
 	protected override void OnDestroy()
 	{
-		worldInput.Enabled = false;
+		if ( worldInput is not null )
+			worldInput.Enabled = false;
 	}
 
 	protected override void OnUpdate()

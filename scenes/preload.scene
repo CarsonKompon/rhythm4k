@@ -1,19 +1,17 @@
 {
-  "__guid": "fdf1e098-1aa7-4805-83e4-026ba3b86e24",
+  "__guid": "abf78f4b-a451-4984-93c0-06e51206cb91",
   "GameObjects": [
     {
-      "__guid": "3850a8ee-6a99-4bee-a92d-4f11b3c8b25b",
+      "__guid": "1e15abe7-8b73-4b6c-9c5e-5241147a16e8",
       "Name": "Camera",
-      "Position": "-1170.619,-0,675.8569",
-      "Rotation": "0,0.258819,0,0.9659258",
       "Tags": "maincamera",
       "Enabled": true,
       "NetworkMode": 2,
       "Components": [
         {
           "__type": "CameraComponent",
-          "__guid": "25fff3cf-6727-44b0-813a-70d41c56f475",
-          "BackgroundColor": "1,1,1,1",
+          "__guid": "f20a58ea-bbce-4afc-b76b-ddaaddae11a2",
+          "BackgroundColor": "0.10233,0.10233,0.10233,1",
           "ClearFlags": "All",
           "FieldOfView": 60,
           "IsMainCamera": true,
@@ -30,71 +28,43 @@
       ]
     },
     {
-      "__guid": "820cb0ed-11fb-44ca-a075-b54ee6897018",
+      "__guid": "ab513843-f04c-4977-93a7-1682ec6d7144",
       "Name": "Sun",
-      "Position": "-1500.599,235.6494,629.5671",
-      "Rotation": "0,0.3826834,0,0.9238796",
+      "Position": "149.995,149.995,-212.125",
       "Tags": "light_directional,light",
       "Enabled": true,
       "NetworkMode": 2,
       "Components": [
         {
           "__type": "DirectionalLight",
-          "__guid": "f5485561-1ff7-4db7-87fe-336a4b20dd13",
+          "__guid": "020e2881-afd9-4e44-8799-a9ca9855a223",
           "FogMode": "Enabled",
           "FogStrength": 1,
           "LightColor": "0.91373,0.98039,1,1",
-          "Shadows": false,
+          "Shadows": true,
           "SkyColor": "0.05882,0.07451,0.08235,1"
         }
       ]
     },
     {
-      "__guid": "6528f295-82e4-4c4a-b2c5-3714cb045473",
-      "Name": "Game Manager",
-      "Enabled": true,
-      "NetworkMode": 2,
-      "Components": [
-        {
-          "__type": "GameManager",
-          "__guid": "1c3e0991-2ea4-443e-a0e0-151d16a0145e",
-          "LanePrefab": {
-            "_type": "gameobject",
-            "prefab": "prefabs/game/lane_3d.prefab"
-          },
-          "LaneSpacing": 92,
-          "MenuScene": "scenes/main-menu.scene",
-          "NotePrefab": {
-            "_type": "gameobject",
-            "prefab": "prefabs/game/note_3d.prefab"
-          }
-        }
-      ]
-    },
-    {
-      "__guid": "111e7647-a45f-4a84-b841-d777deff5d2e",
-      "Name": "Screen UI",
-      "Position": "-441.111,20.81034,33.97163",
+      "__guid": "14cbdaed-812f-44e5-a705-9e265047e5b7",
+      "Name": "Screen",
+      "Position": "149.995,149.995,-212.125",
       "Enabled": true,
       "NetworkMode": 2,
       "Components": [
         {
           "__type": "ScreenPanel",
-          "__guid": "4fdd9db3-febd-48af-ae4d-e24047b4d309",
+          "__guid": "7ad86d55-a29c-407f-949b-c2a1af0d20c2",
           "AutoScreenScale": true,
           "Opacity": 1,
           "Scale": 1,
           "ZIndex": 100
         },
         {
-          "__type": "GameHud",
-          "__guid": "5039c156-1918-42eb-a60e-cb76af1af967",
-          "GameManager": {
-            "_type": "component",
-            "component_id": "1c3e0991-2ea4-443e-a0e0-151d16a0145e",
-            "go": "6528f295-82e4-4c4a-b2c5-3714cb045473",
-            "component_type": "GameManager"
-          }
+          "__type": "PreloaderPanel",
+          "__guid": "09e03810-5dbb-4379-8ce2-8e0267323211",
+          "MenuScene": "scenes/main-menu.scene"
         }
       ]
     }
@@ -120,9 +90,9 @@
       "IncludedBodies": ""
     }
   },
-  "Title": "game-3d",
+  "Title": "preload",
   "Description": "",
-  "LastSaved": "2024-03-28T12:19:07.5904108-04:00",
+  "LastSaved": "2024-03-28T12:17:17.4851253-04:00",
   "ResourceVersion": 1,
   "__version": 1,
   "__references": []

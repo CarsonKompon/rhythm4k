@@ -16,6 +16,7 @@ public static class SongBuilder
         var beatmapSet = LoadFromOSU( fullId, false );
         beatmapSet.ChartPath = fullId;
         beatmapSet.OsuId = fullId;
+        if ( BeatmapSet.All.Any( x => x.OsuId == fullId ) ) return;
 
         //r4kSong.SoundStream.WriteData( await soundFile.GetSamplesAsync() );
 
