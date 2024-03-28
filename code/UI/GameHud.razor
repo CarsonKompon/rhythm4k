@@ -1,6 +1,7 @@
 @using System;
 @using Sandbox;
 @using Sandbox.UI;
+@using Sandbox.UI.Construct;
 @inherits PanelComponent
 
 @namespace Rhythm4K
@@ -11,7 +12,7 @@
 		<h1>Combo</h1>
 		<p>@($"{GameManager.Combo}x")</p>
 	</div>
-	<div class="judgement">@GameManager.LastJudgement</div>
+	<div class="judgement" @ref="JudgementPanel"></div>
 </root>
 
 @code
@@ -20,10 +21,31 @@
 
 	[Property] GameManager GameManager { get; set; }
 
+	Panel JudgementPanel { get; set; }
+	RealTimeSince TimeSinceLastJudgement { get; set; } = 0f;
+
 	protected override void OnAwake()
 	{
 		Instance = this;
 	}
 
-	protected override int BuildHash() => System.HashCode.Combine( GameManager?.Score, GameManager?.Combo, GameManager?.LastJudgement );
+	protected override void OnUpdate()
+	{
+		if(TimeSinceLastJudgement > 2f && JudgementPanel.Children.Count() > 0)
+		{
+			JudgementPanel.DeleteChildren();
+			TimeSinceLastJudgement = 0f;
+		}
+	}
+
+	public void SetJudgement(string judgement)
+	{
+		JudgementPanel.DeleteChildren(true);
+		var label = JudgementPanel.AddChild<Label>();
+		label.AddClass(judgement.ToLower());
+		label.Text = judgement;
+		TimeSinceLastJudgement = 0f;
+	}
+
+	protected override int BuildHash() => System.HashCode.Combine( GameManager?.Score, GameManager?.Combo );
 }

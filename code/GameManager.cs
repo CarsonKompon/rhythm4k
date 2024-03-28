@@ -31,7 +31,6 @@ public sealed class GameManager : Component, IMusicPlayer
 
 	public float Score { get; set; } = 0;
 	public int Combo { get; set; } = 0;
-	public string LastJudgement { get; set; } = "";
 	List<float> JudgementTimes = new();
 	List<float> JudgementScores = new();
 	List<string> JudgementNames = new();
@@ -170,7 +169,7 @@ public sealed class GameManager : Component, IMusicPlayer
 			if ( difference <= JudgementTimes[i] )
 			{
 				points = JudgementScores[i];
-				LastJudgement = JudgementNames[i];
+				GameHud.Instance?.SetJudgement( JudgementNames[i] );
 				break;
 			}
 		}
@@ -246,6 +245,6 @@ public sealed class GameManager : Component, IMusicPlayer
 	public void BreakCombo()
 	{
 		Combo = 0;
-		LastJudgement = "";
+		GameHud.Instance?.SetJudgement( "Miss" );
 	}
 }
