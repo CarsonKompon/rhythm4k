@@ -10,12 +10,13 @@ public sealed class SongListCarousel : Component
 	public static SongListCarousel Instance { get; private set; }
 
 	[Property] GameObject SongPanelPrefab { get; set; }
-	[Property] public int SongPanelCount { get; set; } = 16;
+	[Property] public int SongPanelCount { get; set; } = 32;
 	[Property] float SongXSpread { get; set; } = 100f;
 	[Property] float SongYSpread { get; set; } = 100f;
 	[Property] float TargetAngle { get; set; } = 0f;
 	public float AngleOffset { get; set; } = 0f;
 	public float LastOffset { get; set; } = 0f;
+	public float Zoom { get; set; } = 0.7f;
 	bool firstLoad = true;
 
 	public int SelectedIndex
@@ -32,7 +33,7 @@ public sealed class SongListCarousel : Component
 			{
 				panelIndex += SongPanelCount;
 			}
-			for ( int i = panelIndex - 4; i <= panelIndex + 4; i++ )
+			for ( int i = panelIndex - 6; i <= panelIndex + 6; i++ )
 			{
 				int offset = i - panelIndex;
 				var panel = SongPanels[(i + SongPanelCount * 2) % SongPanelCount];
@@ -44,7 +45,7 @@ public sealed class SongListCarousel : Component
 				}
 				panelScript.Index = (ind + totalAm + offset) % totalAm;
 			}
-			SongListInfoPanel.SelectedIndex = -1;
+			SongListInfoPanel.SelectedIndex = 0;
 		}
 	}
 	private int _selectedIndex = 0;
@@ -147,8 +148,9 @@ public sealed class SongListCarousel : Component
 		float angle = CurrentAngle;
 		foreach ( var panel in SongPanels )
 		{
-			panel.Transform.LocalPosition = new Vector3( MathF.Cos( angle ) * SongXSpread, 0f, MathF.Sin( angle ) * SongYSpread );
+			panel.Transform.LocalPosition = new Vector3( (SongXSpread / 2f) + (MathF.Cos( angle ) * SongXSpread * Zoom / 2f), 0f, MathF.Sin( angle ) * SongYSpread * Zoom );
 			panel.Transform.LocalRotation = Rotation.From( 0f, 90f, 0f );
+			panel.Transform.LocalScale = Zoom;
 			angle -= MathF.PI * 2f / (float)SongPanelCount;
 		}
 	}

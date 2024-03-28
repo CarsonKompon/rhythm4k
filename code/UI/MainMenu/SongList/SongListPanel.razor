@@ -32,9 +32,9 @@
 
 		if(Grabbing)
 		{
-			var drag = Mouse.Position - GrabPos;
-
+			
 			var carousel = SongListCarousel.Instance;
+			var drag = (Mouse.Position - GrabPos) / carousel.Zoom;
 			carousel.AngleOffset = -drag.y / 360f;
 			if ( MathF.Abs( carousel.LastOffset - carousel.AngleOffset ) >= MathF.PI * 2f / (float)carousel.SongPanelCount )
 			{

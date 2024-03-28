@@ -713,25 +713,25 @@
       ],
       "Children": [
         {
-          "__guid": "d18e18b4-8c2b-40d4-bfce-3b27590d3b17",
+          "__guid": "70318540-0e96-498b-940f-054a38782cd5",
           "Name": "Info Panel",
-          "Position": "178.0244,5.939362,2.850662",
-          "Rotation": "0,0,0.8660254,0.5000001",
+          "Position": "171.2573,-10.21446,-0.08668518",
+          "Rotation": "0,0,0.7933533,0.6087615",
           "Enabled": true,
           "NetworkMode": 2,
           "Components": [
             {
               "__type": "WorldPanel",
-              "__guid": "25956695-e149-48b3-976d-ff7a45dea74e",
+              "__guid": "35cf5b3f-9ec1-4307-969b-d55d93d3d274",
               "HorizontalAlign": "Center",
               "LookAtCamera": false,
-              "PanelSize": "1024,1600",
+              "PanelSize": "1978.4,1717.797",
               "RenderScale": 1,
               "VerticalAlign": "Center"
             },
             {
               "__type": "SongListInfoPanel",
-              "__guid": "f87ff152-269d-418c-96e2-9a1e4f4290f8"
+              "__guid": "a1f5c81d-0c00-4073-9855-53f2bf919bec"
             }
           ]
         }
@@ -761,7 +761,7 @@
   },
   "Title": "minimal",
   "Description": "",
-  "LastSaved": "2024-03-28T12:16:40.5136307-04:00",
+  "LastSaved": "2024-03-28T13:29:56.6289513-04:00",
   "ResourceVersion": 1,
   "__version": 1,
   "__references": [

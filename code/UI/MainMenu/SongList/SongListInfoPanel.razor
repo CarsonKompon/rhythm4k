@@ -9,9 +9,31 @@
 	{
 		var set = BeatmapSet.All[Index];
 		var list = set.Beatmaps.OrderBy(x => x.Difficulty).ToList();
-		<img src=@set.CoverArt />
-		<h1>@set.Name</h1>
-		<h3 class="artist">@set.Artist</h3>
+		<div class="cover-art">
+			<img src=@set.CoverArt />
+			<div class="info">
+				<h1>@set.Name</h1>
+				<h3 class="artist">@set.Artist</h3>
+			</div>
+		</div>
+		<div class="extras @(SelectedIndex >= 0 ? "" : "hidden")">
+			@if(SelectedIndex >= 0)
+			{
+				var chart = list.ElementAt(SelectedIndex);
+				<div class="extra">
+					<i>access_time</i>
+					<label>00:37</label>
+				</div>
+				<div class="extra">
+					<i>piano</i>
+					<label>@chart.Lanes</label>
+				</div>
+				<div class="extra">
+					<i>music_note</i>
+					<label>@chart.Notes.Count</label>
+				</div>
+			}
+		</div>
 		<div class="chart-list">
 			@foreach(var chart in list)
 			{
@@ -48,7 +70,7 @@
 			return index % count;
 		}
 	}
-	public static int SelectedIndex = -1;
+	public static int SelectedIndex = 0;
 	public int lastIndex = 0;
 
 	protected override void OnUpdate()

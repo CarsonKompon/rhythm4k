@@ -152,7 +152,7 @@
 		Music?.Stop();
 		Music?.Dispose();
 		Music = MusicPlayer.Play(FileSystem.Data, beatmapSet.GetFullPath() + beatmapSet.AudioFilename);
-		Log.Info(beatmapSet.SampleStart);
+		Log.Info("this log is necessary for music to seek to the right time...");
 		Music.Seek(beatmapSet.SampleStart / 1000f);
 		Music.OnFinished += PlayRandomSong;
 		Music.Volume = 0f;

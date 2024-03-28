@@ -83,41 +83,55 @@
         {
           "Name": "Click",
           "KeyboardCode": "MOUSE1",
+          "GamepadCode": "None",
           "GroupName": "Other"
         },
         {
           "Name": "5KeyButton1",
           "KeyboardCode": "D",
+          "GamepadCode": "None",
           "GroupName": "Gameplay"
         },
         {
           "Name": "5KeyButton2",
           "KeyboardCode": "F",
+          "GamepadCode": "None",
           "GroupName": "Gameplay"
         },
         {
           "Name": "5KeyButton3",
           "KeyboardCode": "J",
+          "GamepadCode": "None",
           "GroupName": "Gameplay"
         },
         {
           "Name": "5KeyButton4",
           "KeyboardCode": "K",
+          "GamepadCode": "None",
           "GroupName": "Gameplay"
         },
         {
           "Name": "5KeyButton5",
           "KeyboardCode": "L",
+          "GamepadCode": "None",
           "GroupName": "Gameplay"
         },
         {
           "Name": "ScrollSpeedUp",
           "KeyboardCode": "=",
+          "GamepadCode": "None",
           "GroupName": "Other"
         },
         {
           "Name": "ScrollSpeedDown",
           "KeyboardCode": "-",
+          "GamepadCode": "None",
+          "GroupName": "Other"
+        },
+        {
+          "Name": "Control",
+          "KeyboardCode": "CTRL",
+          "GamepadCode": "None",
           "GroupName": "Other"
         }
       ],
