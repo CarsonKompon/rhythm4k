@@ -1,5 +1,6 @@
 using System;
 using Sandbox;
+using Sandbox.UI;
 
 namespace Rhythm4K;
 
@@ -65,6 +66,15 @@ public sealed class GameManager : Component, IMusicPlayer
 		UpdateBpm();
 		SpawnNextNotes();
 		UpdateNotes();
+
+		if ( Input.Pressed( "ScrollSpeedUp" ) )
+		{
+			ScreenTime *= 0.9f;
+		}
+		else if ( Input.Pressed( "ScrollSpeedDown" ) )
+		{
+			ScreenTime *= 1.1f;
+		}
 	}
 
 	public async void StartSong()

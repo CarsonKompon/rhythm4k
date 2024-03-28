@@ -109,6 +109,16 @@
           "Name": "5KeyButton5",
           "KeyboardCode": "L",
           "GroupName": "Gameplay"
+        },
+        {
+          "Name": "ScrollSpeedUp",
+          "KeyboardCode": "=",
+          "GroupName": "Other"
+        },
+        {
+          "Name": "ScrollSpeedDown",
+          "KeyboardCode": "-",
+          "GroupName": "Other"
         }
       ],
       "__guid": "083680a3-d5ee-4f17-8b47-d36c31cceaa9"
