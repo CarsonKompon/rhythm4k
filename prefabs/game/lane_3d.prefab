@@ -1,0 +1,154 @@
+{
+  "RootObject": {
+    "__guid": "9d868088-b959-4ac6-b785-a9faf73a7997",
+    "Name": "lane_3d",
+    "Enabled": true,
+    "NetworkMode": 2,
+    "Components": [
+      {
+        "__type": "Lane",
+        "__guid": "fdb34767-a32e-4872-adc4-8e74e8b6cf33",
+        "EndPosition": {
+          "_type": "gameobject",
+          "go": "2c70430f-af20-47eb-8269-16d7c710cc11"
+        },
+        "LaneKeyScreen": {
+          "_type": "component",
+          "component_id": "315456c3-2e62-4b01-8ff9-fdb3cb18ccfe",
+          "go": "c97c5cbc-7ca8-4762-9d9c-af52203fa20e",
+          "component_type": "LaneKeyScreen"
+        },
+        "LaneModel": {
+          "_type": "component",
+          "component_id": "d7330e03-1e38-443b-923e-e4147b79addf",
+          "go": "8f2802e3-fda6-480e-9ed3-381f03893df2",
+          "component_type": "ModelRenderer"
+        },
+        "StartPosition": {
+          "_type": "gameobject",
+          "go": "3cc54b90-8a4a-400d-8e77-18cfcc356f13"
+        }
+      }
+    ],
+    "Children": [
+      {
+        "__guid": "8f2802e3-fda6-480e-9ed3-381f03893df2",
+        "Name": "Plane",
+        "Scale": "15,1,1",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "Components": [
+          {
+            "__type": "ModelRenderer",
+            "__guid": "d7330e03-1e38-443b-923e-e4147b79addf",
+            "BodyGroups": 18446744073709551615,
+            "MaterialOverride": "materials/3d_lane_mat.vmat",
+            "Model": "models/dev/plane.vmdl",
+            "RenderType": "On",
+            "Tint": "0,0,0,0.91"
+          },
+          {
+            "__type": "FixTransparency",
+            "__guid": "aae0fafa-9acc-4a5f-a58b-cab85e065b1a",
+            "modelRenderer": {
+              "_type": "component",
+              "component_id": "d7330e03-1e38-443b-923e-e4147b79addf",
+              "go": "8f2802e3-fda6-480e-9ed3-381f03893df2",
+              "component_type": "ModelRenderer"
+            }
+          }
+        ]
+      },
+      {
+        "__guid": "c9c4523c-9b21-40e6-ab88-dda741e779cc",
+        "Name": "HitLine",
+        "Position": "-416,0,0",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "Children": [
+          {
+            "__guid": "022beed9-ec95-499a-8dee-17c2c9e7ac4b",
+            "Name": "Line",
+            "Position": "32,0,3.735053",
+            "Scale": "0.09710931,1,1",
+            "Enabled": true,
+            "NetworkMode": 2,
+            "Components": [
+              {
+                "__type": "ModelRenderer",
+                "__guid": "06029758-ab58-4fd1-b3fc-38108d787dba",
+                "BodyGroups": 18446744073709551615,
+                "MaterialOverride": "materials/3d_lane_mat.vmat",
+                "Model": "models/dev/plane.vmdl",
+                "RenderType": "On",
+                "Tint": "1,1,1,1"
+              }
+            ]
+          },
+          {
+            "__guid": "a05542c1-201e-43f5-b1c9-0dd4f9576af1",
+            "Name": "Line",
+            "Position": "-32,0,3.735053",
+            "Scale": "0.09710931,1,1",
+            "Enabled": true,
+            "NetworkMode": 2,
+            "Components": [
+              {
+                "__type": "ModelRenderer",
+                "__guid": "dccf44bd-32dd-4703-a4fb-89fef7f92985",
+                "BodyGroups": 18446744073709551615,
+                "MaterialOverride": "materials/3d_lane_mat.vmat",
+                "Model": "models/dev/plane.vmdl",
+                "RenderType": "On",
+                "Tint": "1,1,1,1"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "__guid": "3cc54b90-8a4a-400d-8e77-18cfcc356f13",
+        "Name": "StartPosition",
+        "Position": "736,0,0",
+        "Enabled": true,
+        "NetworkMode": 2
+      },
+      {
+        "__guid": "2c70430f-af20-47eb-8269-16d7c710cc11",
+        "Name": "EndPosition",
+        "Position": "-416,0,0",
+        "Enabled": true,
+        "NetworkMode": 2
+      },
+      {
+        "__guid": "c97c5cbc-7ca8-4762-9d9c-af52203fa20e",
+        "Name": "KeyPrompt",
+        "Position": "-512,0,32",
+        "Rotation": "0.5,0.0000000973536,0.8660254,0.0000001686214",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "Components": [
+          {
+            "__type": "WorldPanel",
+            "__guid": "916aeab7-048d-4eb1-bdeb-a1acb2349376",
+            "HorizontalAlign": "Center",
+            "LookAtCamera": false,
+            "PanelSize": "512,512",
+            "RenderScale": 1,
+            "VerticalAlign": "Center"
+          },
+          {
+            "__type": "LaneKeyScreen",
+            "__guid": "315456c3-2e62-4b01-8ff9-fdb3cb18ccfe"
+          }
+        ]
+      }
+    ]
+  },
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "ResourceVersion": 1,
+  "__version": 1,
+  "__references": []
+}

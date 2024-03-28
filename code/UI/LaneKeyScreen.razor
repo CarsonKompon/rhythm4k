@@ -1,0 +1,17 @@
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+
+@namespace Rhythm4K
+
+<root>
+	@Input.GetButtonOrigin( InputName, false )
+</root>
+
+@code
+{
+
+	public string InputName { get; set; } = "4KeyButton1";
+
+	protected override int BuildHash() => System.HashCode.Combine( InputName );
+}

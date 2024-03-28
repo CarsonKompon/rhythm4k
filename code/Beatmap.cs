@@ -12,9 +12,15 @@ public class Beatmap
     public string DifficultyName { get; set; }
     public List<BpmChange> BpmChanges { get; set; }
     public List<Note> Notes { get; set; }
-    public int Lanes { get; set; }
+    public int Lanes { get; set; } = 4;
     public int TotalNotes { get; set; }
     public int TotalChain { get; set; }
+    public float ScrollSpeed { get; set; } = 1f;
+
+    public BeatmapSet GetSet()
+    {
+        return BeatmapSet.All.FirstOrDefault( x => x.Beatmaps.Contains( this ) );
+    }
 
     /// <summary>
     /// Returns the length of the song in seconds
@@ -109,12 +115,20 @@ public class Beatmap
                 {
                     offset += 62.5f;
                     length -= 62.5f;
-                    var hold = new Note();
-                    hold.Offset = offset;
-                    hold.Length = 0f;
-                    hold.Lane = note.Lane;
-                    hold.Type = (int)NoteType.Hold;
-                    hold.BakedTime = GetTimeFromOffset( offset );
+
+                    float holdBakedTime = GetTimeFromOffset( offset );
+                    float holdBakedLength = GetTimeFromOffset( offset + length ) - holdBakedTime;
+
+                    var hold = new Note
+                    {
+                        Offset = offset,
+                        Length = length,
+                        Lane = note.Lane,
+                        Type = (int)NoteType.Hold,
+                        BakedTime = holdBakedTime,
+                        BakedLength = holdBakedLength
+                    };
+
                     Notes.Add( hold );
                     TotalChain++;
                 }

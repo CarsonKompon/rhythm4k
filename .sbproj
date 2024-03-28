@@ -57,25 +57,25 @@
           "GroupName": "Menu"
         },
         {
-          "Name": "ButtonA",
+          "Name": "4KeyButton1",
           "KeyboardCode": "D",
           "GamepadCode": "DpadEast",
           "GroupName": "Gameplay"
         },
         {
-          "Name": "ButtonB",
+          "Name": "4KeyButton2",
           "KeyboardCode": "F",
           "GamepadCode": "DpadNorth",
           "GroupName": "Gameplay"
         },
         {
-          "Name": "ButtonC",
+          "Name": "4KeyButton3",
           "KeyboardCode": "J",
           "GamepadCode": "Y",
           "GroupName": "Gameplay"
         },
         {
-          "Name": "ButtonD",
+          "Name": "4KeyButton4",
           "KeyboardCode": "K",
           "GamepadCode": "B",
           "GroupName": "Gameplay"
@@ -84,6 +84,31 @@
           "Name": "Click",
           "KeyboardCode": "MOUSE1",
           "GroupName": "Other"
+        },
+        {
+          "Name": "5KeyButton1",
+          "KeyboardCode": "D",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "5KeyButton2",
+          "KeyboardCode": "F",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "5KeyButton3",
+          "KeyboardCode": "J",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "5KeyButton4",
+          "KeyboardCode": "K",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "5KeyButton5",
+          "KeyboardCode": "L",
+          "GroupName": "Gameplay"
         }
       ],
       "__guid": "083680a3-d5ee-4f17-8b47-d36c31cceaa9"

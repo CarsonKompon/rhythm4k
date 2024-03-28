@@ -1,3 +1,4 @@
+using System;
 using Sandbox;
 
 namespace Rhythm4K;
@@ -20,6 +21,6 @@ public class MusicReactive : Component
 
     protected override void OnUpdate()
     {
-        Transform.LocalScale = 0.9f + Player.Energy / 20f;
+        Transform.LocalScale = MathF.Min( 0.9f + Player.Energy / 25f, 1.08f );
     }
 }

@@ -1,0 +1,21 @@
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+
+@namespace Rhythm4K
+
+<root>
+	<div>SCORE: 0000000</div>
+</root>
+
+@code
+{
+	public static GameHud Instance { get; private set; }
+
+	protected override void OnAwake()
+	{
+		Instance = this;
+	}
+
+	protected override int BuildHash() => System.HashCode.Combine( "" );
+}

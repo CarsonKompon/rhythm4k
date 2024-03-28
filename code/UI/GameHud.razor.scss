@@ -1,0 +1,15 @@
+GameHud
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+
+	.title
+	{
+		font-size: 25px;
+		font-family: Poppins;
+		color: #fff;
+	}
+}

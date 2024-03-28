@@ -283,6 +283,9 @@ public static class SongBuilder
                             case "CircleSize":
                                 beatmap.Lanes = (int)MathF.Round( float.Parse( value ) );
                                 break;
+                            case "SliderMultiplier":
+                                beatmap.ScrollSpeed = float.Parse( value );
+                                break;
                         }
                     }
                 }

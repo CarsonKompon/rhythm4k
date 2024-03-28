@@ -1,0 +1,123 @@
+{
+  "__guid": "fdf1e098-1aa7-4805-83e4-026ba3b86e24",
+  "GameObjects": [
+    {
+      "__guid": "3850a8ee-6a99-4bee-a92d-4f11b3c8b25b",
+      "Name": "Camera",
+      "Position": "-1170.619,-0,675.8569",
+      "Rotation": "0,0.258819,0,0.9659258",
+      "Tags": "maincamera",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "Components": [
+        {
+          "__type": "CameraComponent",
+          "__guid": "25fff3cf-6727-44b0-813a-70d41c56f475",
+          "BackgroundColor": "1,1,1,1",
+          "ClearFlags": "All",
+          "FieldOfView": 60,
+          "IsMainCamera": true,
+          "Orthographic": false,
+          "OrthographicHeight": 1204,
+          "Priority": 1,
+          "RenderExcludeTags": "",
+          "RenderTags": "",
+          "TargetEye": "None",
+          "Viewport": "0,0,1,1",
+          "ZFar": 10000,
+          "ZNear": 10
+        }
+      ]
+    },
+    {
+      "__guid": "820cb0ed-11fb-44ca-a075-b54ee6897018",
+      "Name": "Sun",
+      "Position": "-1500.599,235.6494,629.5671",
+      "Rotation": "0,0.3826834,0,0.9238796",
+      "Tags": "light_directional,light",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "Components": [
+        {
+          "__type": "DirectionalLight",
+          "__guid": "f5485561-1ff7-4db7-87fe-336a4b20dd13",
+          "FogMode": "Enabled",
+          "FogStrength": 1,
+          "LightColor": "0.91373,0.98039,1,1",
+          "Shadows": false,
+          "SkyColor": "0.05882,0.07451,0.08235,1"
+        }
+      ]
+    },
+    {
+      "__guid": "6528f295-82e4-4c4a-b2c5-3714cb045473",
+      "Name": "Game Manager",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "Components": [
+        {
+          "__type": "GameManager",
+          "__guid": "1c3e0991-2ea4-443e-a0e0-151d16a0145e",
+          "LanePrefab": {
+            "_type": "gameobject",
+            "prefab": "prefabs/game/lane_3d.prefab"
+          },
+          "LaneSpacing": 92,
+          "MenuScene": "scenes/minimal.scene",
+          "NotePrefab": {
+            "_type": "gameobject",
+            "prefab": "prefabs/game/note_3d.prefab"
+          }
+        }
+      ]
+    },
+    {
+      "__guid": "111e7647-a45f-4a84-b841-d777deff5d2e",
+      "Name": "Screen UI",
+      "Position": "-441.111,20.81034,33.97163",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "Components": [
+        {
+          "__type": "ScreenPanel",
+          "__guid": "4fdd9db3-febd-48af-ae4d-e24047b4d309",
+          "AutoScreenScale": true,
+          "Opacity": 1,
+          "Scale": 1,
+          "ZIndex": 100
+        },
+        {
+          "__type": "GameHud",
+          "__guid": "5039c156-1918-42eb-a60e-cb76af1af967"
+        }
+      ]
+    }
+  ],
+  "SceneProperties": {
+    "FixedUpdateFrequency": 50,
+    "Lerping": true,
+    "MaxFixedUpdates": 5,
+    "NetworkFrequency": 30,
+    "ThreadedAnimation": true,
+    "TimeScale": 1,
+    "UseFixedUpdate": true,
+    "NavMesh": {
+      "Enabled": false,
+      "IncludeStaticBodies": true,
+      "IncludeKeyframedBodies": true,
+      "EditorAutoUpdate": true,
+      "AgentHeight": 64,
+      "AgentRadius": 16,
+      "AgentStepSize": 18,
+      "AgentMaxSlope": 40,
+      "ExcludedBodies": "",
+      "IncludedBodies": ""
+    }
+  },
+  "Title": "game-3d",
+  "Description": "",
+  "LastSaved": "2024-03-27T20:51:10.9224728-04:00",
+  "ResourceVersion": 1,
+  "__version": 1,
+  "__references": []
+}

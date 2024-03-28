@@ -34,7 +34,10 @@ public sealed class MainMenuCameraManager : Component
 		}
 
 		float delta = 1f - MathF.Pow( 0.5f, Time.Delta * 10f );
-		Transform.Rotation = Rotation.Slerp( Transform.Rotation, TargetTransform.Rotation, delta );
+		var targetRot = TargetTransform.Rotation;
+		var mouseOffset = new Vector2( Screen.Width / 2f, Screen.Height / 2f ) - Mouse.Position;
+		targetRot *= Rotation.From( -mouseOffset.y / 500f, mouseOffset.x / 500f, 0f );
+		Transform.Rotation = Rotation.Slerp( Transform.Rotation, targetRot, delta );
 		Transform.Position = Vector3.Lerp( Transform.Position, TargetTransform.Position, delta );
 
 		string url = MainMenuScreen.Instance?.CurrentUrl ?? "";

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using Rhythm4K;
 using Sandbox;
+using Sandbox.Audio;
 
 public sealed class VisualizerBarManager : Component
 {
@@ -26,6 +27,8 @@ public sealed class VisualizerBarManager : Component
     [Property] public float WaveSpeed { get; set; } = 1f;
     [Property] public float SpinOnBeat { get; set; } = 10f;
     [Property] public float Amplitude { get; set; } = 0.1f;
+
+    
 
     IMusicPlayer Player;
 

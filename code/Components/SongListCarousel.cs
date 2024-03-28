@@ -68,7 +68,6 @@ public sealed class SongListCarousel : Component
 			var panel = SongPanelPrefab.Clone( Transform.World );
 			panel.SetParent( GameObject );
 			panel.Transform.LocalPosition = new Vector3( MathF.Cos( angle ) * SongXSpread, 0f, MathF.Sin( angle ) * SongYSpread );
-			panel.Transform.Rotation = Rotation.From( 0f, 90f, 0f );
 			angle -= MathF.PI * 2f / (float)SongPanelCount;
 			SongPanels.Add( panel );
 			var panelScript = panel.Components.Get<SongListPanel>();
@@ -148,6 +147,7 @@ public sealed class SongListCarousel : Component
 		foreach ( var panel in SongPanels )
 		{
 			panel.Transform.LocalPosition = new Vector3( MathF.Cos( angle ) * SongXSpread, 0f, MathF.Sin( angle ) * SongYSpread );
+			panel.Transform.LocalRotation = Rotation.From( 0f, 90f, 0f );
 			angle -= MathF.PI * 2f / (float)SongPanelCount;
 		}
 	}
