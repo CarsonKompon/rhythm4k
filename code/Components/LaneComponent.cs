@@ -31,9 +31,9 @@ public sealed class Lane : Component
 	{
 		if ( Input.Down( LaneKey ) )
 		{
-			LaneModel.Tint = new Color( 0xFF333333 ).WithAlpha( StartingColor.a + MathF.Sin( Time.Now * 20f ) / 25f );
+			LaneModel.Tint = new Color( 0xFF333333 ).WithAlpha( StartingColor.a + MathF.Sin( Time.Now * 20f ) / 50f );
 		}
 
-		LaneModel.Tint = Color.Lerp( LaneModel.Tint, StartingColor, Time.Delta * 10f );
+		LaneModel.Tint = Color.Lerp( LaneModel.Tint, StartingColor, Time.Delta * 20f );
 	}
 }

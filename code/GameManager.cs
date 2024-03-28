@@ -29,6 +29,14 @@ public sealed class GameManager : Component, IMusicPlayer
 	public float EnergyHistoryAverage { get; set; }
 	public float PeakKickVolume { get; set; }
 
+	public float Score { get; set; } = 0;
+	public int Combo { get; set; } = 0;
+	public string LastJudgement { get; set; } = "";
+	List<float> JudgementTimes = new();
+	List<float> JudgementScores = new();
+	List<string> JudgementNames = new();
+	float TotalScore { get; set; } = 0;
+
 	public Action OnBeat { get; set; }
 
 	List<Note> NotesToSpawn = new();
@@ -41,10 +49,10 @@ public sealed class GameManager : Component, IMusicPlayer
 		if ( Beatmap is null )
 		{
 			Scene.Load( MenuScene );
+			return;
 		}
 
 		InitLanes();
-
 		StartSong();
 	}
 
@@ -67,6 +75,11 @@ public sealed class GameManager : Component, IMusicPlayer
 		Music?.Stop();
 		Music?.Dispose();
 
+		JudgementTimes = Beatmap.GetJudgementTimes();
+		JudgementScores = Beatmap.GetJudgementScores();
+		JudgementNames = Beatmap.GetJudgementNames();
+		TotalScore = JudgementScores.First() * Beatmap.Notes.Count;
+
 		NotesToSpawn = Beatmap.Notes.ToList();
 		BpmChanges = Beatmap.BpmChanges.ToList();
 
@@ -76,6 +89,8 @@ public sealed class GameManager : Component, IMusicPlayer
 		CurrentTime = BeatmapSet.Offset - ScreenTime;
 
 		IsPlaying = true;
+		Score = 0;
+		Combo = 0;
 
 		if ( CurrentTime < 0 )
 		{
@@ -122,6 +137,7 @@ public sealed class GameManager : Component, IMusicPlayer
 			if ( CurrentTime - timing > noteTime )
 			{
 				note.GameObject.Destroy();
+				BreakCombo();
 				continue;
 			}
 
@@ -130,6 +146,7 @@ public sealed class GameManager : Component, IMusicPlayer
 			var distance = MathF.Abs( CurrentTime - noteTime );
 			if ( distance < timing && pressed[laneIndex] && noteTime < noteTimes[laneIndex] )
 			{
+				notesToHit = notesToHit.Where( x => x.Note.Lane != laneIndex ).ToList();
 				notesToHit.Add( note );
 				noteTimes[laneIndex] = noteTime;
 			}
@@ -140,7 +157,25 @@ public sealed class GameManager : Component, IMusicPlayer
 		{
 			Notes.Remove( note );
 			note.GameObject.Destroy();
+			HitNote( note );
 		}
+	}
+
+	void HitNote( NoteComponent note )
+	{
+		var difference = MathF.Abs( CurrentTime - note.Note.BakedTime );
+		var points = 0f;
+		for ( int i = 0; i < JudgementTimes.Count; i++ )
+		{
+			if ( difference <= JudgementTimes[i] )
+			{
+				points = JudgementScores[i];
+				LastJudgement = JudgementNames[i];
+				break;
+			}
+		}
+		Score += points / TotalScore * 1000000f;
+		Combo++;
 	}
 
 	void SpawnNextNotes()
@@ -206,5 +241,11 @@ public sealed class GameManager : Component, IMusicPlayer
 			laneScript.SetLane( i );
 			Lanes.Add( laneScript );
 		}
+	}
+
+	public void BreakCombo()
+	{
+		Combo = 0;
+		LastJudgement = "";
 	}
 }

@@ -88,7 +88,13 @@
         },
         {
           "__type": "GameHud",
-          "__guid": "5039c156-1918-42eb-a60e-cb76af1af967"
+          "__guid": "5039c156-1918-42eb-a60e-cb76af1af967",
+          "GameManager": {
+            "_type": "component",
+            "component_id": "1c3e0991-2ea4-443e-a0e0-151d16a0145e",
+            "go": "6528f295-82e4-4c4a-b2c5-3714cb045473",
+            "component_type": "GameManager"
+          }
         }
       ]
     }
@@ -116,7 +122,7 @@
   },
   "Title": "game-3d",
   "Description": "",
-  "LastSaved": "2024-03-27T20:51:10.9224728-04:00",
+  "LastSaved": "2024-03-27T22:03:31.8793605-04:00",
   "ResourceVersion": 1,
   "__version": 1,
   "__references": []

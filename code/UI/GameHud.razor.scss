@@ -6,10 +6,43 @@ GameHud
 	right: 0;
 	bottom: 0;
 
-	.title
+	.score
 	{
-		font-size: 25px;
-		font-family: Poppins;
-		color: #fff;
+		position: absolute;
+		top: 16px;
+		left: 16px;
+		font-family: Major Mono Display;
+		font-size: 64px;
+		text-stroke: 2px black;
+	}
+
+	.combo
+	{
+		position: absolute;
+		bottom: 16px;
+		left: 16px;
+		font-family: Orbitron;
+		font-size: 64px;
+		flex-direction: column;
+		font-weight: 200;
+
+		h1
+		{
+			font-size: 24px;
+			font-weight: 700;
+		}
+	}
+
+	.judgement
+	{
+		position: absolute;
+		top: 35%;
+		left: 0%;
+		width: 100%;
+		justify-content: center;
+		text-align: center;
+		font-family: Orbitron;
+		font-size: 24px;
+		color: white;
 	}
 }

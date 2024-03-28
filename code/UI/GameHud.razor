@@ -1,3 +1,4 @@
+@using System;
 @using Sandbox;
 @using Sandbox.UI;
 @inherits PanelComponent
@@ -5,17 +6,24 @@
 @namespace Rhythm4K
 
 <root>
-	<div>SCORE: 0000000</div>
+	<div class="score">@MathF.Round(GameManager.Score).ToString("0000000")</div>
+	<div class="combo">
+		<h1>Combo</h1>
+		<p>@($"{GameManager.Combo}x")</p>
+	</div>
+	<div class="judgement">@GameManager.LastJudgement</div>
 </root>
 
 @code
 {
 	public static GameHud Instance { get; private set; }
 
+	[Property] GameManager GameManager { get; set; }
+
 	protected override void OnAwake()
 	{
 		Instance = this;
 	}
 
-	protected override int BuildHash() => System.HashCode.Combine( "" );
+	protected override int BuildHash() => System.HashCode.Combine( GameManager?.Score, GameManager?.Combo, GameManager?.LastJudgement );
 }

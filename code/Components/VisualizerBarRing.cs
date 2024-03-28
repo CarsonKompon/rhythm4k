@@ -28,7 +28,7 @@ public sealed class VisualizerBarManager : Component
     [Property] public float SpinOnBeat { get; set; } = 10f;
     [Property] public float Amplitude { get; set; } = 0.1f;
 
-    
+
 
     IMusicPlayer Player;
 
@@ -47,7 +47,7 @@ public sealed class VisualizerBarManager : Component
 
     protected override void OnUpdate()
     {
-        if ( Player is null ) return;
+        if ( Player?.Music is null ) return;
 
         time += Time.Delta * wiggleSpeed;
         wiggleSpeed = wiggleSpeed.LerpTo( WaveSpeed, Time.Delta * 10f );
