@@ -5,7 +5,7 @@
 @namespace Rhythm4K
 
 <root>
-	@if(true)
+	@if(BeatmapSet.All.Count > 0)
 	{
 		var set = BeatmapSet.All[Index];
 		var list = set.Beatmaps.OrderBy(x => x.Difficulty).ToList();
@@ -52,6 +52,15 @@
 			<MainMenuButton Text="Back" onclick=@BackButton class="back"/>
 		</div>
 	}
+	else
+	{
+		<div class="no-charts">
+			<label>You have no Beatmaps...</label>
+			<div class="buttons">
+				<MainMenuButton Text="Back" onclick=@BackButton class="back"/>
+			</div>
+		</div>
+	}
 </root>
 
 @code
@@ -63,6 +72,7 @@
 		{
 			var index = SongListCarousel.Instance.SelectedIndex;
 			var count = BeatmapSet.All.Count;
+			if(count == 0) return 0;
 			while(index < 0)
 			{
 				index += count;
@@ -71,18 +81,18 @@
 		}
 	}
 	public static int SelectedIndex = 0;
-	public int lastIndex = 0;
+	static TimeSince timeSinceLastSelection = 0;
+	static bool playingSong = false;
 
 	protected override void OnUpdate()
 	{
-		if(lastIndex != Index)
+		if(!playingSong && timeSinceLastSelection > 0.1f && BeatmapSet.All.Count > 0)
 		{
 			var set = BeatmapSet.All[Index];
-			if ( set is not null )
-			{
-				MainMenuScreen.Instance.PlaySong( set );
-			}
-			lastIndex = Index;
+			var list = set.Beatmaps.OrderBy(x => x.Difficulty).ToList();
+			var chart = list.ElementAt(SelectedIndex);
+			MainMenuScreen.Instance.PlaySong(chart);
+			playingSong = true;
 		}
 	}
 
@@ -101,9 +111,11 @@
 		MainMenuScreen.Instance?.Navigate("/play");
 	}
 
-	void Select(int index)
+	public static void Select(int index)
 	{
 		SelectedIndex = index;
+		timeSinceLastSelection = 0;
+		playingSong = false;
 	}
 
 	protected override int BuildHash() => System.HashCode.Combine( Index, SelectedIndex );

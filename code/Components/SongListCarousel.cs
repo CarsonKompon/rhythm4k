@@ -45,7 +45,7 @@ public sealed class SongListCarousel : Component
 				}
 				panelScript.Index = (ind + totalAm + offset) % totalAm;
 			}
-			SongListInfoPanel.SelectedIndex = 0;
+			SongListInfoPanel.Select( 0 );
 		}
 	}
 	private int _selectedIndex = 0;

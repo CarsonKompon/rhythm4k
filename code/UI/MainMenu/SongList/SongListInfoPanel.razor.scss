@@ -183,4 +183,15 @@ SongListInfoPanel
 			}
 		}
 	}
+
+	.no-charts
+	{
+		font-size: 64px;
+		text-align: center;
+		flex-direction: column;
+		align-items: center;
+		justify-content: space-evenly;
+		flex-grow: 1;
+		color: black;
+	}
 }

@@ -53,13 +53,19 @@
 
 		Instance = this;
 
-		if(BeatmapSet.All.Count == 0)
-		{
-			BeatmapSet.LoadAll();
-		}
-		Beatmap.Loaded = null;
+		
+		LoadSongs();
 
 		PlayRandomSong();
+	}
+
+	async void LoadSongs()
+	{
+		Beatmap.Loaded = null;
+		if(BeatmapSet.All.Count == 0)
+		{
+			await BeatmapSet.LoadAll();
+		}
 	}
 
 	protected override void OnDestroy()
@@ -141,23 +147,24 @@
 		}
 		else
 		{
-			Music = MusicPlayer.Play(FileSystem.Data, CurrentSong.GetFullPath() + CurrentSong.AudioFilename);
+			var beatmap = CurrentSong.Beatmaps.OrderBy(x => System.Guid.NewGuid()).FirstOrDefault();
+			Music = MusicPlayer.Play(FileSystem.Data, CurrentSong.Path + beatmap.AudioFilename);
 		}
 		Music.OnFinished += PlayRandomSong;
 		TimeSinceLastSong = 0;
 	}
 
-	public void PlaySong(BeatmapSet beatmapSet)
+	public void PlaySong(Beatmap beatmap)
 	{
+		CurrentSong = beatmap.GetBeatmapSet();
 		Music?.Stop();
 		Music?.Dispose();
-		Music = MusicPlayer.Play(FileSystem.Data, beatmapSet.GetFullPath() + beatmapSet.AudioFilename);
+		Music = MusicPlayer.Play(FileSystem.Data, CurrentSong.Path + beatmap.AudioFilename);
 		Log.Info("this log is necessary for music to seek to the right time...");
-		Music.Seek(beatmapSet.SampleStart / 1000f);
+		Music.Seek(beatmap.SampleStart / 1000f);
 		Music.OnFinished += PlayRandomSong;
 		Music.Volume = 0f;
 		TimeSinceLastSong = 0;
-		CurrentSong = beatmapSet;
 	}
 
 	public async void FadeToPlay(Beatmap beatmap)

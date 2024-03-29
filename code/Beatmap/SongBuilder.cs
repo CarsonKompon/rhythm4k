@@ -10,13 +10,44 @@ namespace Rhythm4K;
 public static class SongBuilder
 {
 
+    public static async Task<BeatmapSet> Load( string path )
+    {
+        var files = FileSystem.Data.FindFile( path ).ToList();
+
+        // Try to load baked chart
+        foreach ( var file in files )
+        {
+            if ( file.EndsWith( ".r4k" ) )
+            {
+                var set = FileSystem.Data.ReadJson<BeatmapSet>( file );
+                return set;
+            }
+        }
+
+        // Try each of the chart loaders
+        var loaders = TypeLibrary.GetTypes<IChartLoader>();
+        foreach ( var loaderType in loaders )
+        {
+            if ( loaderType.IsInterface ) continue;
+            Log.Info( loaderType.TargetType );
+            var loader = TypeLibrary.Create<IChartLoader>( loaderType.TargetType );
+            if ( loader.CanLoad( files ) )
+            {
+                return await loader.Load( path );
+            }
+        }
+
+        // Return null
+        return null;
+    }
+
     // Osu Folder Loading
     public static async Task LoadFromOsuFolder( string fullId, string thumb = "" )
     {
         var beatmapSet = LoadFromOSU( fullId, false );
-        beatmapSet.ChartPath = fullId;
-        beatmapSet.OsuId = fullId;
-        if ( BeatmapSet.All.Any( x => x.OsuId == fullId ) ) return;
+        beatmapSet.Path = fullId;
+        // beatmapSet.OsuId = fullId;
+        // if ( BeatmapSet.All.Any( x => x.OsuId == fullId ) ) return;
 
         //r4kSong.SoundStream.WriteData( await soundFile.GetSamplesAsync() );
 
@@ -83,25 +114,25 @@ public static class SongBuilder
                     var vals = change.Split( '=' );
                     bpmChanges.Add( new BpmChange( float.Parse( vals[0] ), float.Parse( vals[1] ) ) );
                 }
-                beatmapSet.BPM = bpmChanges[0].BPM;
+                // beatmapSet.BPM = bpmChanges[0].BPM;
                 continue;
             }
             value = SMGetValue( prop, "OFFSET" );
             if ( value != "" )
             {
-                beatmapSet.Offset = float.Parse( value );
+                // beatmapSet.Offset = float.Parse( value );
                 continue;
             }
             value = SMGetValue( prop, "SAMPLESTART" );
             if ( value != "" )
             {
-                beatmapSet.SampleStart = float.Parse( value );
+                // beatmapSet.SampleStart = float.Parse( value );
                 continue;
             }
             value = SMGetValue( prop, "SAMPLELENGTH" );
             if ( value != "" )
             {
-                beatmapSet.SampleLength = float.Parse( value );
+                // beatmapSet.SampleLength = float.Parse( value );
                 continue;
             }
             value = SMGetValue( prop, "NOTES" );
@@ -219,12 +250,12 @@ public static class SongBuilder
                         switch ( key )
                         {
                             case "AudioFilename":
-                                song.AudioFilename = value.ToString();
+                                beatmap.AudioFilename = value.ToString();
                                 break;
 
                             case "PreviewTime":
-                                song.SampleStart = float.Parse( value );
-                                song.SampleLength = 6f;
+                                beatmap.SampleStart = float.Parse( value );
+                                beatmap.SampleLength = 6f;
                                 break;
                             case "Mode":
                                 if ( value != "3" )
@@ -377,4 +408,5 @@ public static class SongBuilder
         }
         return "";
     }
+
 }

@@ -45,7 +45,7 @@ public sealed class GameManager : Component, IMusicPlayer
 	protected override void OnStart()
 	{
 		Beatmap = Beatmap.Loaded;
-		BeatmapSet = Beatmap?.GetSet();
+		BeatmapSet = Beatmap?.GetBeatmapSet();
 		if ( Beatmap is null )
 		{
 			Scene.Load( MenuScene );
@@ -95,7 +95,7 @@ public sealed class GameManager : Component, IMusicPlayer
 		CurrentBPM = Beatmap.BpmChanges[0].BPM; // TODO: Move BPM from BeatmapSet to Beatmap
 		var scrollSpeed = (Beatmap.ScrollSpeed <= 0) ? 1f : Beatmap.ScrollSpeed;
 		ScreenTime = 120f / CurrentBPM * scrollSpeed;
-		CurrentTime = BeatmapSet.Offset - ScreenTime;
+		CurrentTime = Beatmap.Offset - ScreenTime;
 
 		IsPlaying = true;
 		Score = 0;
@@ -105,7 +105,7 @@ public sealed class GameManager : Component, IMusicPlayer
 		{
 			await Task.DelaySeconds( -CurrentTime );
 		}
-		Music = MusicPlayer.Play( FileSystem.Data, BeatmapSet.GetFullPath() + BeatmapSet.AudioFilename );
+		Music = MusicPlayer.Play( FileSystem.Data, BeatmapSet.Path + Beatmap.AudioFilename );
 		Music.Seek( CurrentTime );
 	}
 

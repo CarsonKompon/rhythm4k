@@ -10,14 +10,20 @@ public class Beatmap
     public string Charter { get; set; }
     public float Difficulty { get; set; }
     public string DifficultyName { get; set; }
-    public List<BpmChange> BpmChanges { get; set; }
-    public List<Note> Notes { get; set; }
+    public List<BpmChange> BpmChanges { get; set; } = new();
+    public List<Note> Notes { get; set; } = new();
     public int Lanes { get; set; } = 4;
     public int TotalNotes { get; set; }
     public int TotalChain { get; set; }
     public float ScrollSpeed { get; set; } = 1f;
 
-    public BeatmapSet GetSet()
+    public string AudioFilename;
+    public float Offset { get; set; }
+    public float SampleStart { get; set; }
+    public float SampleLength { get; set; }
+
+
+    public BeatmapSet GetBeatmapSet()
     {
         return BeatmapSet.All.FirstOrDefault( x => x.Beatmaps.Contains( this ) );
     }
