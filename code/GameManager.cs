@@ -105,7 +105,7 @@ public sealed class GameManager : Component, IMusicPlayer
 		{
 			await Task.DelaySeconds( -CurrentTime );
 		}
-		Music = MusicPlayer.Play( FileSystem.Data, BeatmapSet.Path + Beatmap.AudioFilename );
+		Music = MusicPlayer.Play( FileSystem.Data, BeatmapSet.Path + "/" + Beatmap.AudioFilename );
 		Music.Seek( CurrentTime );
 	}
 

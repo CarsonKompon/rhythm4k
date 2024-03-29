@@ -7,6 +7,7 @@ public class Beatmap
     public static Beatmap Loaded { get; set; }
 
     public string Name { get; set; }
+    public string Artist { get; set; }
     public string Charter { get; set; }
     public float Difficulty { get; set; }
     public string DifficultyName { get; set; }

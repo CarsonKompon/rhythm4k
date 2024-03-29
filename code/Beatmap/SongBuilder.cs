@@ -29,7 +29,6 @@ public static class SongBuilder
         foreach ( var loaderType in loaders )
         {
             if ( loaderType.IsInterface ) continue;
-            Log.Info( loaderType.TargetType );
             var loader = TypeLibrary.Create<IChartLoader>( loaderType.TargetType );
             if ( loader.CanLoad( files ) )
             {

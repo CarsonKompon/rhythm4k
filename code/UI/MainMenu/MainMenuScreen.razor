@@ -148,7 +148,7 @@
 		else
 		{
 			var beatmap = CurrentSong.Beatmaps.OrderBy(x => System.Guid.NewGuid()).FirstOrDefault();
-			Music = MusicPlayer.Play(FileSystem.Data, CurrentSong.Path + beatmap.AudioFilename);
+			Music = MusicPlayer.Play(FileSystem.Data, CurrentSong.Path + "/" + beatmap.AudioFilename);
 		}
 		Music.OnFinished += PlayRandomSong;
 		TimeSinceLastSong = 0;
@@ -159,9 +159,9 @@
 		CurrentSong = beatmap.GetBeatmapSet();
 		Music?.Stop();
 		Music?.Dispose();
-		Music = MusicPlayer.Play(FileSystem.Data, CurrentSong.Path + beatmap.AudioFilename);
+		Music = MusicPlayer.Play(FileSystem.Data, CurrentSong.Path + "/" + beatmap.AudioFilename);
 		Log.Info("this log is necessary for music to seek to the right time...");
-		Music.Seek(beatmap.SampleStart / 1000f);
+		Music.Seek(beatmap.SampleStart);
 		Music.OnFinished += PlayRandomSong;
 		Music.Volume = 0f;
 		TimeSinceLastSong = 0;
