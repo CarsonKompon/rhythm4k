@@ -60,6 +60,7 @@
 
 	public void SetJudgement(string judgement)
 	{
+		if(JudgementPanel is null) return;
 		JudgementPanel.DeleteChildren(true);
 		var label = JudgementPanel.AddChild<Label>();
 		label.AddClass(judgement.ToLower());
@@ -70,6 +71,7 @@
 	public void SetCombo(int combo)
 	{
 		if(combo == _lastCombo) return;
+		if(ComboPanel is null) return;
 		ComboPanel.DeleteChildren(true);
 		var label = ComboPanel.AddChild<Label>();
 		label.Text = $"{combo.ToString()}x";
@@ -89,6 +91,7 @@
 
 	void QuitButton()
 	{
+		MainMenuScreen.StartingUrl = "/song-select";
 		Scene.Load(MenuScene);
 	}
 

@@ -29,13 +29,13 @@
 	protected override void OnStart()
 	{
 		base.OnStart();
+		
 		timeSinceStart = 0;
 
 		Sound.StopAll(0);
 
 		if(SkipIntro)
 		{
-			SkipIntro = false;
 			if(EnableAfter.IsValid()) EnableAfter.Enabled = true;
 			GameObject.Destroy();
 			return;
@@ -46,7 +46,8 @@
 		BackgroundVideo.Repeat = true;
 		BackgroundVideo.Play( FileSystem.Mounted, "sprites/space_loop.mp4" );
 
-		Instance = this;
+		Instance = this;		
+		CarsonIntroPanel.SkipIntro = true;
 	}
 
 	protected override void OnTreeFirstBuilt()

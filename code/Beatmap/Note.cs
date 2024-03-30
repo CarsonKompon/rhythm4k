@@ -15,15 +15,23 @@ public struct Note
     public float Length { get; set; }
     public int Type { get; set; }
     public int Lane { get; set; }
-    public float BakedTime { get; set; }
-    public float BakedLength { get; set; }
+    public float BakedTime { get; set; } = -1f;
+    public float BakedLength { get; set; } = -1f;
     public int Points { get; set; }
 
-    public Note( float offset, int lane, NoteType type, float length = 0f )
+    public Note( float offset, int lane, NoteType type, float length = 0f, bool isBaked = false )
     {
-        Offset = offset;
+        if ( isBaked )
+        {
+            BakedTime = offset;
+            BakedLength = length;
+        }
+        else
+        {
+            Offset = offset;
+            Length = length;
+        }
         Lane = lane;
         Type = (int)type;
-        Length = length;
     }
 }

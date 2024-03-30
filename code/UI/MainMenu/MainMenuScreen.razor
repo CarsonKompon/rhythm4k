@@ -1,14 +1,14 @@
 @using System;
 @using System.Collections.Generic;
 @using Sandbox;
+@using Sandbox.Audio;
 @using Sandbox.UI;
 @namespace Rhythm4K
 @implements IMusicPlayer
 @inherits PanelComponent
 
 <root>
-    <div class="fade-overlay" style="opacity: @fade" />
-	<MainMenu @ref="MainMenu" />
+    <MainMenu @ref="MainMenu" />
 	<SongDownloadPanel />
 	@if((MainMenu?.CurrentUrl ?? "") == "/")
 	{
@@ -20,17 +20,51 @@
 			</div>
 		</div>
 	}
+	<div class="loading-in @(LoadingIn ? "" : "hidden")">
+		@if(Beatmap.Loaded is not null)
+		{
+			var chart = Beatmap.Loaded;
+			var set = chart.GetBeatmapSet();
+			<div class="set-info">
+				<label class="name">@set.Name</label>
+				<label class="artist">@set.Artist</label>
+			</div>
+			<div class="cover-art">
+				<img class="cover-art" src="@set.CoverArt" />
+				<i class="loading">refresh</i>
+			</div>
+			<div class="chart-info">
+				<label class="difficulty-name">@chart.DifficultyName</label>
+				<div class="difficulty">
+					<i>star</i>
+					<label>@chart.Difficulty</label>
+				</div>
+			</div>
+			<div class="extra-info">
+				<div class="info">
+					<label class="title">Source</label>
+					<label>osu!mania</label>
+				</div>
+				<div class="info">
+					<label class="title">Mapper</label>
+					<label>@chart.Charter</label>
+				</div>
+			</div>
+		}
+	</div>
 </root>
 
 @code
 {
 	public static MainMenuScreen Instance { get; private set; }
+	public static string StartingUrl { get; set; } = "";
 
 	[Property] public SceneFile SingleplayerScene { get; set; }
 	MainMenu MainMenu { get; set;}
 
 	public string CurrentUrl => MainMenu?.CurrentUrl ?? "";
-	float fade = 0f;
+	public bool LoadingIn { get; set; } = false;
+	TimeSince TimeSinceLoadingIn = 0f;
 
 	Beatmap CurrentSong;
 	public MusicPlayer Music { get; set; }
@@ -52,30 +86,77 @@
 		base.OnStart();
 
 		Instance = this;
-
 		
 		LoadSongs();
-
 		PlayRandomSong();
+	}
+
+	protected override void OnTreeFirstBuilt()
+	{
+		if(!string.IsNullOrEmpty(StartingUrl))
+		{
+			Navigate(StartingUrl);
+			MainMenuCameraManager.Instance.SetTarget(StartingUrl, true);
+			StartingUrl = "";
+		}
 	}
 
 	async void LoadSongs()
 	{
-		Beatmap.Loaded = null;
+		if(string.IsNullOrEmpty(StartingUrl)) Beatmap.Loaded = null;
 		if(BeatmapSet.All.Count == 0)
 		{
 			await BeatmapSet.LoadAll();
 		}
 	}
 
+	AudioProcessor FilterProcessor;
+
+	protected override void OnEnabled()
+	{
+		FilterProcessor = Mixer.Master.GetProcessors().FirstOrDefault();
+	}
+
 	protected override void OnDestroy()
 	{
 		Music?.Stop();
 		Music?.Dispose();
+		if(FilterProcessor is not null)
+		{
+			FilterProcessor.Mix = 0f;
+		}
+		Mixer.Master.Volume = 1f;
 	}
 	protected override void OnUpdate()
 	{
 		base.OnUpdate();
+
+		if(LoadingIn)
+		{
+			if(Input.EscapePressed)
+			{
+				Beatmap.Loaded = null;
+				LoadingIn = false;
+			}
+			else if(TimeSinceLoadingIn > 2f)
+			{
+				Scene.Load(SingleplayerScene);
+			}
+
+			if(FilterProcessor is not null)
+			{
+				FilterProcessor.Mix = FilterProcessor.Mix.LerpTo(0.2f, Time.Delta * 2f);
+			}
+			Mixer.Master.Volume = Mixer.Master.Volume.LerpTo(0f, Time.Delta * 2f);
+		}
+		else
+		{
+			if(FilterProcessor is not null)
+			{
+				FilterProcessor.Mix = FilterProcessor.Mix.LerpTo(0f, Time.Delta * 20f);
+			}	
+			Mixer.Master.Volume = Mixer.Master.Volume.LerpTo(1f, Time.Delta * 10f);
+		}
 
 		if(Music is null) return;
 		Music.Position = Scene.Camera.Transform.Position;
@@ -175,19 +256,11 @@
 		TimeSinceLastSong = 0;
 	}
 
-	public async void FadeToPlay(Beatmap beatmap)
+	public void FadeToPlay(Beatmap beatmap)
 	{
-        MainMenuCameraManager.Instance.FadingOut = true;
-        fade = 0f;
-
-        while (fade < 1f)
-        {
-            fade += Time.Delta / 2f;
-            await Task.Frame();
-        }
-
-        Beatmap.Loaded = beatmap;
-        Scene.Load(SingleplayerScene);
+		Beatmap.Loaded = beatmap;
+        LoadingIn = true;
+		TimeSinceLoadingIn = 0f;
 	}
 
 	public void Navigate(string destination)
@@ -197,6 +270,6 @@
 
 	protected override int BuildHash()
     {
-        return System.HashCode.Combine(fade);
+        return System.HashCode.Combine(LoadingIn);
     }
 }

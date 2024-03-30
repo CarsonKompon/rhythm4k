@@ -76,7 +76,18 @@ public sealed class SongListCarousel : Component
 
 	protected override void OnStart()
 	{
-		SelectedIndex = Random.Shared.Int( 0, BeatmapSet.All.Count() - 1 );
+		if ( Beatmap.Loaded is null )
+		{
+			SelectedIndex = Random.Shared.Int( 0, BeatmapSet.All.Count() - 1 );
+		}
+		else
+		{
+			var set = Beatmap.Loaded.GetBeatmapSet();
+			SelectedIndex = BeatmapSet.All.IndexOf( set );
+			SongListInfoPanel.SelectedIndex = set.Beatmaps.OrderBy( x => x.Difficulty ).ToList().IndexOf( Beatmap.Loaded );
+			Beatmap.Loaded = null;
+		}
+		CurrentAngle = SelectedIndex * MathF.PI * 2f / (float)SongPanelCount;
 
 		worldInput = new WorldInput();
 		worldInput.Enabled = true;

@@ -188,18 +188,17 @@ public class OsuChartLoader : IChartLoader
                     }
 
                     int lane = (int)Math.Clamp( Math.Floor( x * beatmap.Lanes / 512f ), 0, beatmap.Lanes - 1 );
-                    var offset = beatmap.GetOffsetFromTime( time );
 
                     switch ( type )
                     {
                         case 128:
                             var endTime = float.Parse( objectParams.Split( ':' )[0] ) / 1000f;
                             var endOffset = beatmap.GetOffsetFromTime( endTime );
-                            var note = new Note( offset, lane, 0, endOffset - offset );
-                            // beatmap.Notes.Add( note );
+                            var note = new Note( time, lane, 0, endOffset - time, true );
+                            beatmap.Notes.Add( note );
                             break;
                         default:
-                            beatmap.Notes.Add( new Note( offset, lane, NoteType.Normal ) );
+                            beatmap.Notes.Add( new Note( time, lane, NoteType.Normal, 0, true ) );
                             break;
                     }
                 }

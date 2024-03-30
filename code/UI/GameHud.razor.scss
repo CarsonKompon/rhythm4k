@@ -207,6 +207,12 @@ GameHud
 			opacity: 0;
 			pointer-events: none;
 		}
+
+		&:intro
+		{
+			opacity: 0;
+			pointer-events: none;
+		}
 	}
 }
 

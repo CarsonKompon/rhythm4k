@@ -12,6 +12,9 @@ public sealed class GameManager : Component, IMusicPlayer
 	[Property] public GameObject NotePrefab { get; set; }
 	[Property] float LaneSpacing { get; set; } = 64f;
 
+	[Property] public float PeakThreshold { get; set; } = 1.08f;
+	public float AdjustedPeakThreshold { get; private set; } = 0f;
+
 	public Beatmap Beatmap { get; set; }
 	public BeatmapSet BeatmapSet { get; set; }
 	public List<Lane> Lanes { get; set; } = new();
@@ -31,6 +34,7 @@ public sealed class GameManager : Component, IMusicPlayer
 	public float Energy { get; set; }
 	public float EnergyHistoryAverage { get; set; }
 	public float PeakKickVolume { get; set; }
+	List<float> EnergyHistory = new();
 
 	public float Score { get; set; } = 0;
 	public int Combo { get; set; } = 0;
@@ -64,11 +68,7 @@ public sealed class GameManager : Component, IMusicPlayer
 	{
 		if ( !IsPlaying ) return;
 
-		if ( Music is not null )
-		{
-			Music.Position = Scene.Camera.Transform.Position;
-			Music.Paused = IsPaused;
-		}
+		CalculateMusic();
 
 		if ( !IsPaused )
 		{
@@ -182,6 +182,68 @@ public sealed class GameManager : Component, IMusicPlayer
 		}
 	}
 
+	void CalculateMusic()
+	{
+		if ( Music is null ) return;
+
+		Music.Position = Scene.Camera.Transform.Position;
+		Music.Paused = IsPaused;
+
+		var spectrum = Music.Spectrum;
+
+		// Energy Calculations
+		var energy = 0f;
+		float length = spectrum.Length;
+		for ( int i = 0; i < length; i++ )
+		{
+			energy += spectrum[i];
+		}
+		energy /= length;
+		Energy = Energy.LerpTo( energy, Time.Delta * 30f );
+
+		EnergyHistory.Add( energy );
+		if ( EnergyHistory.Count > 64 ) EnergyHistory.RemoveAt( 0 );
+
+		// Energy History Average
+		EnergyHistoryAverage = 0f;
+		for ( int i = 0; i < EnergyHistory.Count; i++ )
+		{
+			EnergyHistoryAverage += EnergyHistory[i];
+		}
+		EnergyHistoryAverage /= EnergyHistory.Count;
+
+		// Beat Detection
+		float energySum = 0f;
+		foreach ( var energyValue in EnergyHistory )
+		{
+			energySum += energyValue;
+		}
+		float energyMean = energySum / EnergyHistory.Count;
+
+		float variance = 0f;
+		foreach ( var energyValue in EnergyHistory )
+		{
+			variance += (energyValue - energyMean) * (energyValue - energyMean);
+		}
+		float energyStdDev = (float)Math.Sqrt( variance / EnergyHistory.Count );
+
+		// Adjusted Peak Threshold Calculation
+		AdjustedPeakThreshold = PeakThreshold * energyStdDev;
+
+		if ( EnergyHistoryAverage > 0.05f && Energy > EnergyHistoryAverage + AdjustedPeakThreshold )
+		{
+			if ( !IsPeaking )
+			{
+				OnBeat?.Invoke();
+			}
+			IsPeaking = true;
+		}
+		else
+		{
+			IsPeaking = false;
+		}
+	}
+
 	void UpdatePause()
 	{
 		if ( Input.EscapePressed )
@@ -233,7 +295,7 @@ public sealed class GameManager : Component, IMusicPlayer
 			if ( note.Type == (int)NoteType.Hold )
 			{
 				// TODO: Remove these probably
-				continue;
+				// continue;
 			}
 			spawnedNote = CreateNote( note );
 			Notes.Add( spawnedNote );

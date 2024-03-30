@@ -46,4 +46,128 @@ MainMenuScreen
         opacity: 0;
 		z-index: 100;
     }
+
+    .loading-in
+    {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        opacity: 1;
+        background-color: rgba(black, 0.6);
+        backdrop-filter: blur(2px);
+        transition: all 0.5s ease-out;
+        pointer-events: all;
+        font-family: Orbitron;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 32px;
+        color: white;
+        text-shadow: 2px 2px 4px black;
+
+        .set-info
+        {
+            font-size: 64px;
+            font-weight: 700;
+            flex-direction: column;
+            max-width: 1800px;
+            align-items: center;
+
+            .artist
+            {
+                font-size: 48px;
+                font-weight: 400;
+            }
+        }
+        
+        .cover-art
+        {
+            img
+            {
+                transform: skewX(-10deg);
+            }
+        
+            i.loading
+            {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                font-size: 64px;
+                font-weight: 700;
+                text-shadow: 2px 2px 4px black;
+                transform: translate(-50%, -50%) rotate(0deg);
+                animation-name: spin;
+                animation-duration: 1000ms;
+                animation-timing-function: linear;
+                animation-iteration-count: 100000;
+            }
+        }
+
+        .chart-info
+        {
+            font-size: 32px;
+            font-weight: 700;
+            flex-direction: column;
+            gap: 16px;
+            align-items: center;
+            text-align: center;
+            max-width: 1800px;
+
+            .difficulty
+            {
+                background-color: white;
+                color: black;
+                text-shadow: 0 0 0 white;
+                padding: 4px 8px;
+                gap: 16px;
+                align-items: center;
+                border-radius: 16px;
+            }
+        }
+
+        .extra-info
+        {
+            flex-direction: column;
+            gap: 8px;
+            
+            .info
+            {
+                font-size: 24px;
+                font-weight: 700;
+                gap: 16px;
+                align-items: center;
+                text-align: center;
+                max-width: 1800px;
+
+                .title
+                {
+                    color: rgba(255, 255, 255, 0.678);
+                }
+            }
+        }
+
+        &.hidden
+        {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        &:intro
+        {
+            opacity: 0;
+            pointer-events: none;
+        }
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
 }

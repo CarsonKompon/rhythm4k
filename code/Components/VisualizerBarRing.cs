@@ -47,12 +47,14 @@ public sealed class VisualizerBarManager : Component
 
     protected override void OnUpdate()
     {
-        if ( Player?.Music is null ) return;
-
         time += Time.Delta * wiggleSpeed;
         wiggleSpeed = wiggleSpeed.LerpTo( WaveSpeed, Time.Delta * 10f );
 
-        var spectrum = Player.Music.Spectrum;
+        ReadOnlySpan<float> spectrum;
+        if ( Player?.Music is null )
+            spectrum = new float[_barCount];
+        else
+            spectrum = Player.Music.Spectrum;
 
         for ( int i = 0; i < Bars.Count; i++ )
         {

@@ -108,6 +108,7 @@ public class Beatmap
         for ( int i = 0; i < Notes.Count; i++ )
         {
             Note note = Notes[i];
+            if ( note.BakedTime >= 0f ) continue;
             note.BakedTime = GetTimeFromOffset( note.Offset );
             TotalNotes++;
             TotalChain++;

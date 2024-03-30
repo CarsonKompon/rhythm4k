@@ -67,7 +67,8 @@
           "NotePrefab": {
             "_type": "gameobject",
             "prefab": "prefabs/game/note_3d.prefab"
-          }
+          },
+          "PeakThreshold": 1.08
         }
       ]
     },
@@ -98,6 +99,213 @@
           "MenuScene": "scenes/main-menu.scene"
         }
       ]
+    },
+    {
+      "__guid": "03ec13b4-f8d3-4add-8765-f762891c07a5",
+      "Name": "Object",
+      "Position": "-53.92128,-0.00001525879,-1975.974",
+      "Rotation": "0,0,-0.7071067,0.7071068",
+      "Scale": "9.20517,9.20517,9.20517",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "Components": [
+        {
+          "__type": "VisualizerBarManager",
+          "__guid": "276b7b82-e6c5-4e86-a138-eb694e9aedfa",
+          "Amplitude": 0.1,
+          "BarCount": 512,
+          "BarWavyness": 8,
+          "BarWavynessAmplitude": 14.300189,
+          "BarWidth": 0.01,
+          "PlayerObject": {
+            "_type": "gameobject",
+            "go": "6528f295-82e4-4c4a-b2c5-3714cb045473"
+          },
+          "Prefab": {
+            "_type": "gameobject",
+            "prefab": "prefabs/game/gamevisualizerbar.prefab"
+          },
+          "RingRadius": 400,
+          "SpinOnBeat": 109.09974,
+          "WaveSpeed": 1.6000268
+        }
+      ]
+    },
+    {
+      "__guid": "0f2d76a2-b016-48d1-bd00-d8f4a54d8e33",
+      "Name": "Particles",
+      "Position": "-963.6552,-33.37906,521.7537",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "Components": [
+        {
+          "__type": "MusicReactiveParticle",
+          "__guid": "3b182009-36c6-4c8d-b6c1-2da065029c43",
+          "Particles": [
+            {
+              "_type": "component",
+              "component_id": "1c521856-a8fb-4fb3-bddc-e30ab30b451e",
+              "go": "6dc34da6-99f1-48fd-8f9b-342ff0f9d4a9",
+              "component_type": "ParticleEffect"
+            }
+          ],
+          "PlayerObject": {
+            "_type": "gameobject",
+            "go": "6528f295-82e4-4c4a-b2c5-3714cb045473"
+          }
+        }
+      ],
+      "Children": [
+        {
+          "__guid": "6dc34da6-99f1-48fd-8f9b-342ff0f9d4a9",
+          "Name": "Smoke",
+          "Tags": "particles",
+          "Enabled": true,
+          "NetworkMode": 2,
+          "Components": [
+            {
+              "__type": "ParticleEffect",
+              "__guid": "1c521856-a8fb-4fb3-bddc-e30ab30b451e",
+              "Alpha": {
+                "Type": "Curve",
+                "CurveA": [
+                  {
+                    "in": -4.0000024,
+                    "out": 4.0000024
+                  },
+                  {
+                    "x": 0.20812808,
+                    "y": 0.475
+                  },
+                  {
+                    "x": 1
+                  }
+                ],
+                "Constants": "1,0,0,0"
+              },
+              "ApplyColor": true,
+              "ApplyRotation": true,
+              "ApplyShape": true,
+              "Bounce": {
+                "Constants": "1,0,0,0"
+              },
+              "Brightness": {
+                "Constants": "1,0,0,0"
+              },
+              "Bumpiness": {},
+              "Collision": false,
+              "CollisionRadius": 1,
+              "Damping": {
+                "Constants": "0.1,0,0,0"
+              },
+              "DieOnCollisionChance": {},
+              "Force": true,
+              "ForceDirection": "0,0,108.5998",
+              "ForceScale": {
+                "Constants": "1,0,0,0"
+              },
+              "Friction": {
+                "Constants": "1,0,0,0"
+              },
+              "Gradient": {
+                "Type": "Range",
+                "GradientA": {
+                  "color": [
+                    {
+                      "t": 0.5,
+                      "c": "1,1,1,1"
+                    }
+                  ],
+                  "alpha": []
+                },
+                "GradientB": {
+                  "color": [
+                    {
+                      "t": 0.5,
+                      "c": "1,1,1,1"
+                    }
+                  ],
+                  "alpha": []
+                },
+                "ConstantA": "0,0,0,0.51",
+                "ConstantB": "0,0,0,0.83"
+              },
+              "Lifetime": {
+                "Type": "Range",
+                "Evaluation": "Particle",
+                "Constants": "5,8,0,0"
+              },
+              "MaxParticles": 5000,
+              "PerParticleTimeScale": {
+                "Constants": "1,0.4,0,0"
+              },
+              "PreWarm": 1,
+              "PushStrength": {},
+              "Roll": {
+                "Type": "Range",
+                "Evaluation": "Particle",
+                "Constants": "0,360,0,0"
+              },
+              "Scale": {
+                "Type": "Range",
+                "Evaluation": "Particle",
+                "CurveA": [
+                  {}
+                ],
+                "Constants": "0.5,1,0,0"
+              },
+              "SequenceId": {},
+              "SequenceSpeed": {
+                "Constants": "0.5,0,0,0"
+              },
+              "SequenceTime": {
+                "Constants": "1,0,0,0"
+              },
+              "SheetSequence": true,
+              "Space": "World",
+              "StartVelocity": {
+                "Type": "Range",
+                "Evaluation": "Particle",
+                "Constants": "-70,70,0,0"
+              },
+              "Stretch": {},
+              "TimeScale": 0.65889215,
+              "Tint": "1,1,1,1"
+            },
+            {
+              "__type": "ParticleSpriteRenderer",
+              "__guid": "bbc322b9-d0a4-44a5-957a-1364dd660394",
+              "Additive": false,
+              "BlurAmount": 0.49,
+              "BlurOpacity": 0.55,
+              "BlurSpacing": 0.44,
+              "DepthFeather": 0,
+              "FaceVelocity": false,
+              "FogStrength": 1,
+              "LeadingTrail": true,
+              "MotionBlur": true,
+              "Opaque": false,
+              "RotationOffset": 0,
+              "Scale": 1,
+              "Shadows": false,
+              "SortMode": "Unsorted",
+              "Texture": "materials/particles/shapes/circle1.vtex"
+            },
+            {
+              "__type": "ParticleBoxEmitter",
+              "__guid": "064d1a19-85a2-494c-8eff-5c01bbbe32bb",
+              "Burst": 0,
+              "Delay": 0,
+              "DestroyOnEnd": false,
+              "Duration": 10,
+              "Loop": true,
+              "OnEdge": false,
+              "Rate": 178.24,
+              "Size": "175.7,420.8002,124.6996"
+            }
+          ]
+        }
+      ]
     }
   ],
   "SceneProperties": {
@@ -123,7 +331,7 @@
   },
   "Title": "game-3d",
   "Description": "",
-  "LastSaved": "2024-03-30T10:21:32.225923-04:00",
+  "LastSaved": "2024-03-30T11:34:54.7556241-04:00",
   "ResourceVersion": 1,
   "__version": 1,
   "__references": []

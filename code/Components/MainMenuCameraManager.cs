@@ -17,7 +17,6 @@ public sealed class MainMenuCameraManager : Component
 	Transform TargetTransform;
 
 	string currentUrl = "";
-	public bool FadingOut = false;
 
 	protected override void OnAwake()
 	{
@@ -27,12 +26,6 @@ public sealed class MainMenuCameraManager : Component
 
 	protected override void OnUpdate()
 	{
-		if ( FadingOut )
-		{
-			Transform.Position -= Transform.Rotation.Forward * Time.Delta * 50f;
-			return;
-		}
-
 		float delta = 1f - MathF.Pow( 0.5f, Time.Delta * 10f );
 		var targetRot = TargetTransform.Rotation;
 		var mouseOffset = new Vector2( Screen.Width / 2f, Screen.Height / 2f ) - Mouse.Position;
@@ -48,7 +41,7 @@ public sealed class MainMenuCameraManager : Component
 		}
 	}
 
-	public void SetTarget( string page )
+	public void SetTarget( string page, bool instant = false )
 	{
 		SongSelectCarousel.Enabled = false;
 		switch ( page )
@@ -67,6 +60,11 @@ public sealed class MainMenuCameraManager : Component
 				FocusCamera( SongSelectPageCamera.Transform.World );
 				SongListCarousel.Instance?.Refresh();
 				break;
+		}
+		if ( instant )
+		{
+			Transform.Position = TargetTransform.Position;
+			Transform.Rotation = TargetTransform.Rotation;
 		}
 	}
 

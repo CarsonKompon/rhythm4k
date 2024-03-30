@@ -1,0 +1,26 @@
+{
+  "RootObject": {
+    "__guid": "f8b60c6e-7a65-41db-89ba-7b0fd86b093a",
+    "Name": "gamevisualizerbar",
+    "Scale": "0.1,0.1,0.1",
+    "Enabled": true,
+    "NetworkMode": 2,
+    "Components": [
+      {
+        "__type": "ModelRenderer",
+        "__guid": "d19f5ef8-bb93-49c5-b90c-0fc124afcf4c",
+        "BodyGroups": 18446744073709551615,
+        "MaterialOverride": "materials/dev/reflectivity_90b.vmat",
+        "RenderType": "Off",
+        "Tint": "1,1,1,1"
+      }
+    ],
+    "Children": []
+  },
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "ResourceVersion": 1,
+  "__version": 1,
+  "__references": []
+}
