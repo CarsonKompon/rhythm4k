@@ -29,6 +29,7 @@ public sealed class Lane : Component
 
 	protected override void OnUpdate()
 	{
+		if ( GameManager.Instance.IsPaused ) return;
 		if ( Input.Down( LaneKey ) )
 		{
 			LaneModel.Tint = new Color( 0xFF333333 ).WithAlpha( StartingColor.a + MathF.Sin( Time.Now * 20f ) / 50f );

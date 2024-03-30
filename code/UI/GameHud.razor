@@ -10,9 +10,21 @@
 	<div class="score">@MathF.Round(GameManager.Score).ToString("0000000")</div>
 	<div class="combo">
 		<h1>Combo</h1>
-		<p>@($"{GameManager.Combo}x")</p>
+		<p @ref="ComboPanel"></p>
 	</div>
 	<div class="judgement" @ref="JudgementPanel"></div>
+	<div class="pause-menu @(GameManager.Instance.IsPaused ? "" : "hidden")">
+		<h1>Paused</h1>
+		<div class="options">
+			<div class="button" onclick=@ContinueButton>Continue</div>
+			<div class="button"onclick=@RetryButton>Retry</div>
+			<div class="button"onclick=@QuitButton>Quit</div>
+		</div>
+		<div class="info">
+			<label>Retry Count: 0</label>
+			<label>Song Progress: 0%</label>
+		</div>
+	</div>
 </root>
 
 @code
@@ -20,13 +32,21 @@
 	public static GameHud Instance { get; private set; }
 
 	[Property] GameManager GameManager { get; set; }
+	[Property] SceneFile MenuScene { get; set; }
 
 	Panel JudgementPanel { get; set; }
-	RealTimeSince TimeSinceLastJudgement { get; set; } = 0f;
+	Panel ComboPanel { get; set; }
+	TimeSince TimeSinceLastJudgement { get; set; } = 0f;
+	int _lastCombo = -1;
 
 	protected override void OnAwake()
 	{
 		Instance = this;
+	}
+
+	protected override void OnTreeFirstBuilt()
+	{
+		SetCombo(0);
 	}
 
 	protected override void OnUpdate()
@@ -47,5 +67,30 @@
 		TimeSinceLastJudgement = 0f;
 	}
 
-	protected override int BuildHash() => System.HashCode.Combine( GameManager?.Score, GameManager?.Combo );
+	public void SetCombo(int combo)
+	{
+		if(combo == _lastCombo) return;
+		ComboPanel.DeleteChildren(true);
+		var label = ComboPanel.AddChild<Label>();
+		label.Text = $"{combo.ToString()}x";
+		_lastCombo = combo;
+	}
+
+	void ContinueButton()
+	{
+		GameManager.Instance.SetPause(false);
+	}
+
+	void RetryButton()
+	{
+		Sound.StopAll(0);
+		Scene.Load(Scene.Source);
+	}
+
+	void QuitButton()
+	{
+		Scene.Load(MenuScene);
+	}
+
+	protected override int BuildHash() => System.HashCode.Combine( GameManager?.Score, GameManager?.Combo, GameManager.Instance.IsPaused );
 }

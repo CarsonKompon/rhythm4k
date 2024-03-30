@@ -6,6 +6,7 @@ namespace Rhythm4K;
 
 public sealed class GameManager : Component, IMusicPlayer
 {
+	public static GameManager Instance { get; private set; }
 	[Property] public SceneFile MenuScene { get; set; }
 	[Property] public GameObject LanePrefab { get; set; }
 	[Property] public GameObject NotePrefab { get; set; }
@@ -17,11 +18,12 @@ public sealed class GameManager : Component, IMusicPlayer
 	public List<NoteComponent> Notes { get; set; } = new();
 
 	public bool IsPlaying { get; private set; } = false;
+	public bool IsPaused { get; private set; } = false;
 
 	public float CurrentBPM { get; set; } = 120f;
 	public float BeatLength => 60f / CurrentBPM;
 	public float ScreenTime = 1f;
-	public RealTimeSince CurrentTime = 0f;
+	public TimeSince CurrentTime = 0f;
 
 	public MusicPlayer Music { get; set; }
 
@@ -54,6 +56,8 @@ public sealed class GameManager : Component, IMusicPlayer
 
 		InitLanes();
 		StartSong();
+
+		Instance = this;
 	}
 
 	protected override void OnUpdate()
@@ -61,11 +65,18 @@ public sealed class GameManager : Component, IMusicPlayer
 		if ( !IsPlaying ) return;
 
 		if ( Music is not null )
+		{
 			Music.Position = Scene.Camera.Transform.Position;
+			Music.Paused = IsPaused;
+		}
 
-		UpdateBpm();
-		SpawnNextNotes();
-		UpdateNotes();
+		if ( !IsPaused )
+		{
+			UpdateBpm();
+			SpawnNextNotes();
+			UpdateNotes();
+		}
+		UpdatePause();
 
 		if ( Input.Pressed( "ScrollSpeedUp" ) )
 		{
@@ -171,6 +182,25 @@ public sealed class GameManager : Component, IMusicPlayer
 		}
 	}
 
+	void UpdatePause()
+	{
+		if ( Input.EscapePressed )
+		{
+			SetPause( !IsPaused );
+		}
+	}
+
+	public void SetPause( bool pause )
+	{
+		IsPaused = pause;
+		Scene.TimeScale = IsPaused ? 0 : 1;
+		if ( !IsPaused )
+		{
+			Music.Seek( CurrentTime );
+		}
+		Sound.Play( IsPaused ? "ui_pause" : "ui_unpause" );
+	}
+
 	void HitNote( NoteComponent note )
 	{
 		var difference = MathF.Abs( CurrentTime - note.Note.BakedTime );
@@ -186,6 +216,7 @@ public sealed class GameManager : Component, IMusicPlayer
 		}
 		Score += points / TotalScore * 1000000f;
 		Combo++;
+		GameHud.Instance?.SetCombo( Combo );
 	}
 
 	void SpawnNextNotes()
@@ -256,6 +287,7 @@ public sealed class GameManager : Component, IMusicPlayer
 	public void BreakCombo()
 	{
 		Combo = 0;
+		GameHud.Instance?.SetCombo( 0 );
 		GameHud.Instance?.SetJudgement( "Miss" );
 	}
 }

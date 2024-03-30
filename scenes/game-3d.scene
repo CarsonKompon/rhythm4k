@@ -94,7 +94,8 @@
             "component_id": "1c3e0991-2ea4-443e-a0e0-151d16a0145e",
             "go": "6528f295-82e4-4c4a-b2c5-3714cb045473",
             "component_type": "GameManager"
-          }
+          },
+          "MenuScene": "scenes/main-menu.scene"
         }
       ]
     }
@@ -122,7 +123,7 @@
   },
   "Title": "game-3d",
   "Description": "",
-  "LastSaved": "2024-03-28T12:19:07.5904108-04:00",
+  "LastSaved": "2024-03-30T10:21:32.225923-04:00",
   "ResourceVersion": 1,
   "__version": 1,
   "__references": []
