@@ -114,7 +114,16 @@
 
 	protected override void OnEnabled()
 	{
-		FilterProcessor = Mixer.Master.GetProcessors().FirstOrDefault();
+		Mixer.Master.ClearProcessors();
+		var allProcessors = TypeLibrary.GetTypes<AudioProcessor>();
+		foreach(var processor in allProcessors)
+		{
+			if(processor.Name == "LowPassProcessor")
+			{
+				Mixer.Master.AddProcessor(TypeLibrary.Create<AudioProcessor>(processor.TargetType));
+				FilterProcessor = Mixer.Master.GetProcessors().FirstOrDefault();
+			}
+		}
 	}
 
 	protected override void OnDestroy()
@@ -145,7 +154,7 @@
 
 			if(FilterProcessor is not null)
 			{
-				FilterProcessor.Mix = FilterProcessor.Mix.LerpTo(0.2f, Time.Delta * 2f);
+				FilterProcessor.Mix = FilterProcessor.Mix.LerpTo(0.8f, Time.Delta * 2f);
 			}
 			Mixer.Master.Volume = Mixer.Master.Volume.LerpTo(0f, Time.Delta * 2f);
 		}
@@ -156,6 +165,14 @@
 				FilterProcessor.Mix = FilterProcessor.Mix.LerpTo(0f, Time.Delta * 20f);
 			}	
 			Mixer.Master.Volume = Mixer.Master.Volume.LerpTo(1f, Time.Delta * 10f);
+		
+			if(Input.EscapePressed)
+			{	
+				if(MainMenu.CurrentUrl == "/song-select") Navigate("/play");
+				else if(MainMenu.CurrentUrl == "/play") Navigate("/");
+				else if(MainMenu.CurrentUrl == "/settings") Navigate("/");
+				else if(MainMenu.CurrentUrl == "/browse") Navigate("/play");
+			}
 		}
 
 		if(Music is null) return;
