@@ -129,10 +129,280 @@
           "GroupName": "Other"
         },
         {
-          "Name": "Control",
-          "KeyboardCode": "CTRL",
+          "Name": "6KeyButton1",
+          "KeyboardCode": "S",
           "GamepadCode": "None",
-          "GroupName": "Other"
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "6KeyButton2",
+          "KeyboardCode": "D",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "6KeyButton3",
+          "KeyboardCode": "F",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "6KeyButton4",
+          "KeyboardCode": "J",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "6KeyButton5",
+          "KeyboardCode": "K",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "6KeyButton6",
+          "KeyboardCode": "L",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "1KeyButton1",
+          "KeyboardCode": "SPACE",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "2KeyButton1",
+          "KeyboardCode": "F",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "2KeyButton2",
+          "KeyboardCode": "J",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "3KeyButton1",
+          "KeyboardCode": "F",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "3KeyButton2",
+          "KeyboardCode": "SPACE",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "3KeyButton3",
+          "KeyboardCode": "J",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "7KeyButton1",
+          "KeyboardCode": "S",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "7KeyButton2",
+          "KeyboardCode": "D",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "7KeyButton3",
+          "KeyboardCode": "F",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "7KeyButton4",
+          "KeyboardCode": "SPACE",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "7KeyButton5",
+          "KeyboardCode": "J",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "7KeyButton6",
+          "KeyboardCode": "K",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "7KeyButton7",
+          "KeyboardCode": "L",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "8KeyButton1",
+          "KeyboardCode": "A",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "8KeyButton2",
+          "KeyboardCode": "S",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "8KeyButton3",
+          "KeyboardCode": "D",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "8KeyButton4",
+          "KeyboardCode": "F",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "8KeyButton5",
+          "KeyboardCode": "J",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "8KeyButton6",
+          "KeyboardCode": "K",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "8KeyButton7",
+          "KeyboardCode": "L",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "8KeyButton8",
+          "KeyboardCode": "SEMICOLON",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "9KeyButton1",
+          "KeyboardCode": "A",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "9KeyButton2",
+          "KeyboardCode": "S",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "9KeyButton3",
+          "KeyboardCode": "D",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "9KeyButton4",
+          "KeyboardCode": "F",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "9KeyButton5",
+          "KeyboardCode": "SPACE",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "9KeyButton6",
+          "KeyboardCode": "J",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "9KeyButton7",
+          "KeyboardCode": "K",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "9KeyButton8",
+          "KeyboardCode": "L",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "9KeyButton9",
+          "KeyboardCode": "SEMICOLON",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "10KeyButton1",
+          "KeyboardCode": "A",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "10KeyButton2",
+          "KeyboardCode": "S",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "10KeyButton3",
+          "KeyboardCode": "D",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "10KeyButton4",
+          "KeyboardCode": "F",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "10KeyButton5",
+          "KeyboardCode": "V",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "10KeyButton6",
+          "KeyboardCode": "N",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "10KeyButton7",
+          "KeyboardCode": "J",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "10KeyButton8",
+          "KeyboardCode": "K",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "10KeyButton9",
+          "KeyboardCode": "L",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
+        },
+        {
+          "Name": "10KeyButton10",
+          "KeyboardCode": "SEMICOLON",
+          "GamepadCode": "None",
+          "GroupName": "Gameplay"
         }
       ],
       "__guid": "083680a3-d5ee-4f17-8b47-d36c31cceaa9"

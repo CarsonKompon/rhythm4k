@@ -128,13 +128,14 @@ public sealed class GameManager : Component, IMusicPlayer
 		if ( Notes.Count == 0 ) return;
 
 		bool[] pressed = new bool[Lanes.Count];
+		float[] noteTimes = new float[Lanes.Count];
 		for ( int i = 0; i < Lanes.Count; i++ )
 		{
 			pressed[i] = Input.Pressed( $"{Lanes.Count}KeyButton{i + 1}" );
+			noteTimes[i] = 1000;
 		}
 
 		List<NoteComponent> notesToHit = new();
-		float[] noteTimes = { 1000, 1000, 1000, 1000 };
 		foreach ( NoteComponent note in Notes )
 		{
 			if ( !note.IsValid() ) continue;

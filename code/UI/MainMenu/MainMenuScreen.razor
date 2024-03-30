@@ -32,7 +32,7 @@
 	public string CurrentUrl => MainMenu?.CurrentUrl ?? "";
 	float fade = 0f;
 
-	BeatmapSet CurrentSong;
+	Beatmap CurrentSong;
 	public MusicPlayer Music { get; set; }
 	TimeSince TimeSinceLastSong = 0;
 
@@ -139,16 +139,16 @@
 	void PlayRandomSong()
 	{
 		Music?.Dispose();
-		CurrentSong = BeatmapSet.All.OrderBy(x => System.Guid.NewGuid() ).FirstOrDefault();
-		if(CurrentSong is null || System.Random.Shared.Float() < 0.1)
+		var set = BeatmapSet.All.OrderBy(x => System.Guid.NewGuid() ).FirstOrDefault();
+		if(set is null || System.Random.Shared.Float() < 0.1)
 		{
 			Music = MusicPlayer.Play(FileSystem.Mounted, "sounds/music/menu-music.mp3");
 			CurrentSong = null;
 		}
 		else
 		{
-			var beatmap = CurrentSong.Beatmaps.OrderBy(x => System.Guid.NewGuid()).FirstOrDefault();
-			Music = MusicPlayer.Play(FileSystem.Data, CurrentSong.Path + "/" + beatmap.AudioFilename);
+			CurrentSong = set.Beatmaps.OrderBy(x => System.Guid.NewGuid()).FirstOrDefault();
+			Music = MusicPlayer.Play(FileSystem.Data, set.Path + "/" + CurrentSong.AudioFilename);
 		}
 		Music.OnFinished += PlayRandomSong;
 		TimeSinceLastSong = 0;
@@ -156,12 +156,20 @@
 
 	public void PlaySong(Beatmap beatmap)
 	{
-		CurrentSong = beatmap.GetBeatmapSet();
+		var song = beatmap.GetBeatmapSet();
+		var currentPath = (CurrentSong is null) ? "" : (CurrentSong.GetBeatmapSet().Path + "/" + CurrentSong.AudioFilename);
+		var newPath = song.Path + "/" + beatmap.AudioFilename;
+		
+		if(currentPath == newPath) return;
+		CurrentSong = beatmap;
 		Music?.Stop();
 		Music?.Dispose();
-		Music = MusicPlayer.Play(FileSystem.Data, CurrentSong.Path + "/" + beatmap.AudioFilename);
-		Log.Info("this log is necessary for music to seek to the right time...");
-		Music.Seek(beatmap.SampleStart);
+		Music = MusicPlayer.Play(FileSystem.Data, newPath);
+		if(SongListInfoPanel.Instance.GameObject.Enabled)
+		{
+			Log.Info("this log is necessary for music to seek to the right time...");
+			Music.Seek(beatmap.SampleStart);
+		}
 		Music.OnFinished += PlayRandomSong;
 		Music.Volume = 0f;
 		TimeSinceLastSong = 0;

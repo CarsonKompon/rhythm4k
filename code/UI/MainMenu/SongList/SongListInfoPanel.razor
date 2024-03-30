@@ -48,8 +48,8 @@
 			}
 		</div>
 		<div class="buttons">
-			<MainMenuButton Text="Play" onclick=@PlayButton class=@(SelectedIndex == -1 ? "disabled" : "")/>
 			<MainMenuButton Text="Back" onclick=@BackButton class="back"/>
+			<MainMenuButton Text="Play" onclick=@PlayButton class=@(SelectedIndex == -1 ? "disabled" : "")/>
 		</div>
 	}
 	else
@@ -65,7 +65,7 @@
 
 @code
 {
-
+	public static SongListInfoPanel Instance { get; private set; }
 	public int Index
 	{
 		get
@@ -84,9 +84,14 @@
 	static TimeSince timeSinceLastSelection = 0;
 	static bool playingSong = false;
 
+	protected override void OnStart()
+	{
+		Instance = this;
+	}
+
 	protected override void OnUpdate()
 	{
-		if(!playingSong && timeSinceLastSelection > 0.1f && BeatmapSet.All.Count > 0)
+		if(!playingSong && timeSinceLastSelection > 0.25f && BeatmapSet.All.Count > 0)
 		{
 			var set = BeatmapSet.All[Index];
 			var list = set.Beatmaps.OrderBy(x => x.Difficulty).ToList();

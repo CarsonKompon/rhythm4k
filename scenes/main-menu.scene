@@ -695,7 +695,6 @@
       "__guid": "51ca35c4-742d-4ab7-bf94-4e3e32a35fee",
       "Name": "Song List Carousel",
       "Position": "-97.26666,-138.9301,-37.10004",
-      "Enabled": true,
       "NetworkMode": 2,
       "Components": [
         {
@@ -761,7 +760,7 @@
   },
   "Title": "minimal",
   "Description": "",
-  "LastSaved": "2024-03-28T13:29:56.6289513-04:00",
+  "LastSaved": "2024-03-29T14:24:10.63765-04:00",
   "ResourceVersion": 1,
   "__version": 1,
   "__references": [

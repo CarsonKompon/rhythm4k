@@ -37,20 +37,19 @@ public sealed class SongListCarousel : Component
 			{
 				int offset = i - panelIndex;
 				var panel = SongPanels[(i + SongPanelCount * 2) % SongPanelCount];
-				var panelScript = panel.Components.Get<SongListPanel>();
 				int ind = _selectedIndex;
 				while ( ind < 0 )
 				{
 					ind += totalAm;
 				}
-				panelScript.Index = (ind + totalAm + offset) % totalAm;
+				panel.Index = (ind + totalAm + offset) % totalAm;
 			}
 			SongListInfoPanel.Select( 0 );
 		}
 	}
 	private int _selectedIndex = 0;
 	float CurrentAngle { get; set; } = 0f;
-	List<GameObject> SongPanels { get; set; } = new();
+	List<SongListPanel> SongPanels { get; set; } = new();
 
 	int Moving { get; set; } = 0;
 	TimeSince TimeSinceHeld { get; set; } = 0f;
@@ -70,14 +69,14 @@ public sealed class SongListCarousel : Component
 			panel.SetParent( GameObject );
 			panel.Transform.LocalPosition = new Vector3( MathF.Cos( angle ) * SongXSpread, 0f, MathF.Sin( angle ) * SongYSpread );
 			angle -= MathF.PI * 2f / (float)SongPanelCount;
-			SongPanels.Add( panel );
 			var panelScript = panel.Components.Get<SongListPanel>();
+			SongPanels.Add( panelScript );
 		}
 	}
 
 	protected override void OnStart()
 	{
-		SelectedIndex = 0;
+		SelectedIndex = Random.Shared.Int( 0, BeatmapSet.All.Count() - 1 );
 
 		worldInput = new WorldInput();
 		worldInput.Enabled = true;
@@ -146,12 +145,14 @@ public sealed class SongListCarousel : Component
 		}
 
 		float angle = CurrentAngle;
+		int index = 0;
 		foreach ( var panel in SongPanels )
 		{
 			panel.Transform.LocalPosition = new Vector3( (SongXSpread / 2f) + (MathF.Cos( angle ) * SongXSpread * Zoom / 2f), 0f, MathF.Sin( angle ) * SongYSpread * Zoom );
 			panel.Transform.LocalRotation = Rotation.From( 0f, 90f, 0f );
 			panel.Transform.LocalScale = Zoom;
 			angle -= MathF.PI * 2f / (float)SongPanelCount;
+			index++;
 		}
 	}
 
@@ -166,7 +167,6 @@ public sealed class SongListCarousel : Component
 	{
 		if ( firstLoad )
 		{
-			SelectedIndex = 0;
 			firstLoad = false;
 		}
 		Timer = 0f;
