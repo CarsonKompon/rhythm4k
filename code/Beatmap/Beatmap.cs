@@ -22,20 +22,12 @@ public class Beatmap
     public float Offset { get; set; }
     public float SampleStart { get; set; }
     public float SampleLength { get; set; }
+    public float Length { get; set; }
 
 
     public BeatmapSet GetBeatmapSet()
     {
         return BeatmapSet.All.FirstOrDefault( x => x.Beatmaps.Contains( this ) );
-    }
-
-    /// <summary>
-    /// Returns the length of the song in seconds
-    /// </summary>
-    public float GetSongLength()
-    {
-        Note lastNote = Notes.OrderBy( o => -o.BakedTime ).ToList()[0];
-        return lastNote.BakedTime + lastNote.BakedLength;
     }
 
     /// <summary>
@@ -93,6 +85,14 @@ public class Beatmap
         return true;
     }
 
+    public string GetSongLength()
+    {
+        Log.Info( $"Length: {Length}" );
+        int minutes = (int)(Length / 60f);
+        int seconds = (int)(Length % 60f);
+        return $"{minutes}:{seconds:00}";
+    }
+
     public void BakeValues()
     {
         TotalNotes = 0;
@@ -143,44 +143,6 @@ public class Beatmap
             }
             Notes[i] = note;
         }
-    }
-
-    public List<string> GetJudgementNames()
-    {
-        return new List<string>
-        {
-            "Perfect",
-            "Great",
-            "Good",
-            "OK",
-            "Meh",
-            "Miss"
-        };
-    }
-
-    public List<float> GetJudgementScores()
-    {
-        return new List<float>
-        {
-            320f,
-            300f,
-            200f,
-            100f,
-            50f,
-        };
-    }
-
-    public List<float> GetJudgementTimes()
-    {
-        var diff = 0.003f * Difficulty;
-        return new List<float>
-        {
-            0.016f,
-            0.064f - diff,
-            0.097f - diff,
-            0.127f - diff,
-            0.151f - diff,
-        };
     }
 }
 

@@ -22,7 +22,7 @@
 				var chart = list.ElementAt(SelectedIndex);
 				<div class="extra">
 					<i>access_time</i>
-					<label>00:37</label>
+					<label>@chart.GetSongLength()</label>
 				</div>
 				<div class="extra">
 					<i>piano</i>
@@ -38,7 +38,7 @@
 			@foreach(var chart in list)
 			{
 				var index = list.IndexOf(chart);
-				<div class="chart @(index == SelectedIndex ? "selected" : "")" onclick=@(() => Select(index))>
+				<div class="chart @(index == SelectedIndex ? "selected" : "")" onclick=@(() => SelectButton(index))>
 					<div class="info">
 						<h3>@(!string.IsNullOrEmpty(chart.DifficultyName) ? chart.DifficultyName : (!string.IsNullOrEmpty(chart.Name) ? chart.Name : "Unknown"))</h3>
 						<h4>by @(!string.IsNullOrEmpty(chart.Charter) ? chart.Charter : "Unknown")</h4>
@@ -114,6 +114,16 @@
 	void BackButton()
 	{
 		MainMenuScreen.Instance?.Navigate("/play");
+	}
+
+	void SelectButton(int index)
+	{
+		if(SelectedIndex == index)
+		{
+			Instance?.PlayButton();
+			return;
+		}
+		Select(index);
 	}
 
 	public static void Select(int index)

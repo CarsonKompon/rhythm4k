@@ -38,6 +38,7 @@ public sealed class GameManager : Component, IMusicPlayer
 
 	public float Score { get; set; } = 0;
 	public int Combo { get; set; } = 0;
+	public Replay Replay { get; set; }
 	List<float> JudgementTimes = new();
 	List<float> JudgementScores = new();
 	List<string> JudgementNames = new();
@@ -57,6 +58,7 @@ public sealed class GameManager : Component, IMusicPlayer
 			Scene.Load( MenuScene );
 			return;
 		}
+		Replay = new Replay( Beatmap );
 
 		InitLanes();
 		StartSong();
@@ -95,9 +97,9 @@ public sealed class GameManager : Component, IMusicPlayer
 		Music?.Stop();
 		Music?.Dispose();
 
-		JudgementTimes = Beatmap.GetJudgementTimes();
-		JudgementScores = Beatmap.GetJudgementScores();
-		JudgementNames = Beatmap.GetJudgementNames();
+		JudgementTimes = Judgement.GetJudgementTimes( Beatmap.Difficulty );
+		JudgementScores = Judgement.Scores;
+		JudgementNames = Judgement.Names;
 		TotalScore = JudgementScores.First() * Beatmap.Notes.Count;
 
 		NotesToSpawn = Beatmap.Notes.ToList();
@@ -111,6 +113,7 @@ public sealed class GameManager : Component, IMusicPlayer
 		IsPlaying = true;
 		Score = 0;
 		Combo = 0;
+		Replay.Hits.Clear();
 
 		if ( CurrentTime < 0 )
 		{
@@ -165,20 +168,57 @@ public sealed class GameManager : Component, IMusicPlayer
 			// Check if we can hit the note.
 			var laneIndex = note.Note.Lane;
 			var distance = MathF.Abs( CurrentTime - noteTime );
-			if ( distance < timing && pressed[laneIndex] && noteTime < noteTimes[laneIndex] )
+			if ( distance < timing && noteTime < noteTimes[laneIndex] )
 			{
-				notesToHit = notesToHit.Where( x => x.Note.Lane != laneIndex ).ToList();
-				notesToHit.Add( note );
-				noteTimes[laneIndex] = noteTime;
+				bool canAdd = true;
+				foreach ( var otherNote in notesToHit )
+				{
+					if ( otherNote.Note.Lane == laneIndex )
+					{
+						if ( otherNote.Note.BakedTime < noteTime )
+						{
+							notesToHit.Remove( otherNote );
+						}
+						else
+						{
+							canAdd = false;
+						}
+					}
+				}
+				if ( canAdd )
+				{
+					notesToHit = notesToHit.Where( x => x.Note.Lane != laneIndex ).ToList();
+					notesToHit.Add( note );
+					noteTimes[laneIndex] = noteTime;
+				}
 			}
 		}
 
+		List<NoteComponent> missedNotes = new();
+		List<NoteComponent> hitNotes = new();
 		// Check if we hit any notes.
 		foreach ( NoteComponent note in notesToHit )
 		{
-			Notes.Remove( note );
-			note.GameObject.Destroy();
-			HitNote( note );
+			if ( pressed[note.Note.Lane] )
+			{
+				Notes.Remove( note );
+				note.GameObject.Destroy();
+				HitNote( note );
+				hitNotes.Add( note );
+			}
+			else
+			{
+				missedNotes.Add( note );
+			}
+		}
+
+		// Check if any of the missed notes were before the hit notes.
+		foreach ( NoteComponent note in missedNotes )
+		{
+			if ( hitNotes.Any( x => x.Note.BakedTime < note.Note.BakedTime ) )
+			{
+				// If so, we missed the note.
+			}
 		}
 	}
 
@@ -265,12 +305,20 @@ public sealed class GameManager : Component, IMusicPlayer
 
 	void HitNote( NoteComponent note )
 	{
-		var difference = MathF.Abs( CurrentTime - note.Note.BakedTime );
+		var difference = CurrentTime - note.Note.BakedTime;
+		var absDifference = MathF.Abs( difference );
 		var points = 0f;
 		for ( int i = 0; i < JudgementTimes.Count; i++ )
 		{
-			if ( difference <= JudgementTimes[i] )
+			if ( i == JudgementTimes.Count - 1 )
 			{
+				// Miss
+				BreakCombo();
+				return;
+			}
+			else if ( difference <= JudgementTimes[i] )
+			{
+				// Hit
 				points = JudgementScores[i];
 				GameHud.Instance?.SetJudgement( JudgementNames[i] );
 				break;
@@ -278,7 +326,9 @@ public sealed class GameManager : Component, IMusicPlayer
 		}
 		Score += points / TotalScore * 1000000f;
 		Combo++;
+		Replay.MaxCombo = Math.Max( Replay.MaxCombo, Combo );
 		GameHud.Instance?.SetCombo( Combo );
+		Replay.Hits.Add( new HitInfo( CurrentTime, difference ) );
 	}
 
 	void SpawnNextNotes()
@@ -351,5 +401,6 @@ public sealed class GameManager : Component, IMusicPlayer
 		Combo = 0;
 		GameHud.Instance?.SetCombo( 0 );
 		GameHud.Instance?.SetJudgement( "Miss" );
+		Replay.Hits.Add( new HitInfo( CurrentTime, 999 ) );
 	}
 }

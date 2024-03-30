@@ -180,6 +180,7 @@
 		Music.Volume = Music.Volume.LerpTo(1f, Time.Delta * 2f);
 
 		var spectrum = Music.Spectrum;
+		if(spectrum.Length <= 0) return;
 
         // Energy Calculations
         var energy = 0f;
@@ -246,6 +247,7 @@
 		else
 		{
 			CurrentSong = set.Beatmaps.OrderBy(x => System.Guid.NewGuid()).FirstOrDefault();
+			Beatmap.Loaded = CurrentSong;
 			Music = MusicPlayer.Play(FileSystem.Data, set.Path + "/" + CurrentSong.AudioFilename);
 		}
 		Music.OnFinished += PlayRandomSong;

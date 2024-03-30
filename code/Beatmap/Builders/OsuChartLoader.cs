@@ -193,8 +193,7 @@ public class OsuChartLoader : IChartLoader
                     {
                         case 128:
                             var endTime = float.Parse( objectParams.Split( ':' )[0] ) / 1000f;
-                            var endOffset = beatmap.GetOffsetFromTime( endTime );
-                            var note = new Note( time, lane, 0, endOffset - time, true );
+                            var note = new Note( time, lane, 0, endTime - time, true );
                             beatmap.Notes.Add( note );
                             break;
                         default:
@@ -202,6 +201,10 @@ public class OsuChartLoader : IChartLoader
                             break;
                     }
                 }
+                beatmap.Notes = beatmap.Notes.OrderBy( o => o.BakedTime ).ToList();
+                var lastNote = beatmap.Notes.LastOrDefault();
+                Log.Info( $"Last note: {lastNote.BakedTime} + {lastNote.BakedLength}" );
+                beatmap.Length = lastNote.BakedTime + lastNote.BakedLength;
             }
         }
 

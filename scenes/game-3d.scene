@@ -159,6 +159,7 @@
         {
           "__guid": "6dc34da6-99f1-48fd-8f9b-342ff0f9d4a9",
           "Name": "Smoke",
+          "Position": "0,0,0",
           "Tags": "particles",
           "Enabled": true,
           "NetworkMode": 2,
@@ -331,7 +332,7 @@
   },
   "Title": "game-3d",
   "Description": "",
-  "LastSaved": "2024-03-30T12:31:25.1324368-04:00",
+  "LastSaved": "2024-03-30T13:42:23.5266962-04:00",
   "ResourceVersion": 1,
   "__version": 1,
   "__references": []
