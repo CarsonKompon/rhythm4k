@@ -68,7 +68,7 @@
             "_type": "gameobject",
             "prefab": "prefabs/game/note_3d.prefab"
           },
-          "PeakThreshold": 1.08
+          "PeakThreshold": 1.09
         }
       ]
     },
@@ -332,7 +332,7 @@
   },
   "Title": "game-3d",
   "Description": "",
-  "LastSaved": "2024-03-30T13:42:23.5266962-04:00",
+  "LastSaved": "2024-03-30T15:28:39.3245194-04:00",
   "ResourceVersion": 1,
   "__version": 1,
   "__references": []

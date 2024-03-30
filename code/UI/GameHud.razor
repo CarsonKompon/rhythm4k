@@ -13,6 +13,9 @@
 		<p @ref="ComboPanel"></p>
 	</div>
 	<div class="judgement" @ref="JudgementPanel"></div>
+	<div class="song-progress">
+		<div class="fill" style="width: @(GameManager.CurrentTime / GameManager.Beatmap.Length * 100f)%"></div>
+	</div>
 	<div class="pause-menu @(GameManager.Instance.IsPaused ? "" : "hidden")">
 		<h1>Paused</h1>
 		<div class="options">
@@ -95,5 +98,5 @@
 		Scene.Load(MenuScene);
 	}
 
-	protected override int BuildHash() => System.HashCode.Combine( GameManager?.Score, GameManager?.Combo, GameManager.Instance.IsPaused );
+	protected override int BuildHash() => System.HashCode.Combine( Time.Now );
 }

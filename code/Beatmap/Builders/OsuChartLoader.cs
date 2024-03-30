@@ -203,7 +203,6 @@ public class OsuChartLoader : IChartLoader
                 }
                 beatmap.Notes = beatmap.Notes.OrderBy( o => o.BakedTime ).ToList();
                 var lastNote = beatmap.Notes.LastOrDefault();
-                Log.Info( $"Last note: {lastNote.BakedTime} + {lastNote.BakedLength}" );
                 beatmap.Length = lastNote.BakedTime + lastNote.BakedLength;
             }
         }

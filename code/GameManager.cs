@@ -310,19 +310,19 @@ public sealed class GameManager : Component, IMusicPlayer
 		var points = 0f;
 		for ( int i = 0; i < JudgementTimes.Count; i++ )
 		{
-			if ( i == JudgementTimes.Count - 1 )
-			{
-				// Miss
-				BreakCombo();
-				return;
-			}
-			else if ( difference <= JudgementTimes[i] )
+			if ( absDifference <= JudgementTimes[i] )
 			{
 				// Hit
 				points = JudgementScores[i];
 				GameHud.Instance?.SetJudgement( JudgementNames[i] );
 				break;
 			}
+		}
+		if ( points == 0f )
+		{
+			// Miss
+			BreakCombo();
+			return;
 		}
 		Score += points / TotalScore * 1000000f;
 		Combo++;
