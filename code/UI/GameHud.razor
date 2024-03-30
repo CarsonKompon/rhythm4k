@@ -35,7 +35,6 @@
 	public static GameHud Instance { get; private set; }
 
 	[Property] GameManager GameManager { get; set; }
-	[Property] SceneFile MenuScene { get; set; }
 
 	Panel JudgementPanel { get; set; }
 	Panel ComboPanel { get; set; }
@@ -95,7 +94,7 @@
 	void QuitButton()
 	{
 		MainMenuScreen.StartingUrl = "/song-select";
-		Scene.Load(MenuScene);
+		Scene.Load(GameManager.MenuScene);
 	}
 
 	protected override int BuildHash() => System.HashCode.Combine( Time.Now );

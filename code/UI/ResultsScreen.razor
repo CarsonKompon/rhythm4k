@@ -1,0 +1,154 @@
+@using System;
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+
+@namespace Rhythm4K
+
+<root>
+	<div class="panel results">
+		<div class="song-info">
+			<label class="song-title">@GameManager.Beatmap.Name</label>
+			<label class="song-artist">@GameManager.Beatmap.Artist</label>
+		</div>
+		<div class="score-panel">
+			@if(true)
+			{
+				var progress = MathF.Min(Score / 1000000f * 100f, 100f);
+				<div class="progress" style="background-image: conic-gradient( white, white @(progress + 0.1f)%, transparent @(progress)%);"></div>
+			}
+			<div class="progress-indicator" />
+			<div class="progress-backing" />
+			@if(true)
+			{
+				var rank = Judgement.GetRank(Accuracy);
+				<label class="rank @("rank-" + rank)">@rank</label>
+			}
+		</div>
+		<label class="score">@($"{Score:N0}")</label>
+		<div class="chart-info">
+			<div class="difficulty">
+				<i>star</i>
+				<label>@GameManager.Beatmap.Difficulty</label>
+			</div>
+			<label class="difficulty-name">@GameManager.Beatmap.DifficultyName</label>
+			<div class="charter">
+				<label>mapped by</label>
+				<label class="charter">@GameManager.Beatmap.Charter</label>
+			</div>
+		</div>
+		<div class="stats">
+			<div class="row">
+				<div class="stat">
+					<label class="header">Accuracy</label>
+					<label class="value">@($"{Accuracy:N2}")%</label>
+				</div>
+				<div class="stat">
+					<label class="header">Max Combo</label>
+					<div class="value">
+						<label>@GameManager.Replay.MaxCombo</label>
+						<label class="small">@($"/{GameManager.Replay.Hits.Count}")</label>
+					</div>
+				</div>
+			</div>
+			@if(Judgements.Length > 0)
+			{
+				<div class="row">
+					<div class="stat">
+						<label class="header">@Judgement.Names[0]</label>
+						<label class="value">@(Judgements[0])</label>
+					</div>
+					<div class="stat">
+						<label class="header">@Judgement.Names[1]</label>
+						<label class="value">@(Judgements[1])</label>
+					</div>
+					<div class="stat">
+						<label class="header">@Judgement.Names[2]</label>
+						<label class="value">@(Judgements[2])</label>
+					</div>
+					<div class="stat">
+						<label class="header">@Judgement.Names[3]</label>
+						<label class="value">@(Judgements[3])</label>
+					</div>
+					<div class="stat">
+						<label class="header">@Judgement.Names[4]</label>
+						<label class="value">@(Judgements[4])</label>
+					</div>
+					<div class="stat">
+						<label class="header">@Judgement.Names[5]</label>
+						<label class="value">@(Judgements[5])</label>
+					</div>
+				</div>
+			}
+		</div>
+		<MainMenuButton Text="Back" onclick=@BackButton />
+	</div>
+	<div class="more-info">
+		<div class="panel">
+			<label class="header">Timing Distribution</label>
+			<div class="timing">
+				@for(int i=0; i<75; i++)
+				{
+					var index = i - 37;
+					var value = (TimingDistribution[i] / (float)TimingLimit) * Percent * 100f;
+					<div class="timing-bar" style="height: @(value)%;" />
+				}
+			</div>
+			<div class="timing-labels">
+				<label>-@(MathF.Floor(TimingRange * 1000f))</label>
+				<label>-@(MathF.Floor(TimingRange * 800f))</label>
+				<label>-@(MathF.Floor(TimingRange * 600f))</label>
+				<label>-@(MathF.Floor(TimingRange * 400f))</label>
+				<label>-@(MathF.Floor(TimingRange * 200f))</label>
+				<label>0</label>
+				<label>@(MathF.Floor(TimingRange * 200f))</label>
+				<label>@(MathF.Floor(TimingRange * 400f))</label>
+				<label>@(MathF.Floor(TimingRange * 600f))</label>
+				<label>@(MathF.Floor(TimingRange * 800f))</label>
+				<label>@(MathF.Floor(TimingRange * 1000f))</label>
+			</div>
+		</div>
+		<div class="panel">
+			<label class="header">Statistics</label>
+		</div>
+	</div>
+</root>
+
+@code
+{
+
+	[Property] GameManager GameManager { get; set; }
+	int[] Judgements;
+	int[] TimingDistribution;
+	int TimingLimit = 1;
+	float TimingRange = 1;
+
+	float Score => (int)MathF.Round(GameManager.Replay.Score * (float)Percent);
+	float Accuracy => GameManager.Replay.GetAccuracy() * Percent;
+	float Percent = 0f;
+
+	protected override void OnEnabled()
+	{
+		Judgements = GameManager.Replay.GetJudgements();
+		TimingRange = Judgement.GetJudgementTimes(GameManager.Beatmap.Difficulty).Last();
+		TimingDistribution = GameManager.Replay.GetTimingDistribution(75, GameManager.Beatmap.Difficulty);
+		TimingLimit = TimingDistribution.OrderBy(x => x).Last();
+	}
+	
+	protected override void OnUpdate()
+	{
+		Percent = Percent.LerpTo(1f, Time.Delta * 2f);
+		if(Percent >= 0.99f)
+		{
+			Percent = 1f;
+		}
+	}
+
+	void BackButton()
+	{
+		MainMenuScreen.StartingUrl = "/song-select";
+		Scene.Load(GameManager.MenuScene);
+	}
+
+	protected override int BuildHash() => System.HashCode.Combine( Percent );
+}

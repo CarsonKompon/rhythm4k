@@ -7,6 +7,7 @@ namespace Rhythm4K;
 public sealed class GameManager : Component, IMusicPlayer
 {
 	public static GameManager Instance { get; private set; }
+	[Property] public GameObject ResultsScreen { get; set; }
 	[Property] public SceneFile MenuScene { get; set; }
 	[Property] public GameObject LanePrefab { get; set; }
 	[Property] public GameObject NotePrefab { get; set; }
@@ -22,6 +23,7 @@ public sealed class GameManager : Component, IMusicPlayer
 
 	public bool IsPlaying { get; private set; } = false;
 	public bool IsPaused { get; private set; } = false;
+	public bool IsFinished { get; private set; } = false;
 
 	public float CurrentBPM { get; set; } = 120f;
 	public float BeatLength => 60f / CurrentBPM;
@@ -69,6 +71,14 @@ public sealed class GameManager : Component, IMusicPlayer
 	protected override void OnUpdate()
 	{
 		if ( !IsPlaying ) return;
+
+		if ( !IsFinished && CurrentTime >= Beatmap.Length + 3f )
+		{
+			Replay.Score = (int)MathF.Round( Score );
+			ResultsScreen.Enabled = true;
+			IsFinished = true;
+			IsPlaying = false;
+		}
 
 		CalculateMusic();
 

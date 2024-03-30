@@ -1,0 +1,325 @@
+ResultsScreen
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(black, 0.8);
+	backdrop-filter: blur(2px);
+	padding: 64px;
+	gap: 64px;
+	font-family: Orbitron;
+	font-size: 32px;
+	pointer-events: all;
+
+	.panel
+	{
+		background-color: rgba(255, 255, 255, 0.301);
+		transform: skewX(-5deg);
+		padding: 8px;
+	}
+
+	.results
+	{
+		width: 525px;
+		flex-shrink: 0;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		gap: 16px;
+
+		.song-info
+		{
+			flex-direction: column;
+			gap: 8px;
+			text-align: center;
+			color: white;
+			text-shadow: 2px 2px 4px black;
+			font-size: 52px;
+			
+			.song-title
+			{
+				font-weight: 800;
+			}
+			
+			.song-artist
+			{
+				font-size: 24px;
+			}
+		}
+
+		.score-panel
+		{
+			width: 300px;
+			height: 300px;
+			.progress
+			{
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background-size: 100%;
+				border-radius: 100%;
+				mask-image: radial-gradient(black 0%, black 42.9%, white 43%, white 49.9%, black 50%);
+			}
+
+			.progress-indicator
+			{
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background-color: rgba(0, 0, 0, 0.5);
+				border-radius: 100%;
+				mask-image: radial-gradient(black 0%, black 39.9%, white 40%, white 41.9%, black 42%);
+				background-image: conic-gradient( #FF5A5A, #FF5A5A 69.9%, #FF8E5D 70%, #FF8E5D 79.9%, #E3B130 80%, #E3B130 89.9%, #88DA20 90%, #88DA20 94.9%, #02B5C3 95%, #02B5C3 99.8%, #DE31AE 99.9%);
+				z-index: -10;
+			}
+
+			.progress-backing
+			{
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background-color: rgb(124, 124, 124);
+				border-radius: 100%;
+				mask-image: radial-gradient(black 0%, black 42.9%, white 43%, white 49.9%, black 50%);
+				z-index: -10;
+			}
+
+			.rank
+			{
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				justify-content: center;
+				align-items: center;
+				text-align: center;
+				font-size: 102px;
+				font-weight: 1000;
+				color: linear-gradient(90deg, #E3B130, #d3d3d3);
+				text-shadow: 2px 2px 4px black;
+
+				&.rank-D
+				{
+					color: linear-gradient(90deg, #FF5A5A, #d3d3d3);
+				}
+
+				&.rank-C
+				{
+					color: linear-gradient(90deg, #FF8E5D, #d3d3d3);
+				}
+
+				&.rank-B
+				{
+					color: linear-gradient(90deg, #E3B130, #d3d3d3);
+				}
+
+				&.rank-A
+				{
+					color: linear-gradient(90deg, #88DA20, #d3d3d3);
+				}
+
+				&.rank-S
+				{
+					color: linear-gradient(90deg, #02B5C3, #d3d3d3);
+				}
+
+				&.rank-SS
+				{
+					color: linear-gradient(90deg, #DE31AE, #d3d3d3);
+				}
+			}
+		}
+
+		.score
+		{
+			font-size: 64px;
+			font-weight: 800;
+			color: linear-gradient(90deg, #ffffff, #c7c7c7);
+			text-shadow: 2px 2px 4px black;
+		}
+
+		.chart-info
+		{
+			flex-direction: column;
+			align-items: center;
+			gap: 4px;
+
+			> .difficulty
+			{
+				background-color: white;
+				gap: 8px;
+				align-items: center;
+				padding: 2px 8px;
+				border-radius: 12px;
+				box-shadow: 2px 2px 16px black;
+				margin-bottom: 4px;
+			}
+
+			> .difficulty-name
+			{
+				font-size: 28px;
+				font-weight: 800;
+				color: white;
+				text-shadow: 2px 2px 4px black;
+			}
+
+			> .charter
+			{
+				align-items: center;
+				gap: 8px;
+				font-size: 18px;
+				color: white;
+				text-shadow: 2px 2px 4px black;
+				> .charter
+				{
+					font-weight: 700;
+				}
+			}
+		}
+
+		.stats
+		{
+			flex-direction: column;
+			font-size: 20px;
+			font-family: Chakra Petch;
+			width: 100%;
+			
+			.row
+			{
+				gap: 8px;
+				flex-grow: 1;
+			}
+
+			.stat
+			{
+				flex-direction: column;
+				align-items: center;
+				flex-grow: 1;
+				flex-shrink: 0;
+
+				.header
+				{
+					background-color: black;
+					color: white;
+					padding: 2px 4px;
+					border-radius: 8px;
+					width: 100%;
+					text-align: center;
+					font-weight: 800;
+				}
+
+				.value
+				{
+					color: black;
+					font-weight: 500;
+					font-size: 32px;
+					align-items: center;
+				}
+
+				.small
+				{
+					font-size: 20px;
+				}
+			}
+		}
+	}
+
+	.more-info
+	{
+		flex-grow: 1;
+		flex-direction: column;
+		gap: 64px;
+
+		> .panel
+		{
+			flex-grow: 1;
+			flex-direction: column;
+
+			> .header
+			{
+				border-left: 4px solid white;
+				padding-left: 8px;
+				color: white;
+				text-shadow: 2px 2px 4px black;
+			}
+
+			> .timing
+			{
+				flex-grow: 1;
+				align-items: flex-end;
+
+				> .timing-bar
+				{
+					flex-grow: 1;
+					flex-shrink: 0;
+					background-color: rgb(173, 229, 225);
+					border-radius: 8px;
+					overflow: hidden;
+					pointer-events: all;
+
+					&:hover
+					{
+						background-color: rgb(255, 255, 255);
+					}
+				}
+			}
+
+			.timing-labels
+			{
+				width: 100%;
+				justify-content: space-between;
+				font-size: 24px;
+				font-weight: 700;
+			}
+		}
+	}
+
+	MainMenuButton
+	{
+		width: 200px;
+		font-size: 42px;
+		justify-content: center;
+		align-items: center;
+		cursor: pointer;
+
+		.backing
+		{
+			left: 0px;
+			width: 100%;
+			transform: skewX(-10deg) scaleY(0);
+		}
+
+		label
+		{
+			color: black;
+		}
+
+		&.disabled
+		{
+			pointer-events: none;
+			label
+			{
+				color: rgb(177, 177, 177);
+				text-shadow: 0px 0px 0px white;
+			}
+		}
+
+		&:hover
+		{
+			.backing
+			{
+				transform: skewX(-10deg) scaleY(1);
+			}
+		}
+	}
+	
+}

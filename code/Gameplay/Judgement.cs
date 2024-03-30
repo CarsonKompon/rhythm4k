@@ -35,4 +35,29 @@ public static class Judgement
             0.188f - diff
         };
     }
+
+    public static string GetRank( float accuracy )
+    {
+        if ( accuracy >= 100f )
+        {
+            return "SS";
+        }
+        if ( accuracy > 95f )
+        {
+            return "S";
+        }
+        if ( accuracy > 90f )
+        {
+            return "A";
+        }
+        if ( accuracy > 80f )
+        {
+            return "B";
+        }
+        if ( accuracy > 70f )
+        {
+            return "C";
+        }
+        return "D";
+    }
 }

@@ -68,7 +68,11 @@
             "_type": "gameobject",
             "prefab": "prefabs/game/note_3d.prefab"
           },
-          "PeakThreshold": 1.09
+          "PeakThreshold": 1.09,
+          "ResultsScreen": {
+            "_type": "gameobject",
+            "go": "be885363-730b-4aa2-876a-1770926139d3"
+          }
         }
       ]
     },
@@ -95,8 +99,33 @@
             "component_id": "1c3e0991-2ea4-443e-a0e0-151d16a0145e",
             "go": "6528f295-82e4-4c4a-b2c5-3714cb045473",
             "component_type": "GameManager"
-          },
-          "MenuScene": "scenes/main-menu.scene"
+          }
+        }
+      ]
+    },
+    {
+      "__guid": "be885363-730b-4aa2-876a-1770926139d3",
+      "Name": "Results UI",
+      "Position": "-441.111,20.81034,33.97163",
+      "NetworkMode": 2,
+      "Components": [
+        {
+          "__type": "ScreenPanel",
+          "__guid": "79f6809c-4fd8-44ab-b7e5-ac62c0e61637",
+          "AutoScreenScale": true,
+          "Opacity": 1,
+          "Scale": 1,
+          "ZIndex": 80
+        },
+        {
+          "__type": "ResultsScreen",
+          "__guid": "b629edbe-e264-4187-b2ee-9f8bdc70f0c3",
+          "GameManager": {
+            "_type": "component",
+            "component_id": "1c3e0991-2ea4-443e-a0e0-151d16a0145e",
+            "go": "6528f295-82e4-4c4a-b2c5-3714cb045473",
+            "component_type": "GameManager"
+          }
         }
       ]
     },
@@ -332,7 +361,7 @@
   },
   "Title": "game-3d",
   "Description": "",
-  "LastSaved": "2024-03-30T15:28:39.3245194-04:00",
+  "LastSaved": "2024-03-30T17:40:31.4811842-04:00",
   "ResourceVersion": 1,
   "__version": 1,
   "__references": []
