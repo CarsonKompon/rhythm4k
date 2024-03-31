@@ -173,6 +173,12 @@
 				else if(MainMenu.CurrentUrl == "/settings") Navigate("/");
 				else if(MainMenu.CurrentUrl == "/browse") Navigate("/play");
 			}
+
+			if(TimeSinceLastSong > Music.Duration + 2f)
+			{
+				PlayRandomSong();
+				TimeSinceLastSong = 0;
+			}
 		}
 
 		if(Music is null) return;
@@ -237,6 +243,7 @@
 
 	void PlayRandomSong()
 	{
+		Music?.Stop();
 		Music?.Dispose();
 		var set = BeatmapSet.All.OrderBy(x => System.Guid.NewGuid() ).FirstOrDefault();
 		if(set is null || System.Random.Shared.Float() < 0.1)
@@ -250,7 +257,6 @@
 			Beatmap.Loaded = CurrentSong;
 			Music = MusicPlayer.Play(FileSystem.Data, set.Path + "/" + CurrentSong.AudioFilename);
 		}
-		Music.OnFinished += PlayRandomSong;
 		TimeSinceLastSong = 0;
 	}
 
@@ -270,7 +276,6 @@
 			Log.Info("this log is necessary for music to seek to the right time...");
 			Music.Seek(beatmap.SampleStart);
 		}
-		Music.OnFinished += PlayRandomSong;
 		Music.Volume = 0f;
 		TimeSinceLastSong = 0;
 	}

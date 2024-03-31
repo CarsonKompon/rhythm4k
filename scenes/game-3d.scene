@@ -125,7 +125,54 @@
             "component_id": "1c3e0991-2ea4-443e-a0e0-151d16a0145e",
             "go": "6528f295-82e4-4c4a-b2c5-3714cb045473",
             "component_type": "GameManager"
+          },
+          "TimingGradient": {
+            "color": [
+              {
+                "c": "0.26512,0.26512,0.26512,1"
+              },
+              {
+                "t": 0.23290598,
+                "c": "0.60465,0.19405,0.20089,1"
+              },
+              {
+                "t": 0.5192308,
+                "c": "0.50884,0.60465,0.19405,1"
+              },
+              {
+                "t": 0.83760685,
+                "c": "0.19405,0.52937,0.60465,1"
+              },
+              {
+                "t": 1,
+                "c": "0.5648,0.85183,0.99535,1"
+              }
+            ],
+            "alpha": []
           }
+        }
+      ],
+      "Children": [
+        {
+          "__guid": "d774cc6c-69cb-4279-9741-a1de031f86f3",
+          "Name": "Tooltip UI",
+          "Position": "-711.5023,211.8166,690.6369",
+          "Enabled": true,
+          "NetworkMode": 2,
+          "Components": [
+            {
+              "__type": "ScreenPanel",
+              "__guid": "32ba06ca-4d84-487d-ae4e-7d53603a3ad9",
+              "AutoScreenScale": true,
+              "Opacity": 1,
+              "Scale": 1,
+              "ZIndex": 70
+            },
+            {
+              "__type": "CustomTooltip",
+              "__guid": "e5cbc222-27f9-4cb1-bb3e-88ca6ceb4847"
+            }
+          ]
         }
       ]
     },
@@ -361,7 +408,7 @@
   },
   "Title": "game-3d",
   "Description": "",
-  "LastSaved": "2024-03-30T17:40:31.4811842-04:00",
+  "LastSaved": "2024-03-30T21:58:01.7006362-04:00",
   "ResourceVersion": 1,
   "__version": 1,
   "__references": []

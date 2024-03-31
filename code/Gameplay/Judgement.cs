@@ -60,4 +60,29 @@ public static class Judgement
         }
         return "D";
     }
+
+    public static string GetRankInfo( float accuracy )
+    {
+        if ( accuracy >= 100f )
+        {
+            return "Perfect 100%";
+        }
+        if ( accuracy > 95f )
+        {
+            return "> 95%";
+        }
+        if ( accuracy > 90f )
+        {
+            return "> 90%";
+        }
+        if ( accuracy > 80f )
+        {
+            return "> 80%";
+        }
+        if ( accuracy > 70f )
+        {
+            return "> 70%";
+        }
+        return "<= 70%";
+    }
 }

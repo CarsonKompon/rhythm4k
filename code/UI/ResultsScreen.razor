@@ -14,7 +14,7 @@
 		<div class="score-panel">
 			@if(true)
 			{
-				var progress = MathF.Min(Score / 1000000f * 100f, 100f);
+				var progress = MathF.Min(Accuracy, 100f);
 				<div class="progress" style="background-image: conic-gradient( white, white @(progress + 0.1f)%, transparent @(progress)%);"></div>
 			}
 			<div class="progress-indicator" />
@@ -22,7 +22,17 @@
 			@if(true)
 			{
 				var rank = Judgement.GetRank(Accuracy);
-				<label class="rank @("rank-" + rank)">@rank</label>
+				<div class="rank @("rank-" + rank)">
+					<label>@rank</label>
+					<TooltipPanel >
+						<TooltipContent>
+							<div class="rank">
+								<label class="header">Rank @rank</label>
+								<label>@Judgement.GetRankInfo(Accuracy)</label>
+							</div>
+						</TooltipContent>
+					</TooltipPanel>
+				</div>
 			}
 		</div>
 		<label class="score">@($"{Score:N0}")</label>
@@ -41,41 +51,92 @@
 			<div class="row">
 				<div class="stat">
 					<label class="header">Accuracy</label>
-					<label class="value">@($"{Accuracy:N2}")%</label>
+					<div class="value">
+						<label>@($"{Accuracy:N2}")%</label>
+						@if(Accuracy >= 100)
+						{
+							<TooltipPanel>
+								<Content>
+									<i>star</i>	
+								</Content>
+								<TooltipContent>100% Accuracy</TooltipContent>
+							</TooltipPanel>	
+						}
+					</div>
 				</div>
 				<div class="stat">
 					<label class="header">Max Combo</label>
 					<div class="value">
 						<label>@GameManager.Replay.MaxCombo</label>
 						<label class="small">@($"/{GameManager.Replay.Hits.Count}")</label>
+						@if(GameManager.Replay.MaxCombo == GameManager.Replay.Hits.Count)
+						{
+							<TooltipPanel>
+								<Content>
+									<i>star</i>	
+								</Content>
+								<TooltipContent>Full Combo</TooltipContent>
+							</TooltipPanel>
+						}
 					</div>
 				</div>
 			</div>
 			@if(Judgements.Length > 0)
 			{
-				<div class="row">
+				var timings = Judgement.GetJudgementTimes(GameManager.Beatmap.Difficulty);
+				<div class="row timings">
 					<div class="stat">
-						<label class="header">@Judgement.Names[0]</label>
+						<TooltipPanel class="header">
+							<Content>
+								<label >@Judgement.Names[0]</label>
+							</Content>
+							<TooltipContent>+/- @(timings[0] * 1000)ms</TooltipContent>
+						</TooltipPanel>
 						<label class="value">@(Judgements[0])</label>
 					</div>
 					<div class="stat">
-						<label class="header">@Judgement.Names[1]</label>
+						<TooltipPanel class="header">
+							<Content>
+								<label >@Judgement.Names[1]</label>
+							</Content>
+							<TooltipContent>+/- @(MathF.Round(timings[1] * 1000))ms</TooltipContent>
+						</TooltipPanel>
 						<label class="value">@(Judgements[1])</label>
 					</div>
 					<div class="stat">
-						<label class="header">@Judgement.Names[2]</label>
+						<TooltipPanel class="header">
+							<Content>
+								<label >@Judgement.Names[2]</label>
+							</Content>
+							<TooltipContent>+/- @(MathF.Round(timings[2] * 1000))ms</TooltipContent>
+						</TooltipPanel>
 						<label class="value">@(Judgements[2])</label>
 					</div>
 					<div class="stat">
-						<label class="header">@Judgement.Names[3]</label>
+						<TooltipPanel class="header">
+							<Content>
+								<label >@Judgement.Names[3]</label>
+							</Content>
+							<TooltipContent>+/- @(MathF.Round(timings[3] * 1000))ms</TooltipContent>
+						</TooltipPanel>
 						<label class="value">@(Judgements[3])</label>
 					</div>
 					<div class="stat">
-						<label class="header">@Judgement.Names[4]</label>
+						<TooltipPanel class="header">
+							<Content>
+								<label >@Judgement.Names[4]</label>
+							</Content>
+							<TooltipContent>+/- @(MathF.Round(timings[4] * 1000))ms</TooltipContent>
+						</TooltipPanel>
 						<label class="value">@(Judgements[4])</label>
 					</div>
 					<div class="stat">
-						<label class="header">@Judgement.Names[5]</label>
+						<TooltipPanel class="header">
+							<Content>
+								<label >@Judgement.Names[5]</label>
+							</Content>
+							<TooltipContent>> @(MathF.Round(timings[4] * 1000))ms</TooltipContent>
+						</TooltipPanel>
 						<label class="value">@(Judgements[5])</label>
 					</div>
 				</div>
@@ -89,9 +150,18 @@
 			<div class="timing">
 				@for(int i=0; i<75; i++)
 				{
-					var index = i - 37;
-					var value = (TimingDistribution[i] / (float)TimingLimit) * Percent * 100f;
-					<div class="timing-bar" style="height: @(value)%;" />
+					var index = i - 38;
+					var timing = TimingDistribution[i];
+					var value = (timing / (float)TimingLimit) * Percent * 100f;
+					var targetRange = MathF.Round(MathX.Remap((float)i / 75f, 0f, 1f, -TimingRange, TimingRange) * 1000);
+					<TooltipPanel class="timing-bar" style="height: @(MathF.Max(value, 2.5f))%; background-color: @(TimingGradient.Evaluate((value == 0f) ? (0f) : (1f - MathF.Abs(index / (75f / 2f)))).ToString());" >
+						<TooltipContent>
+							<div class="timing-bar">
+								<label>@(index == 0 ? 0 : targetRange)ms</label>
+								<label>@timing hits</label>
+							</div>
+						</TooltipContent>
+					</TooltipPanel>
 				}
 			</div>
 			<div class="timing-labels">
@@ -108,8 +178,26 @@
 				<label>@(MathF.Floor(TimingRange * 1000f))</label>
 			</div>
 		</div>
-		<div class="panel">
+		<div class="panel statistics">
 			<label class="header">Statistics</label>
+			<div class="stats">
+				<div class="stat">
+					<label class="header">Total Hits</label>
+					<label class="value">@(GameManager.Replay.Hits.Count - Judgements[5])</label>
+				</div>
+				<div class="stat">
+					<label class="header">Average Hit Error</label>
+					<label class="value">@($"{(MathF.Abs(Average)):N2}") ms @(Average == 0 ? "perfect" : (Average > 0 ? "late" : "early"))</label>
+				</div>
+				<div class="stat">
+					<label class="header">Highscore</label>
+					<label class="value">@($"{Score:N0}")</label>
+				</div>
+				<div class="stat">
+					<label class="header">Mode Hit Error</label>
+					<label class="value">@($"{(MathF.Abs(ModeAverage)):N2}") ms @(ModeAverage == 0 ? "perfect" : (ModeAverage > 0 ? "late" : "early"))</label>
+				</div>
+			</div>
 		</div>
 	</div>
 </root>
@@ -118,6 +206,7 @@
 {
 
 	[Property] GameManager GameManager { get; set; }
+	[Property] Gradient TimingGradient { get; set; }
 	int[] Judgements;
 	int[] TimingDistribution;
 	int TimingLimit = 1;
@@ -125,7 +214,10 @@
 
 	float Score => (int)MathF.Round(GameManager.Replay.Score * (float)Percent);
 	float Accuracy => GameManager.Replay.GetAccuracy() * Percent;
+	float Average = 0f;
+	float ModeAverage = 0f;
 	float Percent = 0f;
+	float lastPercent = 0f;
 
 	protected override void OnEnabled()
 	{
@@ -133,12 +225,39 @@
 		TimingRange = Judgement.GetJudgementTimes(GameManager.Beatmap.Difficulty).Last();
 		TimingDistribution = GameManager.Replay.GetTimingDistribution(75, GameManager.Beatmap.Difficulty);
 		TimingLimit = TimingDistribution.OrderBy(x => x).Last();
+
+		Average = 0f;
+		float most = 0f;
+		float total = 0f;
+		foreach(var hit in GameManager.Replay.Hits)
+		{
+			if(hit.Offset >= 100) continue;
+			Average += hit.Offset;
+			total++;
+		}
+		for(int i=0; i<75; i++)
+		{
+			var timing = TimingDistribution[i];
+			if(timing > most)
+			{
+				most = timing;
+				ModeAverage = MathF.Round(MathX.Remap((float)i / 75f, 0f, 1f, -TimingRange, TimingRange) * 1000);
+			}
+		}
+		Average /= total;
+		Average *= 100f;
 	}
 	
 	protected override void OnUpdate()
 	{
+		if(MathF.Abs(Percent - lastPercent) > 0.04f)
+		{
+			var sound = Sound.Play("ui_tick");
+			sound.Pitch = 1f + Percent;
+			lastPercent = Percent;
+		}
 		Percent = Percent.LerpTo(1f, Time.Delta * 2f);
-		if(Percent >= 0.99f)
+		if(Percent >= 0.99f && Percent != 1f)
 		{
 			Percent = 1f;
 		}

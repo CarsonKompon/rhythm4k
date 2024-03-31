@@ -72,28 +72,27 @@ GameHud
 
 			&.great
 			{
-				color: rgb(73, 204, 47);
-				color: rgb(218, 214, 23);
+				color: #66CCFF;
 			}
 
 			&.good
 			{
-				color: rgb(218, 214, 23);
+				color: #9FC03F;
 			}
 
 			&.ok
 			{
-				color: rgb(0, 135, 197);
+				color: #86B001;
 			}
 
 			&.meh
 			{
-				color: rgb(166, 181, 202);
+				color: #F0C022;
 			}
 
 			&.miss
 			{
-				color: rgb(197, 0, 0);
+				color: #D91221;
 			}
 
 			&:intro

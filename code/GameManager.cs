@@ -355,7 +355,7 @@ public sealed class GameManager : Component, IMusicPlayer
 			if ( note.Type == (int)NoteType.Hold )
 			{
 				// TODO: Remove these probably
-				// continue;
+				continue;
 			}
 			spawnedNote = CreateNote( note );
 			Notes.Add( spawnedNote );

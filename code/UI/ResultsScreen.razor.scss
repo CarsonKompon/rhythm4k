@@ -17,7 +17,6 @@ ResultsScreen
 	{
 		background-color: rgba(255, 255, 255, 0.301);
 		transform: skewX(-5deg);
-		padding: 8px;
 	}
 
 	.results
@@ -28,6 +27,7 @@ ResultsScreen
 		justify-content: center;
 		align-items: center;
 		gap: 16px;
+		padding: 16px;
 
 		.song-info
 		{
@@ -36,7 +36,7 @@ ResultsScreen
 			text-align: center;
 			color: white;
 			text-shadow: 2px 2px 4px black;
-			font-size: 52px;
+			font-size: 32px;
 			
 			.song-title
 			{
@@ -45,7 +45,7 @@ ResultsScreen
 			
 			.song-artist
 			{
-				font-size: 24px;
+				font-size: 18px;
 			}
 		}
 
@@ -53,6 +53,7 @@ ResultsScreen
 		{
 			width: 300px;
 			height: 300px;
+			flex-shrink: 0;
 			.progress
 			{
 				position: absolute;
@@ -63,6 +64,7 @@ ResultsScreen
 				background-size: 100%;
 				border-radius: 100%;
 				mask-image: radial-gradient(black 0%, black 42.9%, white 43%, white 49.9%, black 50%);
+				opacity: 0.8;
 			}
 
 			.progress-indicator
@@ -106,6 +108,21 @@ ResultsScreen
 				font-weight: 1000;
 				color: linear-gradient(90deg, #E3B130, #d3d3d3);
 				text-shadow: 2px 2px 4px black;
+
+				*
+				{
+					pointer-events: none;
+				}
+
+				TooltipPanel
+				{
+					pointer-events: all;
+					position: absolute;
+					top: 0;
+					left: 0;
+					right: 0;
+					bottom: 0;
+				}
 
 				&.rank-D
 				{
@@ -199,6 +216,39 @@ ResultsScreen
 				flex-grow: 1;
 			}
 
+			.timings .stat
+			{
+				&:nth-child(1) .header
+				{
+					color: #99EEFF;
+				}
+
+				&:nth-child(2) .header
+				{
+					color: #66CCFF;
+				}
+
+				&:nth-child(3) .header
+				{
+					color: #9FC03F;
+				}
+
+				&:nth-child(4) .header
+				{
+					color: #86B001;
+				}
+
+				&:nth-child(5) .header
+				{
+					color: #F0C022;
+				}
+
+				&:nth-child(6) .header
+				{
+					color: #D91221;
+				}
+			}
+
 			.stat
 			{
 				flex-direction: column;
@@ -215,6 +265,12 @@ ResultsScreen
 					width: 100%;
 					text-align: center;
 					font-weight: 800;
+					justify-content: center;
+
+					*
+					{
+						pointer-events: none;
+					}
 				}
 
 				.value
@@ -243,6 +299,7 @@ ResultsScreen
 		{
 			flex-grow: 1;
 			flex-direction: column;
+			padding: 8px;
 
 			> .header
 			{
@@ -279,6 +336,51 @@ ResultsScreen
 				justify-content: space-between;
 				font-size: 24px;
 				font-weight: 700;
+				transform-origin: center;
+				text-align: center;
+
+				label
+				{
+					&:nth-child(6)
+					{
+						left: -12px;
+					}
+				}
+			}
+
+			&.statistics
+			{
+				flex-grow: 0;
+
+				.stats
+				{
+					flex-wrap: wrap;
+					align-items: center;
+					align-content: center;
+					justify-content: space-around;
+					
+					
+					> .stat
+					{
+						width: 45%;
+						margin-bottom: 24px;
+						color: white;
+						text-shadow: 2px 2px 4px black;
+						font-family: Chakra Petch;
+						font-size: 28px;
+						justify-content: space-between;
+
+						.header
+						{
+							font-weight: 200;
+						}
+
+						.value
+						{
+							font-weight: 900;
+						}
+					}
+				}
 			}
 		}
 	}

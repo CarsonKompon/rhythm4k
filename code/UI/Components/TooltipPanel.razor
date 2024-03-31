@@ -1,0 +1,37 @@
+@using Sandbox;
+@using Sandbox.UI;
+@using Sandbox.Razor;
+
+@namespace Rhythm4K
+
+<root>
+    @Content
+</root>
+
+@code
+{
+    public RenderFragment Content { get; set; }
+    public RenderFragment TooltipContent { get; set; }
+
+    protected override void OnMouseOver(MousePanelEvent e)
+    {
+        base.OnMouseOver(e);
+
+        if(CustomTooltip.Hovering != this)
+        {
+            CustomTooltip.Hovering = this;
+            CustomTooltip.Show(TooltipContent);
+        }
+    }
+
+    protected override void OnMouseOut(MousePanelEvent e)
+    {
+        base.OnMouseOut(e);
+
+        if(CustomTooltip.Hovering == this)
+        {
+            CustomTooltip.Hide();
+            CustomTooltip.Hovering = null;
+        }
+    }
+}

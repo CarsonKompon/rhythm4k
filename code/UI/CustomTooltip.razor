@@ -1,0 +1,49 @@
+@using Sandbox;
+@using Sandbox.UI;
+@using Sandbox.Razor;
+@inherits PanelComponent
+
+@namespace Rhythm4K
+
+<root>
+	@if(Contents is null) return;
+	@Contents
+</root>
+
+@code
+{
+	public static CustomTooltip Instance { get; private set; }
+	public static Panel Hovering { get; set; }
+
+	Vector2 Position { get; set; }
+	RenderFragment? Contents;
+
+
+	protected override void OnAwake()
+	{
+		Instance = this;
+	}
+
+	protected override void OnUpdate()
+	{
+		var pos = Mouse.Position;
+		pos += new Vector2( 12, 0 );
+		Position = Position.LerpTo( pos / new Vector2( Screen.Width, Screen.Height ), Time.Delta * 10f );
+		Panel.Style.Left = Length.Percent(Position.x * 100f);
+		Panel.Style.Top = Length.Percent(Position.y * 100f);
+	
+
+	}
+
+	public static void Show( RenderFragment fragment )
+	{
+		Instance.Contents = fragment;
+	}
+
+	public static void Hide()
+	{
+		Instance.Contents = null;
+	}
+
+	protected override int BuildHash() => System.HashCode.Combine( Contents );
+}
