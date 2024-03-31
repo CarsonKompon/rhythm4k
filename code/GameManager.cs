@@ -130,6 +130,7 @@ public sealed class GameManager : Component, IMusicPlayer
 			await Task.DelaySeconds( -CurrentTime );
 		}
 		Music = MusicPlayer.Play( FileSystem.Data, BeatmapSet.Path + "/" + Beatmap.AudioFilename );
+		Log.Info( "this log is necessary lmfao" );
 		Music.Seek( CurrentTime );
 	}
 
@@ -306,9 +307,9 @@ public sealed class GameManager : Component, IMusicPlayer
 	{
 		IsPaused = pause;
 		Scene.TimeScale = IsPaused ? 0 : 1;
-		if ( !IsPaused )
+		if ( !IsPaused && CurrentTime >= 0 )
 		{
-			Music.Seek( CurrentTime );
+			Music?.Seek( CurrentTime );
 		}
 		Sound.Play( IsPaused ? "ui_pause" : "ui_unpause" );
 	}

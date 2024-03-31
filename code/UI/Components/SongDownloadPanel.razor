@@ -25,8 +25,19 @@
     Panel CoverImage { get; set; }
     string CoverUrl { get; set; }
 
-    record DownloadEntry(OsuBeatmapSet beatmap, string coverUrl);
     List<DownloadEntry> DownloadQueue = new List<DownloadEntry>();
+
+    public class DownloadEntry
+    {
+        public OsuBeatmapSet OsuBeatmap;
+        public string CoverUrl;
+
+        public DownloadEntry(OsuBeatmapSet beatmap, string coverUrl)
+        {
+            OsuBeatmap = beatmap;
+            CoverUrl = coverUrl;
+        }
+    }
 
     protected override void OnAfterTreeRender(bool firstTime)
     {
@@ -42,7 +53,7 @@
         {
             var entry = DownloadQueue[0];
             DownloadQueue.RemoveAt(0);
-            DownloadBeatmap(entry.beatmap, entry.coverUrl);
+            DownloadBeatmap(entry);
         }
     }
 
@@ -52,9 +63,17 @@
         DownloadQueue.Add(new DownloadEntry(beatmap, coverUrl));
     }
 
-    public async void DownloadBeatmap(OsuBeatmapSet beatmapSet, string coverUrl = "")
+    public void DownloadBeatmap(DownloadEntry entry)
 	{
-		if(beatmapSet.IsDownloaded())
+        if(entry.OsuBeatmap is not null)
+        {
+            DownloadOsuBeatmap(entry.OsuBeatmap, entry.CoverUrl);
+        }
+    }
+
+    public async void DownloadOsuBeatmap(OsuBeatmapSet beatmapSet, string coverUrl)
+    {
+        if(beatmapSet.IsDownloaded())
 		{
 			return;
 		}
@@ -107,7 +126,7 @@
             }
             FileSystem.Data.WriteAllText(dir + "/cover-image.txt", coverUrl);
 
-            await SongBuilder.LoadFromOsuFolder(beatmapSet.GetFullSongId(), coverUrl);
+            await BeatmapSet.Load(dir);
         }
         catch (Exception e)
         {

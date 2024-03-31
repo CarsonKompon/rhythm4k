@@ -87,7 +87,6 @@ public class Beatmap
 
     public string GetSongLength()
     {
-        Log.Info( $"Length: {Length}" );
         int minutes = (int)(Length / 60f);
         int seconds = (int)(Length % 60f);
         return $"{minutes}:{seconds:00}";

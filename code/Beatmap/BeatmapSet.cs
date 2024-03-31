@@ -24,10 +24,15 @@ public class BeatmapSet
             BeatmapsToLoad = folders.Count();
             foreach ( var directory in folders )
             {
-                var set = await SongBuilder.Load( "beatmaps/" + directory );
-                if ( set is null ) continue;
-                All.Add( set );
+                await Load( "beatmaps/" + directory );
             }
         }
+    }
+
+    public static async Task Load( string path )
+    {
+        var set = await SongBuilder.Load( path );
+        if ( set is null ) return;
+        All.Add( set );
     }
 }
