@@ -9,7 +9,6 @@ namespace Rhythm4K;
 
 public static class SongBuilder
 {
-
     public static async Task<BeatmapSet> Load( string path )
     {
         var files = FileSystem.Data.FindFile( path ).ToList();
@@ -125,6 +124,7 @@ public static class SongBuilder
                     beatmap.Difficulty = float.Parse( noteSplit[4].Trim().Replace( ":", "" ) );
                     beatmap.DifficultyName = noteSplit[3].Trim().Replace( ":", "" );
                     beatmap.Charter = charterName;
+                    beatmap.FilePath = file;
 
                     // Remove header and useless characters from the string
                     for ( int i = 0; i < 6; i++ )

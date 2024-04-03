@@ -13,7 +13,11 @@
 		<div class="title">@(Set.Name)</div>
 		<div class="subtitle">
 			<label class="artist">@(Set.Artist)</label>
-			<label class="score">0000000</label>
+			@if(true)
+			{
+				var highscore = Set.Beatmaps.OrderBy(b => b.Difficulty * 1000 + b.GetHighscore()).Last().GetHighscore();
+				<label class="score">@string.Format("{0:n0}", highscore)</label>
+			}
 		</div>
 	</div>
 </root>

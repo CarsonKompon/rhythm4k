@@ -92,6 +92,7 @@ public sealed class VisualizerBarManager : Component
 
         for ( int i = 0; i < _barCount; i++ )
         {
+            if ( Prefab is null ) continue;
             var bar = Prefab.Clone();
             bar.SetParent( GameObject );
             bar.Transform.LocalPosition = new Vector3( MathF.Sin( i / (float)_barCount * (2 * MathF.PI) ) * RingRadius, MathF.Cos( i / (float)_barCount * (2 * MathF.PI) ) * RingRadius, 0 );

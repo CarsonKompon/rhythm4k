@@ -20,6 +20,7 @@
 			@if(SelectedIndex >= 0)
 			{
 				var chart = list.ElementAt(SelectedIndex);
+				var highscore = chart.GetHighscore();
 				<div class="extra">
 					<i>access_time</i>
 					<label>@chart.GetSongLength()</label>
@@ -32,6 +33,14 @@
 					<i>music_note</i>
 					<label>@chart.Notes.Count</label>
 				</div>
+				@if(highscore > 0)
+				{
+					<div class="fill" />
+					<div class="extra">
+						<i>star</i>
+						<label>@($"{highscore:n0}")</label>
+					</div>
+				}
 			}
 		</div>
 		<div class="chart-list">

@@ -68,6 +68,7 @@ public class OsuChartLoader : IChartLoader
         string[] sections = text.Split( '[' );
 
         Beatmap beatmap = new();
+        beatmap.FilePath = path;
 
         foreach ( var section in sections )
         {

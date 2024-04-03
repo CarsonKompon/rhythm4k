@@ -1,0 +1,69 @@
+@using System
+@namespace Sandbox.UI
+@inherits BaseControl
+@attribute [StyleSheet]
+
+<root>
+
+    <label class="btn" onclick=@Decrease>-</label>
+    <label class="value">@($"{Value:N0}{Suffix}")</label>
+    <label class="btn" onclick=@Increase>+</label>
+</root>
+
+@code
+{
+    public Action<float> OnValueChanged { get; set; }
+    public float Max { get; set; } = 100;
+
+    public float Min { get; set; } = 0;
+
+    public float Step { get; set; } = 0.1f;
+
+    public float StepMultiplier { get; set; } = 10f;
+    public string Suffix { get; set; } = "";
+
+    float _value;
+
+    public float Value
+    {
+        get => _value;
+
+        set
+        {
+            if (_value == value)
+                return;
+
+            _value = MathX.Clamp( _value, Min, Max );
+
+            _value = value;
+            StateHasChanged();
+        }
+    }
+
+    public LeftRightNumberControl()
+    {
+
+    }
+
+    public LeftRightNumberControl( float min, float max, float step = 1.0f )
+    {
+        Min = min;
+        Max = max;
+        Step = step;
+    }
+
+    void Decrease()
+    {
+        var val = Step;
+        if(Input.Down("Control")) val *= StepMultiplier;
+        Value -= val;
+    }
+
+    void Increase()
+    {
+        var val = Step;
+        if(Input.Down("Control")) val *= StepMultiplier;
+        Value += val;
+    }
+
+}

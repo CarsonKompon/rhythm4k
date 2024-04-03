@@ -52,7 +52,7 @@ public sealed class MainMenuCameraManager : Component
 			case "/play":
 				FocusCamera( PlayPageCamera.Transform.World );
 				break;
-			case "/options":
+			case "/settings":
 				FocusCamera( OptionsPageCamera.Transform.World );
 				break;
 			case "/song-select":

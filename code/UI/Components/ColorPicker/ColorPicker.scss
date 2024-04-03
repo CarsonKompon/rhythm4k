@@ -1,0 +1,135 @@
+$primary: red !default;
+$primary-alt: white !default;
+
+$switch-padding: 6px !default;
+
+ColorEditor {
+    flex-direction: column;
+    flex-grow: 1;
+
+    >.canvas {
+        border-top: 1px solid rgba(white, 0.5);
+        flex-grow: 1;
+        width: 100%;
+        flex-direction: column;
+
+
+        >textentry.textentry {
+            flex-grow: 0;
+            flex-shrink: 0;
+            width: auto;
+        }
+    }
+
+    .slidercontrol {
+        padding: 6.5px;
+    }
+
+    .slidercontrol .track {
+        height: 14px;
+        border-radius: 14px;
+        left: 0px;
+        right: 0px;
+        transition: all 0.1s ease-out;
+
+        filter: border-wrap( 1px black );
+
+        .inner {
+            display: none;
+        }
+    }
+
+    // .slidercontrol:hover,
+    // .slidercontrol:active {
+    //     padding: 7px;
+
+    //     .track {
+    //         height: 20px;
+    //         border-radius: 6px;
+    //     }
+
+    //     .thumb {
+    //         width: 10px;
+    //         height: 16px;
+    //         margin-left: 2px;
+    //     }
+    // }
+
+    .slidercontrol .inner .track .thumb {
+        width: 10px;
+        height: 10px;
+        box-shadow: 0px 0px 0px transparent;
+        background-color: white;
+
+        backdrop-filter: invert(1);
+        margin-left: 1px;
+        pointer-events: none;
+    }
+
+    .alpha_slider .track {
+        background-image: linear-gradient(to right, rgba(white, 0), rgba(black, 1));
+        
+        .track-active {
+            display: none;
+        }
+    }
+
+    .hue .track {
+        background: linear-gradient(to right, #ff0000 0%, #ffff00 17%, #00ff00 33%, #00ffff 50%, #0000ff 67%, #ff00ff 83%, #ff0000 100%);
+
+        .track-active {
+            display: none;
+        }
+    }
+
+    .satval {
+        background: linear-gradient(to right, white, transparent);
+        aspect-ratio: 1;
+        filter: border-wrap( 1px black );
+
+        width: 100%;
+
+        &:active {
+            z-index: 10;
+            cursor: none;
+        }
+
+        .value_gradient {
+            background: linear-gradient(to top, black, white);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            mix-blend-mode: multiply;
+        }
+
+        .thumb {
+            z-index: 10;
+        }
+    }
+
+    .presets {
+        flex-wrap: wrap;
+        align-content: center;
+        justify-content: center;
+        padding: 0px 8px;
+        border-top: 1px solid rgba(white, 0.5);
+        max-width: 250px;
+
+        .preset {
+            background-color: white;
+            width: 16px;
+            height: 16px;
+            margin: 2px;
+            border-radius: 20px;
+            cursor: pointer;
+            filter: border-wrap( 1px black );
+
+            &:hover {
+                box-shadow: 0px 0px 1px 2px white;
+            }
+        }
+    }
+}

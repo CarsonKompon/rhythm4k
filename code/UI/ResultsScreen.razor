@@ -191,7 +191,31 @@
 				</div>
 				<div class="stat">
 					<label class="header">Highscore</label>
-					<label class="value">@($"{Score:N0}")</label>
+					@if(true)
+					{
+						var difference = (Score - PreviousScore);
+						var diffClass = (difference > 0 ? "positive" : (difference == 0 ? "same" : "negative"));
+						<div class="value-difference">
+							<div class="value">
+								<label class="value">@($"{GameManager.Beatmap.GetHighscore():N0}")</label>
+								<i class=@(difference <= 0 ? "same" : "positive")>@(difference <= 0 ? "remove" : "arrow_upward")</i>
+							</div>
+							@if(difference > 0)
+							{
+								<div class="difference">
+									<label class="@diffClass">@($"+{difference:N0}")</label>
+									<TooltipPanel>
+										<TooltipContent>
+											<div class="column">
+												<label class="bold">Previous Highscore:</label>
+												<label class="value">@($"{(PreviousScore == 0 ? "N/A" : ($"{PreviousScore:N0}"))}")</label>
+											</div>
+										</TooltipContent>
+									</TooltipPanel>
+								</div>
+							}
+						</div>
+					}
 				</div>
 				<div class="stat">
 					<label class="header">Mode Hit Error</label>
@@ -212,6 +236,8 @@
 	int TimingLimit = 1;
 	float TimingRange = 1;
 
+	int PreviousScore = 0;
+	Replay PreviousReplay = null;
 	float Score => (int)MathF.Round(GameManager.Replay.Score * (float)Percent);
 	float Accuracy => GameManager.Replay.GetAccuracy() * Percent;
 	float Average = 0f;
@@ -221,6 +247,9 @@
 
 	protected override void OnEnabled()
 	{
+		PreviousReplay= Replay.Load(GameManager.Beatmap);
+		PreviousScore = GameManager.Beatmap.GetHighscore();
+		GameManager.Replay.Complete( (int)MathF.Round( GameManager.Score ) );
 		Judgements = GameManager.Replay.GetJudgements();
 		TimingRange = Judgement.GetJudgementTimes(GameManager.Beatmap.Difficulty).Last();
 		TimingDistribution = GameManager.Replay.GetTimingDistribution(75, GameManager.Beatmap.Difficulty);

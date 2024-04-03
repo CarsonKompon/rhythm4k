@@ -1,0 +1,233 @@
+SettingsPage
+{
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    padding: 64px;
+    gap: 48px;
+    font-family: Orbitron;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    .menu
+    {
+        flex-grow: 1;
+        flex-direction: column;
+        justify-content: center;
+        gap: 32px;
+
+        font-size: 42px;
+        font-weight: 800;
+    
+        > .options
+        {
+            flex-grow: 1;
+            flex-direction: column;
+            padding: 16px;
+            font-family: Chakra Petch;
+            overflow-y: scroll;
+            background-color: rgba(44, 44, 44, 0.411);
+            pointer-events: all;
+
+            > *
+            {
+                flex-shrink: 0;
+            }
+
+            h1
+            {
+                font-size: 64px;
+                font-weight: 800;
+            }
+
+            h3
+            {
+                font-size: 42px;
+                font-weight: 800;
+            }
+
+            .option
+            {
+                flex-shrink: 0;
+                flex-direction: row;
+                gap: 16px;
+                padding: 8px;
+                font-size: 24px;
+                font-weight: 800;
+                cursor: pointer;
+                pointer-events: all;
+
+                label
+                {
+                    color: black;
+                    flex-grow: 1;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+
+                &.column
+                {
+                    flex-direction: column;
+                }
+            }
+
+            SliderControl
+            {
+                flex-shrink: 0;
+                flex-grow: 0;
+                min-width: 300px;
+
+                .inner
+                {
+                    top: 4px;
+                    .track
+                    {
+                        background-color: rgba(54, 54, 54, 0.507);
+                    }
+                }
+
+                .entry
+                {
+                    flex-shrink: 0;
+                    font-size: 20px;
+                }
+                
+                .value-tooltip label
+                {
+                    color: white;
+                }
+            }
+
+            DropDown
+            {
+                flex-shrink: 0;
+            }
+
+            SwitchControl
+            {
+                flex-shrink: 0;
+
+                .switch-frame
+                {
+                    background-color: rgba(65, 65, 65, 0.637);
+                }
+
+                &.active
+                {
+                    .switch-frame
+                    {
+                        background-color: #fffa;
+                    }
+
+                    .switch-inner
+                    {
+                        left: 80%;
+                        background-color: #fff;
+                    }
+                }
+            }
+
+            button
+            {
+                flex-shrink: 0;
+                padding: 8px;
+                font-size: 24px;
+                font-weight: 800;
+                background-color: rgba(245, 245, 245, 0.356);
+                color: black;
+                border: none;
+                cursor: pointer;
+                transition: background-color 0.1s ease-out;
+                transform: skewX(-10deg);
+
+                &:hover
+                {
+                    background-color: rgba(255, 255, 255, 0.5);
+                    sound-in: ui_hover;
+                }
+
+                &:active
+                {
+                    sound-in: ui_forward;
+                }
+
+                label
+                {
+                    transform: skewX(10deg);
+                }
+            }
+
+            .page-selector
+            {
+                width: 100%;
+                justify-content: space-evenly;
+                font-size: 24px;
+
+                MainMenuButton
+                {
+                    width: auto;
+                    font-size: 24px;
+                    justify-content: center;
+                    align-items: center;
+                    cursor: pointer;
+
+                    .backing
+                    {
+                        left: 0px;
+                        width: 100%;
+                        transform: skewX(-10deg) scaleY(0);
+                    }
+
+                    label
+                    {
+                        color: black;
+                    }
+
+                    &.disabled
+                    {
+                        pointer-events: none;
+                        label
+                        {
+                            color: rgb(177, 177, 177);
+                            text-shadow: 0px 0px 0px white;
+                        }
+                    }
+
+                    &.selected
+                    {
+                        .backing
+                        {
+                            transform: skewX(-10deg) scaleY(1);
+                            opacity: 0.5;
+                        }
+                    }
+
+                    &:hover
+                    {
+                        .backing
+                        {
+                            transform: skewX(-10deg) scaleY(1);
+                            opacity: 1;
+                        }
+
+                        label
+                        {
+                            color: white;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    MainMenuButton
+    {
+        flex-shrink: 0;
+
+        .backing
+        {
+            left: -24px;
+            width: 900px;
+        }
+    }
+}

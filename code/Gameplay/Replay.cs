@@ -5,14 +5,42 @@ namespace Rhythm4K;
 
 public class Replay
 {
+    private static Dictionary<string, Replay> _replays = null;
+
     public Beatmap Beatmap { get; set; }
     public int MaxCombo { get; set; } = 0;
     public List<HitInfo> Hits = new();
-    public int Score { get; set; } = 0;
+    public int Score { get; private set; } = 0;
 
     public Replay( Beatmap beatmap )
     {
         Beatmap = beatmap;
+    }
+
+    public void Complete( int score )
+    {
+        Score = score;
+        var currentBest = Load( Beatmap );
+        if ( currentBest is null || score > currentBest.Score )
+        {
+            _replays[Beatmap.FilePath] = this;
+            FileSystem.Data.WriteJson( "replays.json", _replays );
+        }
+    }
+
+    public static Replay Load( Beatmap beatmap )
+    {
+        if ( _replays is null )
+        {
+            _replays = FileSystem.Data.ReadJsonOrDefault<Dictionary<string, Replay>>( "replays.json" ) ?? new();
+            if ( _replays is null ) _replays = new();
+        }
+        if ( _replays.ContainsKey( beatmap.FilePath ) )
+        {
+            return _replays[beatmap.FilePath];
+        }
+
+        return null;
     }
 
     public float GetAccuracy()

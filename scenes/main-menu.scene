@@ -676,8 +676,8 @@
         {
           "__guid": "efd37291-348d-4e78-bee4-e0f62b640206",
           "Name": "Options Page",
-          "Position": "-174.6223,-280.0065,34.11837",
-          "Rotation": "0.005530843,-0.0108732,0.4533494,0.8912494",
+          "Position": "-77.28035,47.37448,6.222516",
+          "Rotation": "0.01772483,0.04175697,-0.3903298,0.9195569",
           "Enabled": true,
           "NetworkMode": 2
         },
@@ -760,7 +760,7 @@
   },
   "Title": "minimal",
   "Description": "",
-  "LastSaved": "2024-03-29T14:24:10.63765-04:00",
+  "LastSaved": "2024-04-03T15:20:20.9598116-04:00",
   "ResourceVersion": 1,
   "__version": 1,
   "__references": [

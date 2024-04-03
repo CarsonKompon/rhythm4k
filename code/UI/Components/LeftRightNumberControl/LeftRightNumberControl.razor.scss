@@ -1,0 +1,39 @@
+
+LeftRightNumberControl
+{
+    gap: 4px;
+    flex-shrink: 0;
+    background-color: rgba(255, 255, 255, 0.342);
+    min-width: 256px;
+    transform: skewX(-10deg);
+    font-size: 20px;
+
+    *
+    {
+        padding: 4px;
+    }
+
+    .btn
+    {
+        background-color: rgba(255, 255, 255, 0.342);
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        cursor: pointer;
+        width: 24px;
+
+        &:hover
+        {
+            background-color: rgba(255, 255, 255, 0.6);
+        }
+    }
+
+    .value
+    {
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        flex-shrink: 0;
+        flex-grow: 1;
+    }
+}

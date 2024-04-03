@@ -67,6 +67,11 @@ SongListInfoPanel
 				padding: 8px;
 			}
 		}
+
+		.fill
+		{
+			flex-grow: 1;
+		}
 	}
 
 	h1

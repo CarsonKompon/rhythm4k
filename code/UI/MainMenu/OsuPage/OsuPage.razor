@@ -19,7 +19,7 @@
         </div>
 
         <div class="search">
-            <DropDown @ref="StatusDropDown" onchange=@Search />
+            <CustomDropDown @ref="StatusDropDown" onchange=@Search />
             <TextEntry onsubmit=@Search Value:bind=@SearchText Tooltip="Search for songs by title, artist, or URL" Placeholder="Enter a search query..." ></TextEntry>
             <span class="button" onclick=@Search>Search</span>
         </div>
@@ -52,7 +52,7 @@
 	public int MaxPages { get; set; } = 0;
 	public bool Loading { get; private set; } = false;
 
-    DropDown StatusDropDown { get; set; }
+    CustomDropDown StatusDropDown { get; set; }
 
     private string lastQuery = "";
     private const string BASE_QUERY = "https://beatconnect.io/api/search/?&m=mania&diff_range=0-10&token=afa1dc64301e47aab7f21ab65d6a7b4c";

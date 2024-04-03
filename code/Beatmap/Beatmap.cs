@@ -24,10 +24,19 @@ public class Beatmap
     public float SampleLength { get; set; }
     public float Length { get; set; }
 
+    public string FilePath { get; set; }
+
 
     public BeatmapSet GetBeatmapSet()
     {
         return BeatmapSet.All.FirstOrDefault( x => x.Beatmaps.Contains( this ) );
+    }
+
+    public int GetHighscore()
+    {
+        var replay = Replay.Load( this );
+        if ( replay is null ) return 0;
+        return replay.Score;
     }
 
     /// <summary>

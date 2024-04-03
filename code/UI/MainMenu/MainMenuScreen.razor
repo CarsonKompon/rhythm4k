@@ -164,13 +164,17 @@
 			{
 				FilterProcessor.Mix = FilterProcessor.Mix.LerpTo(0f, Time.Delta * 20f);
 			}	
-			Mixer.Master.Volume = Mixer.Master.Volume.LerpTo(1f, Time.Delta * 10f);
+			Mixer.Master.Volume = Mixer.Master.Volume.LerpTo(GamePreferences.Settings.MasterVolume / 100f, Time.Delta * 10f);
 		
 			if(Input.EscapePressed)
 			{	
 				if(MainMenu.CurrentUrl == "/song-select") Navigate("/play");
 				else if(MainMenu.CurrentUrl == "/play") Navigate("/");
-				else if(MainMenu.CurrentUrl == "/settings") Navigate("/");
+				else if(MainMenu.CurrentUrl == "/settings")
+				{
+					GamePreferences.SaveSettings();
+					Navigate("/");
+				}
 				else if(MainMenu.CurrentUrl == "/browse") Navigate("/play");
 			}
 
@@ -294,6 +298,6 @@
 
 	protected override int BuildHash()
     {
-        return System.HashCode.Combine(LoadingIn);
+        return System.HashCode.Combine(LoadingIn, CurrentSong);
     }
 }

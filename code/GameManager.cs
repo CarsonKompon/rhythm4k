@@ -28,7 +28,8 @@ public sealed class GameManager : Component, IMusicPlayer
 	public float CurrentBPM { get; set; } = 120f;
 	public float BeatLength => 60f / CurrentBPM;
 	public float ScreenTime = 1f;
-	public TimeSince CurrentTime = 0f;
+	public TimeSince CurrentTime { get; set; } = 0f;
+	public float SongTime => Music?.PlaybackTime ?? 0f;
 
 	public MusicPlayer Music { get; set; }
 
@@ -74,7 +75,6 @@ public sealed class GameManager : Component, IMusicPlayer
 
 		if ( !IsFinished && CurrentTime >= Beatmap.Length + 3f )
 		{
-			Replay.Score = (int)MathF.Round( Score );
 			ResultsScreen.Enabled = true;
 			IsFinished = true;
 			IsPlaying = false;
@@ -117,7 +117,7 @@ public sealed class GameManager : Component, IMusicPlayer
 
 		CurrentBPM = Beatmap.BpmChanges[0].BPM; // TODO: Move BPM from BeatmapSet to Beatmap
 		var scrollSpeed = (Beatmap.ScrollSpeed <= 0) ? 1f : Beatmap.ScrollSpeed;
-		ScreenTime = 120f / CurrentBPM * scrollSpeed;
+		ScreenTime = 120f / CurrentBPM * scrollSpeed / 2f;
 		CurrentTime = Beatmap.Offset - ScreenTime;
 
 		IsPlaying = true;
@@ -131,7 +131,7 @@ public sealed class GameManager : Component, IMusicPlayer
 		}
 		Music = MusicPlayer.Play( FileSystem.Data, BeatmapSet.Path + "/" + Beatmap.AudioFilename );
 		Log.Info( "this log is necessary lmfao" );
-		Music.Seek( CurrentTime );
+		Music.Seek( MathF.Max( CurrentTime, 0f ) );
 	}
 
 	void UpdateBpm()
@@ -240,6 +240,11 @@ public sealed class GameManager : Component, IMusicPlayer
 		Music.Position = Scene.Camera.Transform.Position;
 		Music.Paused = IsPaused;
 
+		// if ( SongTime > 0 )
+		// {
+		// 	CurrentTime += MathF.Min( SongTime - CurrentTime, Time.Delta * 2 );
+		// }
+
 		var spectrum = Music.Spectrum;
 
 		// Energy Calculations
@@ -339,7 +344,7 @@ public sealed class GameManager : Component, IMusicPlayer
 		Combo++;
 		Replay.MaxCombo = Math.Max( Replay.MaxCombo, Combo );
 		GameHud.Instance?.SetCombo( Combo );
-		Replay.Hits.Add( new HitInfo( CurrentTime, difference ) );
+		Replay.Hits.Add( new HitInfo( note.Note.Lane, CurrentTime, difference ) );
 	}
 
 	void SpawnNextNotes()
@@ -412,6 +417,6 @@ public sealed class GameManager : Component, IMusicPlayer
 		Combo = 0;
 		GameHud.Instance?.SetCombo( 0 );
 		GameHud.Instance?.SetJudgement( "Miss" );
-		Replay.Hits.Add( new HitInfo( CurrentTime, 999 ) );
+		Replay.Hits.Add( new HitInfo( -1, CurrentTime, 999 ) );
 	}
 }
