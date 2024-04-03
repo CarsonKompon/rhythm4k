@@ -1,5 +1,6 @@
 using System;
 using Sandbox;
+using Sandbox.Audio;
 using Sandbox.UI;
 
 namespace Rhythm4K;
@@ -27,7 +28,8 @@ public sealed class GameManager : Component, IMusicPlayer
 
 	public float CurrentBPM { get; set; } = 120f;
 	public float BeatLength => 60f / CurrentBPM;
-	public float ScreenTime = 1f;
+	public float ScreenTime => BaseScreenTime / GamePreferences.Settings.ScrollSpeedMultiplier;
+	float BaseScreenTime = 1f;
 	public TimeSince CurrentTime { get; set; } = 0f;
 	public float SongTime => Music?.PlaybackTime ?? 0f;
 
@@ -92,11 +94,13 @@ public sealed class GameManager : Component, IMusicPlayer
 
 		if ( Input.Pressed( "ScrollSpeedUp" ) )
 		{
-			ScreenTime *= 0.9f;
+			GamePreferences.Settings.ScrollSpeedMultiplier *= 1.1f;
+			GamePreferences.SaveSettings();
 		}
 		else if ( Input.Pressed( "ScrollSpeedDown" ) )
 		{
-			ScreenTime *= 1.1f;
+			GamePreferences.Settings.ScrollSpeedMultiplier *= 0.9f;
+			GamePreferences.SaveSettings();
 		}
 	}
 
@@ -117,7 +121,7 @@ public sealed class GameManager : Component, IMusicPlayer
 
 		CurrentBPM = Beatmap.BpmChanges[0].BPM; // TODO: Move BPM from BeatmapSet to Beatmap
 		var scrollSpeed = (Beatmap.ScrollSpeed <= 0) ? 1f : Beatmap.ScrollSpeed;
-		ScreenTime = 120f / CurrentBPM * scrollSpeed / 2f;
+		BaseScreenTime = 120f / CurrentBPM * scrollSpeed / 2f;
 		CurrentTime = Beatmap.Offset - ScreenTime;
 
 		IsPlaying = true;
@@ -130,7 +134,7 @@ public sealed class GameManager : Component, IMusicPlayer
 			await Task.DelaySeconds( -CurrentTime );
 		}
 		Music = MusicPlayer.Play( FileSystem.Data, BeatmapSet.Path + "/" + Beatmap.AudioFilename );
-		Log.Info( "this log is necessary lmfao" );
+		// Log.Info( "this log is necessary lmfao" );
 		Music.Seek( MathF.Max( CurrentTime, 0f ) );
 	}
 
@@ -235,6 +239,8 @@ public sealed class GameManager : Component, IMusicPlayer
 
 	void CalculateMusic()
 	{
+		Mixer.Master.Volume = GamePreferences.Settings.MasterVolume / 100f;
+
 		if ( Music is null ) return;
 
 		Music.Position = Scene.Camera.Transform.Position;

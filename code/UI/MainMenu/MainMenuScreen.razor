@@ -277,7 +277,6 @@
 		Music = MusicPlayer.Play(FileSystem.Data, newPath);
 		if(SongListInfoPanel.Instance.GameObject.Enabled)
 		{
-			Log.Info("this log is necessary for music to seek to the right time...");
 			Music.Seek(MathF.Max(beatmap.SampleStart, 0f));
 		}
 		Music.Volume = 0f;

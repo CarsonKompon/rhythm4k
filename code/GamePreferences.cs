@@ -33,5 +33,15 @@ public class RhythmSettings
     public float MusicVolume { get; set; } = 80f;
     public float SoundVolume { get; set; } = 80f;
 
+
+    public bool Downscroll { get; set; } = true;
     public float ScrollSpeedMultiplier { get; set; } = 1f;
+    public float AudioLatency { get; set; } = 0f;
+
+    public int GameStyle { get; set; } = 1;
+    public NoteStyle NoteStyle { get; set; } = 0;
+
+    public bool BackgroundEffects { get; set; } = true;
+    public bool HitEffects { get; set; } = true;
+    public bool LightUpLanes { get; set; } = true;
 }
