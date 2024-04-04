@@ -54,7 +54,7 @@ public sealed class SongListCarousel : Component
 	int Moving { get; set; } = 0;
 	TimeSince TimeSinceHeld { get; set; } = 0f;
 	TimeSince TimeSinceMoved { get; set; } = 0f;
-	WorldInput worldInput;
+	Sandbox.UI.WorldInput worldInput;
 	public TimeSince Timer { get; set; } = 0f;
 
 	protected override void OnAwake()
@@ -89,7 +89,7 @@ public sealed class SongListCarousel : Component
 		}
 		CurrentAngle = SelectedIndex * MathF.PI * 2f / (float)SongPanelCount;
 
-		worldInput = new WorldInput();
+		worldInput = new Sandbox.UI.WorldInput();
 		worldInput.Enabled = true;
 	}
 

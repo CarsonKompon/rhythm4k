@@ -128,6 +128,7 @@
             GamePreferences.Settings.DoneFirstTimeSetup = true;
             GamePreferences.SaveSettings();
             Beatmap.Loaded = wizardSet.Beatmaps.FirstOrDefault();
+            GameManager.IsCalibrating = true;
             MainMenuScreen.Instance.StartGame();
         }
     }

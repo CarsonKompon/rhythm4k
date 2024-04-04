@@ -6,144 +6,147 @@
 @namespace Rhythm4K
 
 <root>
-	<div class="panel results">
-		<div class="song-info">
-			<label class="song-title">@GameManager.Beatmap.Name</label>
-			<label class="song-artist">@GameManager.Beatmap.Artist</label>
-		</div>
-		<div class="score-panel">
-			@if(true)
-			{
-				var progress = MathF.Min(Accuracy, 100f);
-				<div class="progress" style="background-image: conic-gradient( white, white @(progress + 0.1f)%, transparent @(progress)%);"></div>
-			}
-			<div class="progress-indicator" />
-			<div class="progress-backing" />
-			@if(true)
-			{
-				var rank = Judgement.GetRank(Accuracy);
-				<div class="rank @("rank-" + rank)">
-					<label>@rank</label>
-					<TooltipPanel >
-						<TooltipContent>
-							<div class="rank">
-								<label class="header">Rank @rank</label>
-								<label>@Judgement.GetRankInfo(Accuracy)</label>
-							</div>
-						</TooltipContent>
-					</TooltipPanel>
+	@if(!GameManager.IsCalibrating)
+	{
+		<div class="panel results">
+			<div class="song-info">
+				<label class="song-title">@GameManager.Beatmap.Name</label>
+				<label class="song-artist">@GameManager.Beatmap.Artist</label>
+			</div>
+			<div class="score-panel">
+				@if(true)
+				{
+					var progress = MathF.Min(Accuracy, 100f);
+					<div class="progress" style="background-image: conic-gradient( white, white @(progress + 0.1f)%, transparent @(progress)%);"></div>
+				}
+				<div class="progress-indicator" />
+				<div class="progress-backing" />
+				@if(true)
+				{
+					var rank = Judgement.GetRank(Accuracy);
+					<div class="rank @("rank-" + rank)">
+						<label>@rank</label>
+						<TooltipPanel >
+							<TooltipContent>
+								<div class="rank">
+									<label class="header">Rank @rank</label>
+									<label>@Judgement.GetRankInfo(Accuracy)</label>
+								</div>
+							</TooltipContent>
+						</TooltipPanel>
+					</div>
+				}
+			</div>
+			<label class="score">@($"{Score:N0}")</label>
+			<div class="chart-info">
+				<div class="difficulty">
+					<i>star</i>
+					<label>@GameManager.Beatmap.Difficulty</label>
 				</div>
-			}
-		</div>
-		<label class="score">@($"{Score:N0}")</label>
-		<div class="chart-info">
-			<div class="difficulty">
-				<i>star</i>
-				<label>@GameManager.Beatmap.Difficulty</label>
+				<label class="difficulty-name">@GameManager.Beatmap.DifficultyName</label>
+				<div class="charter">
+					<label>mapped by</label>
+					<label class="charter">@GameManager.Beatmap.Charter</label>
+				</div>
 			</div>
-			<label class="difficulty-name">@GameManager.Beatmap.DifficultyName</label>
-			<div class="charter">
-				<label>mapped by</label>
-				<label class="charter">@GameManager.Beatmap.Charter</label>
-			</div>
-		</div>
-		<div class="stats">
-			<div class="row">
-				<div class="stat">
-					<label class="header">Accuracy</label>
-					<div class="value">
-						<label>@($"{Accuracy:N2}")%</label>
-						@if(Accuracy >= 100)
-						{
-							<TooltipPanel>
-								<Content>
-									<i>star</i>	
-								</Content>
-								<TooltipContent>100% Accuracy</TooltipContent>
-							</TooltipPanel>	
-						}
+			<div class="stats">
+				<div class="row">
+					<div class="stat">
+						<label class="header">Accuracy</label>
+						<div class="value">
+							<label>@($"{Accuracy:N2}")%</label>
+							@if(Accuracy >= 100)
+							{
+								<TooltipPanel>
+									<Content>
+										<i>star</i>	
+									</Content>
+									<TooltipContent>100% Accuracy</TooltipContent>
+								</TooltipPanel>	
+							}
+						</div>
+					</div>
+					<div class="stat">
+						<label class="header">Max Combo</label>
+						<div class="value">
+							<label>@GameManager.Replay.MaxCombo</label>
+							<label class="small">@($"/{GameManager.Replay.Hits.Count}")</label>
+							@if(GameManager.Replay.MaxCombo == GameManager.Replay.Hits.Count)
+							{
+								<TooltipPanel>
+									<Content>
+										<i>star</i>	
+									</Content>
+									<TooltipContent>Full Combo</TooltipContent>
+								</TooltipPanel>
+							}
+						</div>
 					</div>
 				</div>
-				<div class="stat">
-					<label class="header">Max Combo</label>
-					<div class="value">
-						<label>@GameManager.Replay.MaxCombo</label>
-						<label class="small">@($"/{GameManager.Replay.Hits.Count}")</label>
-						@if(GameManager.Replay.MaxCombo == GameManager.Replay.Hits.Count)
-						{
-							<TooltipPanel>
+				@if(Judgements.Length > 0)
+				{
+					var timings = Judgement.GetJudgementTimes(GameManager.Beatmap.Difficulty);
+					<div class="row timings">
+						<div class="stat">
+							<TooltipPanel class="header">
 								<Content>
-									<i>star</i>	
+									<label >@Judgement.Names[0]</label>
 								</Content>
-								<TooltipContent>Full Combo</TooltipContent>
+								<TooltipContent>+/- @(timings[0] * 1000)ms</TooltipContent>
 							</TooltipPanel>
-						}
+							<label class="value">@(Judgements[0])</label>
+						</div>
+						<div class="stat">
+							<TooltipPanel class="header">
+								<Content>
+									<label >@Judgement.Names[1]</label>
+								</Content>
+								<TooltipContent>+/- @(MathF.Round(timings[1] * 1000))ms</TooltipContent>
+							</TooltipPanel>
+							<label class="value">@(Judgements[1])</label>
+						</div>
+						<div class="stat">
+							<TooltipPanel class="header">
+								<Content>
+									<label >@Judgement.Names[2]</label>
+								</Content>
+								<TooltipContent>+/- @(MathF.Round(timings[2] * 1000))ms</TooltipContent>
+							</TooltipPanel>
+							<label class="value">@(Judgements[2])</label>
+						</div>
+						<div class="stat">
+							<TooltipPanel class="header">
+								<Content>
+									<label >@Judgement.Names[3]</label>
+								</Content>
+								<TooltipContent>+/- @(MathF.Round(timings[3] * 1000))ms</TooltipContent>
+							</TooltipPanel>
+							<label class="value">@(Judgements[3])</label>
+						</div>
+						<div class="stat">
+							<TooltipPanel class="header">
+								<Content>
+									<label >@Judgement.Names[4]</label>
+								</Content>
+								<TooltipContent>+/- @(MathF.Round(timings[4] * 1000))ms</TooltipContent>
+							</TooltipPanel>
+							<label class="value">@(Judgements[4])</label>
+						</div>
+						<div class="stat">
+							<TooltipPanel class="header">
+								<Content>
+									<label >@Judgement.Names[5]</label>
+								</Content>
+								<TooltipContent>> @(MathF.Round(timings[4] * 1000))ms</TooltipContent>
+							</TooltipPanel>
+							<label class="value">@(Judgements[5])</label>
+						</div>
 					</div>
-				</div>
+				}
 			</div>
-			@if(Judgements.Length > 0)
-			{
-				var timings = Judgement.GetJudgementTimes(GameManager.Beatmap.Difficulty);
-				<div class="row timings">
-					<div class="stat">
-						<TooltipPanel class="header">
-							<Content>
-								<label >@Judgement.Names[0]</label>
-							</Content>
-							<TooltipContent>+/- @(timings[0] * 1000)ms</TooltipContent>
-						</TooltipPanel>
-						<label class="value">@(Judgements[0])</label>
-					</div>
-					<div class="stat">
-						<TooltipPanel class="header">
-							<Content>
-								<label >@Judgement.Names[1]</label>
-							</Content>
-							<TooltipContent>+/- @(MathF.Round(timings[1] * 1000))ms</TooltipContent>
-						</TooltipPanel>
-						<label class="value">@(Judgements[1])</label>
-					</div>
-					<div class="stat">
-						<TooltipPanel class="header">
-							<Content>
-								<label >@Judgement.Names[2]</label>
-							</Content>
-							<TooltipContent>+/- @(MathF.Round(timings[2] * 1000))ms</TooltipContent>
-						</TooltipPanel>
-						<label class="value">@(Judgements[2])</label>
-					</div>
-					<div class="stat">
-						<TooltipPanel class="header">
-							<Content>
-								<label >@Judgement.Names[3]</label>
-							</Content>
-							<TooltipContent>+/- @(MathF.Round(timings[3] * 1000))ms</TooltipContent>
-						</TooltipPanel>
-						<label class="value">@(Judgements[3])</label>
-					</div>
-					<div class="stat">
-						<TooltipPanel class="header">
-							<Content>
-								<label >@Judgement.Names[4]</label>
-							</Content>
-							<TooltipContent>+/- @(MathF.Round(timings[4] * 1000))ms</TooltipContent>
-						</TooltipPanel>
-						<label class="value">@(Judgements[4])</label>
-					</div>
-					<div class="stat">
-						<TooltipPanel class="header">
-							<Content>
-								<label >@Judgement.Names[5]</label>
-							</Content>
-							<TooltipContent>> @(MathF.Round(timings[4] * 1000))ms</TooltipContent>
-						</TooltipPanel>
-						<label class="value">@(Judgements[5])</label>
-					</div>
-				</div>
-			}
+			<MainMenuButton Text="Back" onclick=@BackButton />
 		</div>
-		<MainMenuButton Text="Back" onclick=@BackButton />
-	</div>
+	}
 	<div class="more-info">
 		<div class="panel">
 			<label class="header">Timing Distribution</label>
@@ -178,51 +181,81 @@
 				<label>@(MathF.Floor(TimingRange * 1000f))</label>
 			</div>
 		</div>
-		<div class="panel statistics">
-			<label class="header">Statistics</label>
-			<div class="stats">
-				<div class="stat">
-					<label class="header">Total Hits</label>
-					<label class="value">@(GameManager.Replay.Hits.Count - Judgements[5])</label>
-				</div>
-				<div class="stat">
-					<label class="header">Average Hit Error</label>
-					<label class="value">@($"{(MathF.Abs(Average)):N2}") ms @(Average == 0 ? "perfect" : (Average > 0 ? "late" : "early"))</label>
-				</div>
-				<div class="stat">
-					<label class="header">Highscore</label>
-					@if(true)
-					{
-						var difference = (Score - PreviousScore);
-						var diffClass = (difference > 0 ? "positive" : (difference == 0 ? "same" : "negative"));
-						<div class="value-difference">
-							<div class="value">
-								<label class="value">@($"{GameManager.Beatmap.GetHighscore():N0}")</label>
-								<i class=@(difference <= 0 ? "same" : "positive")>@(difference <= 0 ? "remove" : "arrow_upward")</i>
-							</div>
-							@if(difference > 0)
-							{
-								<div class="difference">
-									<label class="@diffClass">@($"+{difference:N0}")</label>
-									<TooltipPanel>
-										<TooltipContent>
-											<div class="column">
-												<label class="bold">Previous Highscore:</label>
-												<label class="value">@($"{(PreviousScore == 0 ? "N/A" : ($"{PreviousScore:N0}"))}")</label>
-											</div>
-										</TooltipContent>
-									</TooltipPanel>
-								</div>
-							}
+		@if(GameManager.IsCalibrating)
+		{
+			<div class="panel calibration">
+				<label class="header">Calibration</label>
+				<div class="stats">
+					<div class="stat center">
+						<label class="header">Audio Offset</label>
+					    <LeftRightNumberControl Step=@(1) Suffix="ms" Value:bind=@GamePreferences.Settings.AudioLatency />
+            		</div>
+					<div class="row">
+						<button onclick=@CalibrateToAverage>Calibrate to Average</button>
+						<button onclick=@CalibrateToMode>Calibrate to Mode</button>
+					</div>
+					<div class="row">
+						<div class="stat">
+							<label class="header">Average Hit Offset</label>
+							<label class="value">@($"{(MathF.Abs(Average)):N2}") ms @(Average == 0 ? "perfect" : (Average > 0 ? "late" : "early"))</label>
 						</div>
-					}
+						<div class="stat">
+							<label class="header">Mode Hit Error</label>
+							<label class="value">@($"{(MathF.Abs(ModeAverage)):N2}") ms @(ModeAverage == 0 ? "perfect" : (ModeAverage > 0 ? "late" : "early"))</label>
+						</div>
+					</div>
 				</div>
-				<div class="stat">
-					<label class="header">Mode Hit Error</label>
-					<label class="value">@($"{(MathF.Abs(ModeAverage)):N2}") ms @(ModeAverage == 0 ? "perfect" : (ModeAverage > 0 ? "late" : "early"))</label>
+				<button class="small" onclick=@ReturnToMainMenu>Return to Main Menu</button>
+			</div>
+		}
+		else
+		{
+			<div class="panel statistics">
+				<label class="header">Statistics</label>
+				<div class="stats">
+					<div class="stat">
+						<label class="header">Total Hits</label>
+						<label class="value">@(GameManager.Replay.Hits.Count - Judgements[5])</label>
+					</div>
+					<div class="stat">
+						<label class="header">Average Hit Error</label>
+						<label class="value">@($"{(MathF.Abs(Average)):N2}") ms @(Average == 0 ? "perfect" : (Average > 0 ? "late" : "early"))</label>
+					</div>
+					<div class="stat">
+						<label class="header">Highscore</label>
+						@if(true)
+						{
+							var difference = (Score - PreviousScore);
+							var diffClass = (difference > 0 ? "positive" : (difference == 0 ? "same" : "negative"));
+							<div class="value-difference">
+								<div class="value">
+									<label class="value">@($"{GameManager.Beatmap.GetHighscore():N0}")</label>
+									<i class=@(difference <= 0 ? "same" : "positive")>@(difference <= 0 ? "remove" : "arrow_upward")</i>
+								</div>
+								@if(difference > 0)
+								{
+									<div class="difference">
+										<label class="@diffClass">@($"+{difference:N0}")</label>
+										<TooltipPanel>
+											<TooltipContent>
+												<div class="column">
+													<label class="bold">Previous Highscore:</label>
+													<label class="value">@($"{(PreviousScore == 0 ? "N/A" : ($"{PreviousScore:N0}"))}")</label>
+												</div>
+											</TooltipContent>
+										</TooltipPanel>
+									</div>
+								}
+							</div>
+						}
+					</div>
+					<div class="stat">
+						<label class="header">Mode Hit Error</label>
+						<label class="value">@($"{(MathF.Abs(ModeAverage)):N2}") ms @(ModeAverage == 0 ? "perfect" : (ModeAverage > 0 ? "late" : "early"))</label>
+					</div>
 				</div>
 			</div>
-		</div>
+		}
 	</div>
 </root>
 
@@ -291,9 +324,29 @@
 			Percent = 1f;
 		}
 	}
+	
+	void CalibrateToAverage()
+	{
+		GamePreferences.Settings.AudioLatency = Average;
+		GamePreferences.SaveSettings();
+	}
+
+	void CalibrateToMode()
+	{
+		GamePreferences.Settings.AudioLatency = ModeAverage;
+		GamePreferences.SaveSettings();
+	}
+
+	void ReturnToMainMenu()
+	{
+		GameManager.IsCalibrating = false;
+		MainMenuScreen.StartingUrl = "/";
+		Scene.Load(GameManager.MenuScene);
+	}
 
 	void BackButton()
 	{
+		GameManager.IsCalibrating = false;
 		MainMenuScreen.StartingUrl = "/song-select";
 		Scene.Load(GameManager.MenuScene);
 	}

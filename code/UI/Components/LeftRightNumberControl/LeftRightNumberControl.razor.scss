@@ -21,6 +21,7 @@ LeftRightNumberControl
         text-align: center;
         cursor: pointer;
         width: 24px;
+        padding: 8px 32px;
 
         &:hover
         {
@@ -35,5 +36,6 @@ LeftRightNumberControl
         text-align: center;
         flex-shrink: 0;
         flex-grow: 1;
+        min-width: 220px;
     }
 }
