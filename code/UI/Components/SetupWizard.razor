@@ -1,0 +1,124 @@
+@using System;
+@using Sandbox;
+@using Sandbox.UI;
+@inherits Panel
+@attribute [StyleSheet]
+
+@namespace Rhythm4K
+
+<root>
+    <div class="header">
+        <h1>First-time setup</h1>
+        <p>Configure Rhythm4K to your liking</p>
+    </div>
+    <div class="container">
+        <h1>@GetPageText(Page)</h1>
+        
+
+        @if(Page == 0)
+        {
+            <p>A "Beatmap" is a set of playable levels. Rhythm4K doesn't come with any beatmaps pre-loaded, so this step is to help you get started on your collection.</p>
+            <h3 class="center">You currently have @(BeatmapSet.All.Count) beatmap(s) loaded!</h3>
+            <p>To get you started, you can press the button below to start downloading a curated list of recommended beatmaps.</p>
+            <button class="center">Get recommended beatmaps</button>
+            <p>You can also download beatmaps for some songs that I've made. A bit of shameless self-promo :D</p>
+            <button class="center">Get Carson Kompon beatmaps</button>
+            <p>You can also obtain more beatmaps from the main menu "browse" options at any time.</p>
+        }
+        else if(Page == 1)
+        {
+            <p>If you have a pre-existing collection of beatmaps from other rhythm games, you can choose to import them for use in Rhythm4K!</p>
+            <p>Here's a list of supported beatmap formats:</p>
+            <div class="list">
+                <div class="list-item">
+                    <div class="bullet" />
+                    <label>Stepmania (.sm)</label>
+                </div>
+                <div class="list-item">
+                    <div class="bullet" />
+                    <label>osu!mania (.osu)</label>
+                </div>
+                <div class="list-item">
+                    <div class="bullet" />
+                    <label>Clone Hero (.idk)</label>
+                </div>
+            </div>
+            <p>When you're ready to move your collection over, click the button below to copy the beatmap directory to your clipboard. Make sure each beatmap has their own folder with all necessary files (charts, images, music, ect).</p>
+            <button class="center" onclick=@BeatmapDirectoryButton>Copy beatmap directory to clipboard</button>
+            <p>Once you've finished moving the beatmaps over to this folder, press the button below to scan the directory and import new beatmaps.</p>
+            <button class="center" onclick=@ScanBeatmapsButton>Scan/Import beatmaps</button>
+            <h3 class="clipboard center @(timeSinceCopiedToClipboard < 5f ? "visible" : "")">Copied to clipboard!</h3>
+        }
+        else if(Page == 2)
+        {
+            <SettingsPanel ShowSetupWizard=@(false) />
+        }
+    </div>
+    <div class="buttons">
+        @if(Page > 0)
+        {
+            <button class="small" onclick=@BackButton>Back (@(GetPageText(Page - 1)))</button>
+        }
+        <button onclick=@NextButton>Next (@(GetPageText(Page + 1)))</button>
+    </div>
+</root>
+
+@code
+{
+    public int Page { get; set; } = 0;
+
+    RealTimeSince timeSinceCopiedToClipboard = 10f;
+
+    string GetPageText(int page)
+    {
+        switch(page)
+        {
+            case 0:
+                return "Download Beatmaps";
+            case 1:
+                return "Import Beatmaps";
+            case 2:
+                return "Settings";
+            default:
+                return "Finish";
+        }
+
+        return "";
+    }
+
+    void BeatmapDirectoryButton()
+    {
+        if(!FileSystem.Data.DirectoryExists("beatmaps"))
+        {
+            FileSystem.Data.CreateDirectory("beatmaps");
+        }
+
+        var path = FileSystem.Data.GetFullPath("beatmaps");
+        Log.Info(path);
+        Clipboard.SetText(path);
+        timeSinceCopiedToClipboard = 0f;
+    }
+
+    async void ScanBeatmapsButton()
+    {
+        await BeatmapSet.LoadAll();
+    }
+
+    void NextButton()
+    {
+        if(Page == 2)
+        {
+            MainMenuScreen.Instance.InSetupWizard = false;
+            return;
+        }
+
+        Page++;
+    }
+
+    void BackButton()
+    {
+        Page--;
+    }
+
+    protected override int BuildHash() => System.HashCode.Combine(Page, timeSinceCopiedToClipboard < 5f);
+}

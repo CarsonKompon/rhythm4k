@@ -8,8 +8,15 @@
 @inherits PanelComponent
 
 <root>
-    <MainMenu @ref="MainMenu" />
 	<SongDownloadPanel />
+
+	@if(InSetupWizard)
+	{
+		<SetupWizard />
+		return;
+	}
+
+    <MainMenu @ref="MainMenu" />
 	@if((MainMenu?.CurrentUrl ?? "") == "/")
 	{
 		<div class="now-playing">
@@ -81,12 +88,16 @@
     public float PeakKickVolume { get; set; } = 0f;
     List<float> EnergyHistory = new();
 
+	public bool InSetupWizard { get; set; } = false;
+
 	protected override void OnStart()
 	{
 		base.OnStart();
 
 		Instance = this;
 		
+		InSetupWizard = true;
+
 		LoadSongs();
 		PlayRandomSong();
 	}

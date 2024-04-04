@@ -1,0 +1,142 @@
+@using System;
+@using Sandbox;
+@using Sandbox.UI;
+@attribute [StyleSheet]
+@inherits Panel
+
+@namespace Rhythm4K
+
+<root>
+    <h1>General</h1>
+    <div class="option">
+        <label>Volume</label>
+        <SliderControl Min=@(0f) Max=@(100f) Step=@(1f) ShowTextEntry=@(true) Value:bind=@GamePreferences.Settings.MasterVolume />
+    </div>
+    @* <div class="option">
+        <label>Music Volume</label>
+        <SliderControl Min=@(0f) Max=@(100f) Step=@(1f) ShowTextEntry=@(true) Value:bind=@GamePreferences.Settings.MusicVolume />
+    </div>
+    <div class="option">
+        <label>SFX Volume</label>
+        <SliderControl Min=@(0f) Max=@(100) Step=@(1f) ShowTextEntry=@(true) Value:bind=@GamePreferences.Settings.SoundVolume />
+    </div> *@
+    @if(ShowSetupWizard)
+    {
+        <button class="main" onclick=@RunSetupWizard>Run Setup Wizard</button>
+    }
+    <h1>Input</h1>
+    <div class="option">
+        <label>Key Bindings</label>
+        <button>Configure</button>
+    </div>
+    <div class="option">
+        <label>Audio Offset</label>
+        <LeftRightNumberControl Step=@(1) Suffix="ms" Value:bind=@GamePreferences.Settings.AudioLatency />
+    </div>
+    <h1>Gameplay</h1>
+    <div class="option">
+        <label>Scroll Direction</label>
+        <CustomDropDown @ref="ScrollDirectionDropDown" onchange=@OnScrollDirectionChanged />
+    </div>
+    <div class="option">
+        <label>Scroll Speed Multiplier</label>
+        <SliderControl Min=@(0.5f) Max=@(2) Step=@(0.05f) ShowTextEntry=@(true) Value:bind=@GamePreferences.Settings.ScrollSpeedMultiplier />
+    </div>
+    <h1>Graphics</h1>
+    <div class="option">
+        <label>Gameplay Style</label>
+        <CustomDropDown @ref="GameplayStyleDropDown" onchange=@OnGameplayStyleChanged />
+    </div>
+    <div class="option">
+        <label>Note Style</label>
+        <CustomDropDown @ref="NoteStyleDropDown" onchange=@OnNoteStyleChanged />
+    </div>
+    <div class="option">
+        <label>Background Effects</label>
+        <SwitchControl Value:bind=@GamePreferences.Settings.BackgroundEffects />
+    </div>
+    <div class="option">
+        <label>Hit Effects</label>
+        <SwitchControl Value:bind=@GamePreferences.Settings.HitEffects />
+    </div>
+    <div class="option">
+        <label>Light Up Lanes</label>
+        <SwitchControl Value:bind=@GamePreferences.Settings.LightUpLanes />
+    </div>
+    <h3>Lanes</h3>
+    <div class="page-selector">
+        <MainMenuButton Text="1K" />
+        <MainMenuButton class="selected" Text="2K" />
+        <MainMenuButton Text="3K" />
+        <MainMenuButton Text="4K" />
+        <MainMenuButton Text="5K" />
+        <MainMenuButton Text="6K" />
+        <MainMenuButton Text="7K" />
+        <MainMenuButton Text="8K" />
+        <MainMenuButton Text="9K" />
+        <MainMenuButton Text="10K" />
+    </div>
+    <div class="page-contents lanes">
+        <div class="option">
+            <label>Lane Colour</label>
+        </div>
+    </div>
+</root>
+
+@code
+{
+    public bool ShowSetupWizard { get; set; } = true;
+
+    CustomDropDown ScrollDirectionDropDown = new();
+    CustomDropDown GameplayStyleDropDown = new();
+    CustomDropDown NoteStyleDropDown = new();
+    protected override void OnAfterTreeRender(bool firstTime)
+    {
+        base.OnAfterTreeRender(firstTime);
+
+        if (firstTime)
+        {
+            ScrollDirectionDropDown.Options = new()
+            {
+                new Option("Upscroll", 0),
+                new Option("Downscroll", 1),
+            };
+            ScrollDirectionDropDown.Selected = ScrollDirectionDropDown.Options[GamePreferences.Settings.Downscroll ? 1 : 0];
+        
+            GameplayStyleDropDown.Options = new()
+            {
+                new Option("2D", 0),
+                new Option("3D", 1),
+            };
+            GameplayStyleDropDown.Selected = GameplayStyleDropDown.Options[GamePreferences.Settings.GameStyle];
+        
+            List<Option> options = new();
+            foreach(var enumName in Enum.GetNames(typeof(NoteStyle)))
+            {
+                options.Add(new Option(enumName, (int)Enum.Parse<NoteStyle>(enumName)));
+            }
+            NoteStyleDropDown.Options = options;
+            NoteStyleDropDown.Selected = NoteStyleDropDown.Options[(int)GamePreferences.Settings.NoteStyle];
+        }
+    }
+
+    void RunSetupWizard()
+    {
+        MainMenuScreen.Instance.InSetupWizard = true;
+    }
+
+    void OnScrollDirectionChanged()
+    {
+        GamePreferences.Settings.Downscroll = (int)ScrollDirectionDropDown.Selected.Value == 1;
+    }
+
+    void OnGameplayStyleChanged()
+    {
+        GamePreferences.Settings.GameStyle = (int)GameplayStyleDropDown.Selected.Value;
+    }
+
+    void OnNoteStyleChanged()
+    {
+        GamePreferences.Settings.NoteStyle = (NoteStyle)NoteStyleDropDown.Selected.Value;
+    }
+}

@@ -1,0 +1,194 @@
+SetupWizard
+{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    pointer-events: all;
+    backdrop-filter: blur(4px);
+    opacity: 1;
+    transition: all 0.5s ease;
+    flex-direction: column;
+    gap: 32px;
+    padding: 32px;
+    font-family: Orbitron;
+    align-items: center;
+    padding-top: 128px;
+    transform: scale(1);
+
+    > .header
+    {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        padding: 16px;
+        font-size: 32px;
+        font-weight: 800;
+        color: white;
+        text-shadow: 0 0 10px black;
+        flex-direction: column;
+
+        p
+        {
+            font-size: 24px;
+            font-weight: 400;
+        }
+    }
+
+    > .container
+    {
+        flex-grow: 1;
+        background-color: rgb(28, 26, 32);
+        color: white;
+        border-radius: 32px;
+        font-family: Chakra Petch;
+        font-size: 32px;
+        padding: 32px;
+        flex-direction: column;
+        width: 70%;
+        gap: 8px;
+        box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.596);
+
+        h1
+        {
+            font-size: 42px;
+            font-weight: 800;
+        }
+
+        p
+        {
+            font-size: 24px;
+            font-weight: 400;
+        }
+
+        h3
+        {
+            font-size: 32px;
+            font-weight: 800;
+        }
+
+        .list
+        {
+            flex-direction: column;
+            font-size: 18px;
+            gap: 8px;
+
+            .list-item
+            {
+                gap: 8px;
+                align-items: center;
+
+                .bullet
+                {
+                    background-color: white;
+                    width: 4px;
+                    height: 4px;
+                    border-radius: 100%;
+                }
+            }
+        }
+
+        > button
+        {
+            font-size: 32px;
+            font-weight: 800;
+            background-color: rgb(187, 50, 91);
+            color: white;
+            padding: 16px;
+            transform: skewX(-10deg);
+            cursor: pointer;
+            margin: 8px;
+            transition: all 0.1s ease;
+
+            &:hover
+            {
+                background-color: rgb(206, 64, 106);
+                sound-in: ui_hover;
+            }
+
+            &:active
+            {
+                sound-in: ui_forward;
+                transform: scale(0.95) skewX(-10deg);
+            }
+        }
+
+        .clipboard
+        {
+            flex-grow: 1;
+            align-items: flex-end;
+            opacity: 0;
+            transition: all 1s ease;
+            font-weight: 400;
+
+            &.visible
+            {
+                opacity: 0.4;
+            }
+        }
+
+        .center
+        {
+            align-self: center;
+        }
+    }
+
+    > .buttons
+    {
+        width: 100%;
+        gap: 32px;
+        flex-shrink: 0;
+
+        button
+        {
+            flex-grow: 5;
+            font-size: 32px;
+            font-weight: 800;
+            background-color: rgb(50, 132, 187);
+            color: white;
+            padding: 16px;
+            transform: skewX(-10deg);
+            cursor: pointer;
+            box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.596);
+            transition: all 0.1s ease;
+
+            &:hover
+            {
+                background-color: rgb(64, 149, 206);
+                sound-in: ui_hover;
+            }
+
+            &:active
+            {
+                sound-in: ui_forward;
+                transform: scale(0.95) skewX(-10deg);
+            }
+
+            &.small
+            {
+                flex-grow: 0;
+                flex-shrink: 0;
+                background-color: rgb(187, 50, 91);
+
+                &:hover
+                {
+                    background-color: rgb(206, 64, 106);
+                }
+            }
+        }
+    }
+
+    &:intro
+    {
+        opacity: 0;
+        transform: scale(1.1);
+    }
+
+    &:outro
+    {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+}
