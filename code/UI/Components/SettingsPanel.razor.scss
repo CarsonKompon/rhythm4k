@@ -59,8 +59,9 @@ SettingsPanel
     SliderControl
     {
         flex-shrink: 0;
-        flex-grow: 0;
+        width: 300px;
         min-width: 300px;
+        max-width: 300px;
 
         .inner
         {

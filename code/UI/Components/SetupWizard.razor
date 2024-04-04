@@ -62,8 +62,7 @@
                 <LeftRightNumberControl Step=@(1) Suffix="ms" Value:bind=@GamePreferences.Settings.AudioLatency />
             </div>
             <p>Click the button below to enter the Calibration Wizard. Keep in mind when you are doing the calibration that you should be trying to hit the button to the timing of the MUSIC and not the visuals. This will ensure the visuals will be lined up with the music properly once complete.</p>
-            <button class="center" onclick=@CalibrationWizard>Enter Calibration Wizard</button>
-            <p>If you notice while playing that you're always hitting a bit late in the results screen you also have the option to right click on your average difference to calibrate to that.</p>
+            <button class="center" onclick=@GameManager.RunCalibrationWizard>Enter Calibration Wizard</button>
             <p>You can also run the Calibration Wizard at any time through the settings menu.</p>
         }
     </div>
@@ -117,20 +116,6 @@
     async void ScanBeatmapsButton()
     {
         await BeatmapSet.LoadAll();
-    }
-
-    async void CalibrationWizard()
-    {
-        var wizardSet = await SongBuilder.Load("beatmaps/calibration_wizard", FileSystem.Mounted);
-        Log.Info(wizardSet);
-        if(wizardSet is not null)
-        {
-            GamePreferences.Settings.DoneFirstTimeSetup = true;
-            GamePreferences.SaveSettings();
-            Beatmap.Loaded = wizardSet.Beatmaps.FirstOrDefault();
-            GameManager.IsCalibrating = true;
-            MainMenuScreen.Instance.StartGame();
-        }
     }
 
     void NextButton()

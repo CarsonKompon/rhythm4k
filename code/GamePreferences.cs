@@ -32,6 +32,7 @@ public class RhythmSettings
     public float MasterVolume { get; set; } = 50f;
     public float MusicVolume { get; set; } = 80f;
     public float SoundVolume { get; set; } = 80f;
+    public float UnfocusedVolume { get; set; } = 40f;
 
 
     public bool Downscroll { get; set; } = true;

@@ -9,6 +9,7 @@ public sealed class GameManager : Component, IMusicPlayer
 {
 	public static GameManager Instance { get; private set; }
 	public static bool IsCalibrating = false;
+	public static int RetryCount = 0;
 
 	[Property] public GameObject ResultsScreen { get; set; }
 	[Property] public SceneFile MenuScene { get; set; }
@@ -32,7 +33,9 @@ public sealed class GameManager : Component, IMusicPlayer
 	public float BeatLength => 60f / CurrentBPM;
 	public float ScreenTime => BaseScreenTime / GamePreferences.Settings.ScrollSpeedMultiplier;
 	float BaseScreenTime = 1f;
-	public TimeSince CurrentTime { get; set; } = 0f;
+	public float CurrentTime => _currentTime - AudioLatency;
+	public float CurrentTimeNoLatency => _currentTime;
+	TimeSince _currentTime { get; set; } = 0f;
 	public float SongTime => Music?.PlaybackTime ?? 0f;
 
 	public MusicPlayer Music { get; set; }
@@ -50,6 +53,7 @@ public sealed class GameManager : Component, IMusicPlayer
 	List<float> JudgementScores = new();
 	List<string> JudgementNames = new();
 	float TotalScore { get; set; } = 0;
+	float AudioLatency { get; set; } = 0;
 
 	public Action OnBeat { get; set; }
 
@@ -66,6 +70,7 @@ public sealed class GameManager : Component, IMusicPlayer
 			return;
 		}
 		Replay = new Replay( Beatmap );
+		AudioLatency = GamePreferences.Settings.AudioLatency / 1000f;
 
 		InitLanes();
 		StartSong();
@@ -124,7 +129,7 @@ public sealed class GameManager : Component, IMusicPlayer
 		CurrentBPM = Beatmap.BpmChanges[0].BPM; // TODO: Move BPM from BeatmapSet to Beatmap
 		var scrollSpeed = (Beatmap.ScrollSpeed <= 0) ? 1f : Beatmap.ScrollSpeed;
 		BaseScreenTime = 120f / CurrentBPM * scrollSpeed / 2f;
-		CurrentTime = Beatmap.Offset - ScreenTime;
+		_currentTime = Beatmap.Offset - ScreenTime;
 
 		IsPlaying = true;
 		Score = 0;
@@ -352,7 +357,7 @@ public sealed class GameManager : Component, IMusicPlayer
 		Combo++;
 		Replay.MaxCombo = Math.Max( Replay.MaxCombo, Combo );
 		GameHud.Instance?.SetCombo( Combo );
-		Replay.Hits.Add( new HitInfo( note.Note.Lane, CurrentTime, difference ) );
+		Replay.Hits.Add( new HitInfo( note.Note.Lane, IsCalibrating ? CurrentTimeNoLatency : CurrentTime, difference ) );
 	}
 
 	void SpawnNextNotes()
@@ -425,6 +430,19 @@ public sealed class GameManager : Component, IMusicPlayer
 		Combo = 0;
 		GameHud.Instance?.SetCombo( 0 );
 		GameHud.Instance?.SetJudgement( "Miss" );
-		Replay.Hits.Add( new HitInfo( -1, CurrentTime, 999 ) );
+		Replay.Hits.Add( new HitInfo( -1, IsCalibrating ? CurrentTimeNoLatency : CurrentTime, 999 ) );
+	}
+
+	public static async void RunCalibrationWizard()
+	{
+		var wizardSet = await SongBuilder.Load( "beatmaps/calibration_wizard", FileSystem.Mounted );
+		if ( wizardSet is not null )
+		{
+			GamePreferences.Settings.DoneFirstTimeSetup = true;
+			GamePreferences.SaveSettings();
+			Beatmap.Loaded = wizardSet.Beatmaps.FirstOrDefault();
+			GameManager.IsCalibrating = true;
+			MainMenuScreen.Instance.StartGame();
+		}
 	}
 }

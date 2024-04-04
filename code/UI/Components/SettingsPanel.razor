@@ -9,8 +9,12 @@
 <root>
     <h1>General</h1>
     <div class="option">
-        <label>Volume</label>
+        <label>Master Volume</label>
         <SliderControl Min=@(0f) Max=@(100f) Step=@(1f) ShowTextEntry=@(true) Value:bind=@GamePreferences.Settings.MasterVolume />
+    </div>
+    <div class="option">
+        <label>Unfocused Volume</label>
+        <SliderControl Min=@(0f) Max=@(100f) Step=@(1f) ShowTextEntry=@(true) Value:bind=@GamePreferences.Settings.UnfocusedVolume />
     </div>
     @* <div class="option">
         <label>Music Volume</label>
@@ -33,6 +37,10 @@
         <label>Audio Offset</label>
         <LeftRightNumberControl Step=@(1) Suffix="ms" Value:bind=@GamePreferences.Settings.AudioLatency />
     </div>
+    @if(ShowSetupWizard)
+    {
+        <button class="main" onclick=@GameManager.RunCalibrationWizard>Run Calibration Wizard</button>
+    }
     <h1>Gameplay</h1>
     <div class="option">
         <label>Scroll Direction</label>

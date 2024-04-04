@@ -95,9 +95,10 @@
 		base.OnStart();
 
 		Instance = this;
-		
 		InSetupWizard = !GamePreferences.Settings.DoneFirstTimeSetup;
+
 		GameManager.IsCalibrating = false;
+		GameManager.RetryCount = 0;
 
 		LoadSongs();
 		PlayRandomSong();
@@ -176,7 +177,9 @@
 			{
 				FilterProcessor.Mix = FilterProcessor.Mix.LerpTo(0f, Time.Delta * 20f);
 			}	
-			Mixer.Master.Volume = Mixer.Master.Volume.LerpTo(GamePreferences.Settings.MasterVolume / 100f, Time.Delta * 10f);
+
+			var volume = GamePreferences.Settings.MasterVolume / 100f * (Application.IsFocused ? 1f : (GamePreferences.Settings.UnfocusedVolume / 100f));
+			Mixer.Master.Volume = Mixer.Master.Volume.LerpTo(volume, Time.Delta * 10f);
 		
 			if(Input.EscapePressed)
 			{	
@@ -223,7 +226,7 @@
         {
             EnergyHistoryAverage += EnergyHistory[i];
         }
-        EnergyHistoryAverage /= EnergyHistory.Count;
+        EnergyHistoryAverage /= (EnergyHistory?.Count ?? 1);
 
         // Beat Detection
         float energySum = 0f;

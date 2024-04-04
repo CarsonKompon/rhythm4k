@@ -14,7 +14,7 @@
 	</div>
 	<div class="judgement" @ref="JudgementPanel"></div>
 	<div class="song-progress">
-		<div class="fill" style="width: @(GameManager.CurrentTime / GameManager.Beatmap.Length * 100f)%"></div>
+		<div class="fill" style="width: @(GameManager.CurrentTimeNoLatency / GameManager.Beatmap.Length * 100f)%"></div>
 	</div>
 	<div class="pause-menu @(GameManager.Instance.IsPaused ? "" : "hidden")">
 		<h1>Paused</h1>
@@ -24,8 +24,8 @@
 			<div class="button"onclick=@QuitButton>Quit</div>
 		</div>
 		<div class="info">
-			<label>Retry Count: 0</label>
-			<label>Song Progress: 0%</label>
+			<label>Retry Count: @(GameManager.RetryCount)</label>
+			<label>Song Progress: @($"{MathF.Max(GameManager.CurrentTimeNoLatency / GameManager.Beatmap.Length * 100f, 0f):N0}")%</label>
 		</div>
 	</div>
 </root>
@@ -87,6 +87,7 @@
 
 	void RetryButton()
 	{
+		GameManager.RetryCount++;
 		Sound.StopAll(0);
 		Scene.Load(Scene.Source);
 	}
