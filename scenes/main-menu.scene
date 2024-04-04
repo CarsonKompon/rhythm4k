@@ -249,7 +249,7 @@
                   "CurrentPanelScale": 0,
                   "CurrentPanelScaleFromScreen": 0,
                   "CurrentPanelScaleToScreen": 0,
-                  "CurrentScreenSize": "1024,576",
+                  "CurrentScreenSize": "878,494",
                   "CustomPanelBounds": {
                     "Size": "1024,256"
                   },
@@ -677,7 +677,7 @@
           "__guid": "efd37291-348d-4e78-bee4-e0f62b640206",
           "Name": "Options Page",
           "Position": "-77.28035,47.37448,6.222516",
-          "Rotation": "0.01772483,0.04175697,-0.3903298,0.9195569",
+          "Rotation": "0.02002498,0.04070397,-0.3384628,0.9398859",
           "Enabled": true,
           "NetworkMode": 2
         },
@@ -760,7 +760,7 @@
   },
   "Title": "minimal",
   "Description": "",
-  "LastSaved": "2024-04-03T15:35:02.7667926-04:00",
+  "LastSaved": "2024-04-03T23:54:06.5217169-04:00",
   "ResourceVersion": 1,
   "__version": 1,
   "__references": [

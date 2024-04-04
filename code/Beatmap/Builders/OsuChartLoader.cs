@@ -20,19 +20,21 @@ public class OsuChartLoader : IChartLoader
         return false;
     }
 
-    public async Task<BeatmapSet> Load( string path )
+    public async Task<BeatmapSet> Load( string path, BaseFileSystem fileSystem = null )
     {
+        if ( fileSystem is null ) fileSystem = FileSystem.Data;
         BeatmapSet set = new();
         set.Path = path;
         set.Beatmaps = new();
 
-        var files = FileSystem.Data.FindFile( path, "*.osu" );
+        var files = fileSystem.FindFile( path, "*.osu" );
         foreach ( var file in files )
         {
-            var beatmap = LoadChart( path + "/" + file );
+            var beatmap = LoadChart( path + "/" + file, fileSystem );
             if ( beatmap is null ) continue;
             if ( beatmap.Notes.Count == 0 ) continue;
             set.Beatmaps.Add( beatmap );
+            beatmap.BeatmapSet = set;
             if ( set.Beatmaps.Count == 1 )
             {
                 set.Name = beatmap.Name;
@@ -53,22 +55,24 @@ public class OsuChartLoader : IChartLoader
 
         // Get Cover Art
         string coverPath = path + "/cover-image.txt";
-        if ( FileSystem.Data.FileExists( coverPath ) )
+        if ( fileSystem.FileExists( coverPath ) )
         {
-            set.CoverArt = await FileSystem.Data.ReadAllTextAsync( coverPath );
+            set.CoverArt = await fileSystem.ReadAllTextAsync( coverPath );
         }
 
         return set;
     }
 
-    Beatmap LoadChart( string path )
+    Beatmap LoadChart( string path, BaseFileSystem fileSystem = null )
     {
-        string text = FileSystem.Data.ReadAllText( path );
+        if ( fileSystem is null ) fileSystem = FileSystem.Data;
+        string text = fileSystem.ReadAllText( path );
         if ( string.IsNullOrEmpty( text ) ) return null;
         string[] sections = text.Split( '[' );
 
         Beatmap beatmap = new();
         beatmap.FilePath = path;
+        beatmap.FileSystem = fileSystem;
 
         foreach ( var section in sections )
         {

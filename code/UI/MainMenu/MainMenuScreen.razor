@@ -96,7 +96,7 @@
 
 		Instance = this;
 		
-		InSetupWizard = true;
+		InSetupWizard = !GamePreferences.Settings.DoneFirstTimeSetup;
 
 		LoadSongs();
 		PlayRandomSong();
@@ -160,7 +160,7 @@
 			}
 			else if(TimeSinceLoadingIn > 2f)
 			{
-				Scene.Load(SingleplayerScene);
+				StartGame();
 			}
 
 			if(FilterProcessor is not null)
@@ -304,6 +304,11 @@
 	public void Navigate(string destination)
 	{
 		MainMenu?.Navigate(destination);
+	}
+
+	public void StartGame()
+	{
+		Scene.Load(SingleplayerScene);
 	}
 
 	protected override int BuildHash()

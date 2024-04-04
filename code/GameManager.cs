@@ -8,6 +8,8 @@ namespace Rhythm4K;
 public sealed class GameManager : Component, IMusicPlayer
 {
 	public static GameManager Instance { get; private set; }
+	public static bool IsCalibrating = false;
+
 	[Property] public GameObject ResultsScreen { get; set; }
 	[Property] public SceneFile MenuScene { get; set; }
 	[Property] public GameObject LanePrefab { get; set; }
@@ -133,7 +135,7 @@ public sealed class GameManager : Component, IMusicPlayer
 		{
 			await Task.DelaySeconds( -CurrentTime );
 		}
-		Music = MusicPlayer.Play( FileSystem.Data, BeatmapSet.Path + "/" + Beatmap.AudioFilename );
+		Music = MusicPlayer.Play( Beatmap.FileSystem, BeatmapSet.Path + "/" + Beatmap.AudioFilename );
 		// Log.Info( "this log is necessary lmfao" );
 		Music.Seek( MathF.Max( CurrentTime, 0f ) );
 	}

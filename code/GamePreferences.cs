@@ -44,4 +44,6 @@ public class RhythmSettings
     public bool BackgroundEffects { get; set; } = true;
     public bool HitEffects { get; set; } = true;
     public bool LightUpLanes { get; set; } = true;
+
+    public bool DoneFirstTimeSetup { get; set; } = false;
 }

@@ -9,16 +9,17 @@ namespace Rhythm4K;
 
 public static class SongBuilder
 {
-    public static async Task<BeatmapSet> Load( string path )
+    public static async Task<BeatmapSet> Load( string path, BaseFileSystem fileSystem = null )
     {
-        var files = FileSystem.Data.FindFile( path ).ToList();
+        if ( fileSystem is null ) fileSystem = FileSystem.Data;
+        var files = fileSystem.FindFile( path ).ToList();
 
         // Try to load baked chart
         foreach ( var file in files )
         {
             if ( file.EndsWith( ".r4k" ) )
             {
-                var set = FileSystem.Data.ReadJson<BeatmapSet>( file );
+                var set = fileSystem.ReadJson<BeatmapSet>( file );
                 return set;
             }
         }
@@ -31,7 +32,7 @@ public static class SongBuilder
             var loader = TypeLibrary.Create<IChartLoader>( loaderType.TargetType );
             if ( loader.CanLoad( files ) )
             {
-                return await loader.Load( path );
+                return await loader.Load( path, fileSystem );
             }
         }
 

@@ -7,7 +7,7 @@ namespace Rhythm4K;
 public interface IChartLoader
 {
     public bool CanLoad( List<string> files );
-    public Task<BeatmapSet> Load( string path );
+    public Task<BeatmapSet> Load( string path, BaseFileSystem fileSystem = null );
 }
 
 [AttributeUsage( AttributeTargets.Class, AllowMultiple = true, Inherited = false )]

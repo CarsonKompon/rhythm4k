@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Sandbox;
 
 namespace Rhythm4K;
@@ -25,10 +26,16 @@ public class Beatmap
     public float Length { get; set; }
 
     public string FilePath { get; set; }
+    [JsonIgnore] public BaseFileSystem FileSystem { get; set; }
 
+    [JsonIgnore] public BeatmapSet BeatmapSet { get; set; }
 
     public BeatmapSet GetBeatmapSet()
     {
+        if ( BeatmapSet is not null )
+        {
+            return BeatmapSet;
+        }
         return BeatmapSet.All.FirstOrDefault( x => x.Beatmaps.Contains( this ) );
     }
 

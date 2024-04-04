@@ -129,6 +129,15 @@ SetupWizard
             }
         }
 
+        .option
+        {
+            > label
+            {
+                flex-grow: 1;
+                font-weight: 500;
+            }
+        }
+
         .center
         {
             align-self: center;
