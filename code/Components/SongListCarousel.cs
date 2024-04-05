@@ -13,7 +13,7 @@ public sealed class SongListCarousel : Component
 	[Property] public int SongPanelCount { get; set; } = 32;
 	[Property] float SongXSpread { get; set; } = 100f;
 	[Property] float SongYSpread { get; set; } = 100f;
-	[Property] float TargetAngle { get; set; } = 0f;
+	float TargetAngle => SelectedIndex * MathF.PI * 2f / SongPanelCount;
 	public float AngleOffset { get; set; } = 0f;
 	public float LastOffset { get; set; } = 0f;
 	public float Zoom { get; set; } = 0.7f;
@@ -23,9 +23,20 @@ public sealed class SongListCarousel : Component
 		get => _sortOrder;
 		set
 		{
-			var selected = GetCurrentSetList()[_selectedIndex];
+			BeatmapSet selected;
+			try
+			{
+				selected = GetCurrentSetList()[SongListInfoPanel.Instance.Index];
+			}
+			catch
+			{
+				selected = null;
+			}
 			_sortOrder = value;
-			SelectedIndex = GetCurrentSetList().IndexOf( selected );
+			if ( selected is not null )
+			{
+				SelectedIndex = GetCurrentSetList().IndexOf( selected );
+			}
 			Cookie.Set( "sortOrder", _sortOrder );
 		}
 
@@ -95,7 +106,6 @@ public sealed class SongListCarousel : Component
 
 	protected override void OnUpdate()
 	{
-		TargetAngle = SelectedIndex * MathF.PI * 2f / (float)SongPanelCount;
 		CurrentAngle = MathX.LerpDegrees( CurrentAngle, TargetAngle + AngleOffset, Time.Delta * 10f );
 
 		if ( worldInput is not null )
@@ -203,16 +213,56 @@ public sealed class SongListCarousel : Component
 
 	public List<BeatmapSet> GetCurrentSetList()
 	{
+		List<BeatmapSet> list = new();
 		switch ( _sortOrder )
 		{
 			case 0:
-				return BeatmapSet.All.OrderBy( x => x.Name ).ToList();
+				list.AddRange( BeatmapSet.All.OrderBy( x => x.DateAdded ) );
+				break;
 			case 1:
-				return BeatmapSet.All.OrderBy( x => x.Artist ).ToList();
+				list.AddRange( BeatmapSet.All.OrderBy( x => x.Artist ) );
+				break;
 			case 2:
-				return BeatmapSet.All.OrderBy( x => x.Beatmaps.Count ).ToList();
+				list.AddRange( BeatmapSet.All.OrderBy( x => x.Name ) );
+				break;
+			case 3:
+				list.AddRange( BeatmapSet.All.OrderBy( x =>
+				{
+					var lastPlayed = DateTime.MinValue;
+					foreach ( var beatmap in x.Beatmaps )
+					{
+						var stats = GameStats.GetStats( beatmap );
+						if ( stats.LastPlayed > lastPlayed )
+						{
+							lastPlayed = stats.LastPlayed;
+						}
+					}
+					return lastPlayed;
+				} ).Reverse() );
+				break;
+			case 4:
+				list.AddRange( BeatmapSet.All.OrderBy( x =>
+				{
+					var highscore = x.Beatmaps.OrderBy( b => b.Difficulty * 1000 + b.GetHighscore() ).Last().GetHighscore();
+					return highscore;
+				} ) );
+				break;
+			case 5:
+				list.AddRange( BeatmapSet.All.OrderBy( x =>
+				{
+					var time = 0f;
+					foreach ( var beatmap in x.Beatmaps )
+					{
+						if ( beatmap.Length > time )
+						{
+							time = beatmap.Length;
+						}
+					}
+					return time;
+				} ) );
+				break;
 		}
 
-		return BeatmapSet.All;
+		return list;
 	}
 }

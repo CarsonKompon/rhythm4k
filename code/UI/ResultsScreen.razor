@@ -280,7 +280,7 @@
 
 	protected override void OnEnabled()
 	{
-		PreviousReplay= Replay.Load(GameManager.Beatmap);
+		PreviousReplay = GameStats.GetStats(GameManager.Beatmap).Replay;
 		PreviousScore = GameManager.Beatmap.GetHighscore();
 		GameManager.Replay.Complete( (int)MathF.Round( GameManager.Score ) );
 		Judgements = GameManager.Replay.GetJudgements();

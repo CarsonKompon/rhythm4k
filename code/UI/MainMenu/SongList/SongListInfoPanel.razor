@@ -55,6 +55,10 @@
 							<h3>@(!string.IsNullOrEmpty(chart.DifficultyName) ? chart.DifficultyName : (!string.IsNullOrEmpty(chart.Name) ? chart.Name : "Unknown"))</h3>
 							<h4>by @(!string.IsNullOrEmpty(chart.Charter) ? chart.Charter : "Unknown")</h4>
 						</div>
+						@if(chart.GetHighscore() > 0)
+						{
+							<i>star</i>
+						}
 						<div class="difficulty">@chart.Difficulty</div>
 					</div>
 				}
@@ -67,7 +71,14 @@
 		else
 		{
 			<div class="no-charts">
-				<label>You have no Beatmaps...</label>
+				@if(BeatmapSet.All.Count > 0)
+				{
+					<label>No chart selected...</label>
+				}
+				else
+				{
+					<label>You have no Beatmaps...</label>
+				}
 				<div class="buttons">
 					<MainMenuButton Text="Back" onclick=@BackButton class="back"/>
 				</div>
@@ -84,7 +95,7 @@
 		get
 		{
 			var index = SongListCarousel.Instance.SelectedIndex;
-			var count = BeatmapSet.All.Count;
+			var count = SongListCarousel.Instance.GetCurrentSetList().Count;
 			if(count == 0) return 0;
 			while(index < 0)
 			{
@@ -107,7 +118,7 @@
 		if(!playingSong && timeSinceLastSelection > 0.25f && BeatmapSet.All.Count > 0)
 		{
 			var set = SongListCarousel.Instance.GetCurrentSetList()[Index];
-			var list = set.Beatmaps.OrderBy(x => x.Difficulty).ToList();
+			var list = set.Beatmaps.OrderBy(x => x?.Difficulty).ToList();
 			var chart = list.ElementAt(SelectedIndex);
 			MainMenuScreen.Instance.PlaySong(chart);
 			playingSong = true;

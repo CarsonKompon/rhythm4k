@@ -6,6 +6,9 @@ namespace Rhythm4K;
 
 public class BeatmapSet
 {
+    public static int LatestVersion = 1;
+
+    public int Version { get; set; }
     public string Path { get; set; }
     public string CoverArt { get; set; }
 
@@ -40,9 +43,13 @@ public class BeatmapSet
         All.Add( set );
     }
 
-    public void Save( string path )
+    public void Save( string path = "" )
     {
+        if ( string.IsNullOrEmpty( path ) )
+        {
+            path = Path + "/beatmap.r4k";
+        }
         if ( !path.EndsWith( ".r4k" ) ) path += ".r4k";
-        // FileSystem.Data.WriteJson( path, this );
+        FileSystem.Data.WriteJson( path, this );
     }
 }

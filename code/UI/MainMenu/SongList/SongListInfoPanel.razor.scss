@@ -58,20 +58,21 @@ SongListInfoPanel
 		{
 			align-items: center;
 			gap: 4px;
-
-			i
-			{
-				background-color: rgb(0, 0, 0);
-				mask-image: url("/sprites/diamond.png");
-				mask-size: contain;
-				padding: 8px;
-			}
 		}
 
 		.fill
 		{
 			flex-grow: 1;
 		}
+	}
+
+	i
+	{
+		background-color: rgb(0, 0, 0);
+		mask-image: url("/sprites/diamond.png");
+		mask-size: contain;
+		padding: 8px;
+		color: white;
 	}
 
 	h1
@@ -94,6 +95,7 @@ SongListInfoPanel
 		flex-direction: column;
 		max-height: 300px;
 		overflow-y: scroll;
+		overflow-x: hidden;
 		gap: 8px;
 
 		.chart
@@ -110,6 +112,7 @@ SongListInfoPanel
 			> .info
 			{
 				flex-direction: column;
+				flex-grow: 1;
 				
 				h3
 				{
@@ -129,6 +132,7 @@ SongListInfoPanel
 			.difficulty
 			{
 				flex-shrink: 0;
+				margin-left: 8px;
 			}
 
 			&.selected

@@ -8,6 +8,7 @@
 
 <root>
 	@if(Index < 0 || Index >= BeatmapSet.All.Count()) return;
+	@if(Set is null) return;
 	<img src="@Set.CoverArt" class="cover" />
 	<div class="info">
 		<div class="title">@(Set.Name)</div>
@@ -25,7 +26,21 @@
 @code
 {
 	public int Index { get; set; } = -1;
-	public BeatmapSet Set => SongListCarousel.Instance.GetCurrentSetList()[Index];
+	public BeatmapSet Set
+	{
+		get
+		{
+			try
+			{
+				var set = SongListCarousel.Instance.GetCurrentSetList()[Index];
+				return set;
+			}
+			catch
+			{
+				return null;
+			}
+		}
+	}
 
 	bool Grabbing = false;
 	Vector2 GrabPos = Vector2.Zero;

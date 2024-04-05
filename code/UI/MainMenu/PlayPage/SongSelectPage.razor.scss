@@ -6,15 +6,21 @@ SongSelectPage
     font-family: Orbitron;
     justify-content: space-between;
     font-size: 24px;
+    transition: all 0.5s ease;
 
     .header
     {
         pointer-events: all;
+        position: absolute;
+        top: 0px;
+        left: 0;
+        right: 0;
         width: 100%;
         height: 16px;
         gap: -8px;
         padding: 0px 8px;
         background-color: rgb(80, 79, 79);
+        transition: top 0.5s ease;
 
         .tab
         {
@@ -38,7 +44,40 @@ SongSelectPage
                 background-color: white;
                 color: black;
                 height: 48px;
+                z-index: 10;
             }
+        }
+    }
+
+    .scroll-bar
+    {
+        position: absolute;
+        top: 0;
+        right: 4px;
+        bottom: 0;
+        width: 16px;
+        pointer-events: all;
+
+        .bar
+        {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 10%;
+            background-color: rgba(0, 0, 0, 0.884);
+            border-radius: 8px;
+        }
+    }
+
+    &.hidden, &:intro, &:outro
+    {
+        opacity: 0;
+
+        .header
+        {
+            top: -64px;
+            transition: top 0.25s ease;
         }
     }
 }

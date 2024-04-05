@@ -12,9 +12,11 @@
         <div class="tab @PageClass(1)" onclick=@(() => ClickOrder(1))>Artist</div>
         <div class="tab @PageClass(2)" onclick=@(() => ClickOrder(2))>Title</div>
         <div class="tab @PageClass(3)" onclick=@(() => ClickOrder(3))>Last Played</div>
-        <div class="tab @PageClass(4)" onclick=@(() => ClickOrder(4))>Key Count</div>
+        <div class="tab @PageClass(4)" onclick=@(() => ClickOrder(4))>Highscore</div>
         <div class="tab @PageClass(5)" onclick=@(() => ClickOrder(5))>Length</div>
-
+    </div>
+    <div class="scroll-bar" @ref="ScrollPanel">
+        <div class="bar" @ref="ScrollBar" style=@($"top: {ScrollBarPosition}%") />
     </div>
 </root>
 
@@ -23,9 +25,51 @@
     
     string PageClass(int order) => (SongListCarousel.Instance.SortOrder == order) ? "selected" : "";
 
+    Panel ScrollPanel;
+    Panel ScrollBar;
+
+    float ScrollBarPosition = 0;
+
     void ClickOrder(int order)
     {
         SongListCarousel.Instance.SortOrder = order;
+    }
+
+    public override void Tick()
+    {
+        base.Tick();
+
+        if(SongListInfoPanel.Instance is null) return;
+        var list = SongListCarousel.Instance?.GetCurrentSetList();
+        if(list is null) return;
+
+        ScrollBarPosition = ScrollBarPosition.LerpTo(SongListInfoPanel.Instance.Index / (float)(list.Count - 1) * 90, 8f * Time.Delta);
+    }
+
+    protected override void OnMouseMove( MousePanelEvent e )
+    {
+        base.OnMouseMove( e );
+
+        if(!(ScrollBar.HasActive || ScrollPanel.HasActive)) return;
+        SetScrollPos();
+    }
+
+    protected override void OnMouseDown(MousePanelEvent e)
+    {
+        base.OnMouseDown(e);
+
+        if(!(ScrollBar.HasActive || ScrollPanel.HasActive)) return;
+        SetScrollPos();
+    }
+
+    void SetScrollPos()
+    {
+        SongListCarousel.Instance.SelectedIndex = (int)MathF.Round(MathX.Remap(Mouse.Position.y / Screen.Height, 0.05f, 0.95f, 0, SongListCarousel.Instance.GetCurrentSetList().Count - 1));
+    }
+
+    protected override int BuildHash()
+    {
+        return HashCode.Combine(SongListCarousel.Instance?.SortOrder, SongListInfoPanel.Instance?.Index, SongListCarousel.Instance?.GetCurrentSetList().Count, ScrollBarPosition);
     }
 
 }

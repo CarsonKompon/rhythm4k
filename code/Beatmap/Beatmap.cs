@@ -19,7 +19,7 @@ public class Beatmap
     public int TotalChain { get; set; }
     public float ScrollSpeed { get; set; } = 1f;
 
-    public string AudioFilename;
+    public string AudioFilename { get; set; }
     public float Offset { get; set; }
     public float SampleStart { get; set; }
     public float SampleLength { get; set; }
@@ -41,7 +41,7 @@ public class Beatmap
 
     public int GetHighscore()
     {
-        var replay = Replay.Load( this );
+        var replay = GameStats.GetStats( this ).Replay;
         if ( replay is null ) return 0;
         return replay.Score;
     }

@@ -1,15 +1,14 @@
 using System;
+using System.Text.Json.Serialization;
 using Sandbox;
 
 namespace Rhythm4K;
 
 public class Replay
 {
-    private static Dictionary<string, Replay> _replays = null;
-
-    public Beatmap Beatmap { get; set; }
+    [JsonIgnore] public Beatmap Beatmap { get; set; }
     public int MaxCombo { get; set; } = 0;
-    public List<HitInfo> Hits = new();
+    public List<HitInfo> Hits { get; set; } = new();
     public int Score { get; private set; } = 0;
 
     public Replay( Beatmap beatmap )
@@ -20,27 +19,13 @@ public class Replay
     public void Complete( int score )
     {
         Score = score;
-        var currentBest = Load( Beatmap );
+        var currentBest = GameStats.GetStats( Beatmap ).Replay;
         if ( currentBest is null || score > currentBest.Score )
         {
-            _replays[Beatmap.FilePath] = this;
-            FileSystem.Data.WriteJson( "replays.json", _replays );
+            GameStats.SetReplay( Beatmap, this );
         }
-    }
-
-    public static Replay Load( Beatmap beatmap )
-    {
-        if ( _replays is null )
-        {
-            _replays = FileSystem.Data.ReadJsonOrDefault<Dictionary<string, Replay>>( "replays.json" ) ?? new();
-            if ( _replays is null ) _replays = new();
-        }
-        if ( _replays.ContainsKey( beatmap.FilePath ) )
-        {
-            return _replays[beatmap.FilePath];
-        }
-
-        return null;
+        GameStats.AddScore( Beatmap, score, MaxCombo, GetAccuracy() );
+        GameStats.SaveStats();
     }
 
     public float GetAccuracy()

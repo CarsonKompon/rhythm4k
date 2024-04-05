@@ -140,6 +140,7 @@ public sealed class GameManager : Component, IMusicPlayer
 		{
 			await Task.DelaySeconds( -CurrentTime );
 		}
+		Log.Info( $"{Beatmap.FileSystem} {BeatmapSet.Path}/{Beatmap.AudioFilename}" );
 		Music = MusicPlayer.Play( Beatmap.FileSystem, BeatmapSet.Path + "/" + Beatmap.AudioFilename );
 		// Log.Info( "this log is necessary lmfao" );
 		Music.Seek( MathF.Max( CurrentTime, 0f ) );
