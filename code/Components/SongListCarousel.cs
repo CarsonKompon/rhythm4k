@@ -37,6 +37,7 @@ public sealed class SongListCarousel : Component
 			{
 				SelectedIndex = GetCurrentSetList().IndexOf( selected );
 			}
+			CurrentAngle = TargetAngle + AngleOffset;
 			Cookie.Set( "sortOrder", _sortOrder );
 		}
 
@@ -217,7 +218,7 @@ public sealed class SongListCarousel : Component
 		switch ( _sortOrder )
 		{
 			case 0:
-				list.AddRange( BeatmapSet.All.OrderBy( x => x.DateAdded ) );
+				list.AddRange( BeatmapSet.All.OrderBy( x => x.DateAdded ).Reverse() );
 				break;
 			case 1:
 				list.AddRange( BeatmapSet.All.OrderBy( x => x.Artist ) );

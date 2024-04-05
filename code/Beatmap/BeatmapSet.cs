@@ -24,23 +24,36 @@ public class BeatmapSet
 
     public static async Task LoadAll()
     {
+        BeatmapsToLoad = 0;
         All.Clear();
         if ( FileSystem.Data.DirectoryExists( "beatmaps" ) )
         {
-            var folders = FileSystem.Data.FindDirectory( "beatmaps" );
-            BeatmapsToLoad = folders.Count();
-            foreach ( var directory in folders )
-            {
-                await Load( "beatmaps/" + directory );
-            }
+            await LoadFolder( "beatmaps" );
         }
     }
 
-    public static async Task Load( string path )
+    public static async Task<BeatmapSet> Load( string path )
     {
         var set = await SongBuilder.Load( path );
-        if ( set is null ) return;
+        if ( set is null ) return null;
         All.Add( set );
+        return set;
+    }
+
+    private static async Task LoadFolder( string path )
+    {
+        var folders = FileSystem.Data.FindDirectory( path );
+        BeatmapsToLoad += folders.Count();
+        foreach ( var directory in folders )
+        {
+            Log.Info( path + "/" + directory );
+            var set = await Load( path + "/" + directory );
+            Log.Info( set );
+            if ( set is null )
+            {
+                await LoadFolder( path + "/" + directory );
+            }
+        }
     }
 
     public void Save( string path = "" )
@@ -51,5 +64,15 @@ public class BeatmapSet
         }
         if ( !path.EndsWith( ".r4k" ) ) path += ".r4k";
         FileSystem.Data.WriteJson( path, this );
+    }
+
+    public Texture GetCoverTexture()
+    {
+        if ( string.IsNullOrEmpty( CoverArt ) ) return null;
+        if ( CoverArt.StartsWith( "http" ) )
+        {
+            return Texture.Load( CoverArt );
+        }
+        return Texture.LoadAsync( FileSystem.Data, CoverArt ).Result;
     }
 }

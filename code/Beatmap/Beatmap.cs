@@ -1,3 +1,4 @@
+using System;
 using System.Text.Json.Serialization;
 using Sandbox;
 
@@ -7,6 +8,7 @@ public class Beatmap
 {
     public static Beatmap Loaded { get; set; }
 
+    [JsonIgnore] public string Id => $"{FilePath}:{GetBeatmapSet().Beatmaps.IndexOf( this )}";
     public string Name { get; set; }
     public string Artist { get; set; }
     public string Charter { get; set; }

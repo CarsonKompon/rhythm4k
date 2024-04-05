@@ -60,7 +60,7 @@
 
     public async Task QueueOsuDownload(int beatmapId)
     {
-        if(BeatmapSet.All.Any(x => x.Path.StartsWith("beatmaps/" + beatmapId.ToString()))) return;
+        if(BeatmapSet.All.Any(x => x.Path.StartsWith("downloads-beatconnect/beatmaps/" + beatmapId.ToString()))) return;
         OsuBeatmapSet beatmapSet = await Http.RequestJsonAsync<OsuBeatmapSet>("https://beatconnect.io/api/beatmap/" + beatmapId.ToString() + $"?token={OsuPage.TOKEN}");
         if(beatmapSet is not null)
         {
@@ -122,7 +122,7 @@
             ZipArchive archive = new ZipArchive(new MemoryStream(fileData));
 
             // Save the contents of the archive
-            string dir = $"beatmaps/{beatmapSet.GetFullSongId()}";
+            string dir = $"downloads-beatconnect/beatmaps/{beatmapSet.GetFullSongId()}";
             FileSystem.Data.CreateDirectory(dir);
             int idd = 0;
             foreach (var entry in archive.Entries)

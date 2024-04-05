@@ -28,29 +28,32 @@ public static class GameStats
 
     public static void SetReplay( Beatmap beatmap, Replay replay )
     {
-        if ( !Stats.ContainsKey( beatmap.FilePath ) )
+        var id = beatmap.Id.ToString();
+        if ( !Stats.ContainsKey( id ) )
         {
-            Stats[beatmap.FilePath] = new RhythmStats();
+            Stats[id] = new RhythmStats();
         }
-        Stats[beatmap.FilePath].Replay = replay;
+        Stats[id].Replay = replay;
     }
 
     public static void AddScore( Beatmap beatmap, int score, int maxCombo, float accuracy )
     {
-        if ( !Stats.ContainsKey( beatmap.FilePath ) )
+        var id = beatmap.Id.ToString();
+        if ( !Stats.ContainsKey( id ) )
         {
-            Stats[beatmap.FilePath] = new RhythmStats();
+            Stats[id] = new RhythmStats();
         }
-        Stats[beatmap.FilePath].Scores.Add( new RhythmScore( score, maxCombo, accuracy ) );
+        Stats[id].Scores.Add( new RhythmScore( score, maxCombo, accuracy ) );
     }
 
     public static RhythmStats GetStats( Beatmap beatmap )
     {
-        if ( !Stats.ContainsKey( beatmap.FilePath ) )
+        var id = beatmap.Id.ToString();
+        if ( !Stats.ContainsKey( id ) )
         {
-            Stats[beatmap.FilePath] = new RhythmStats();
+            Stats[id] = new RhythmStats();
         }
-        return Stats[beatmap.FilePath];
+        return Stats[id];
     }
 }
 

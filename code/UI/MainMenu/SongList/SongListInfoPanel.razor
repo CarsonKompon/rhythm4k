@@ -13,7 +13,7 @@
 			var set = all[Index];
 			var list = set.Beatmaps.OrderBy(x => x.Difficulty).ToList();
 			<div class="cover-art">
-				<img src=@set.CoverArt />
+				<Image Texture=@set.GetCoverTexture() />
 				<div class="info">
 					<h1>@set.Name</h1>
 					<h3 class="artist">@set.Artist</h3>

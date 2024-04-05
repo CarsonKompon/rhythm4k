@@ -293,7 +293,6 @@
 		float total = 0f;
 		foreach(var hit in GameManager.Replay.Hits)
 		{
-			Log.Info($"{hit.Offset} >= {TimingRange}");
 			if(MathF.Abs(hit.Offset) >= TimingRange) continue;
 			Average += hit.Offset;
 			total++;

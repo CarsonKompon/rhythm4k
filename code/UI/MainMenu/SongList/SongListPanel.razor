@@ -9,7 +9,7 @@
 <root>
 	@if(Index < 0 || Index >= BeatmapSet.All.Count()) return;
 	@if(Set is null) return;
-	<img src="@Set.CoverArt" class="cover" />
+	<Image Texture=@Set.GetCoverTexture() class="cover" />
 	<div class="info">
 		<div class="title">@(Set.Name)</div>
 		<div class="subtitle">

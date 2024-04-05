@@ -22,8 +22,9 @@ public static class SongBuilder
                 var jsonString = await fileSystem.ReadAllTextAsync( path + "/" + file );
                 var set = Json.Deserialize<BeatmapSet>( jsonString );
                 if ( set is null ) continue;
-                if ( BeatmapSet.LatestVersion > set.Version ) continue;
-                Log.Info( $"Loaded {set.Name} from {file}" );
+                if ( BeatmapSet.LatestVersion != set.Version ) continue;
+                continue;
+                // Log.Info( $"Loaded {set.Name} from {file}" );
                 return set;
             }
         }
