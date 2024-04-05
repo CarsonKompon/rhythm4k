@@ -245,7 +245,7 @@ public sealed class SongListCarousel : Component
 				{
 					var highscore = x.Beatmaps.OrderBy( b => b.Difficulty * 1000 + b.GetHighscore() ).Last().GetHighscore();
 					return highscore;
-				} ) );
+				} ).Reverse() );
 				break;
 			case 5:
 				list.AddRange( BeatmapSet.All.OrderBy( x =>

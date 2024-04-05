@@ -274,7 +274,6 @@
 		{
 			CurrentSong = set.Beatmaps.OrderBy(x => System.Guid.NewGuid()).FirstOrDefault();
 			Beatmap.Loaded = CurrentSong;
-			Log.Info(set.Path + "/" + CurrentSong.AudioFilename);
 			Music = MusicPlayer.Play(FileSystem.Data, set.Path + "/" + CurrentSong.AudioFilename);
 		}
 		TimeSinceLastSong = 0;
