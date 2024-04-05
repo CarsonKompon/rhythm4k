@@ -20,9 +20,9 @@
             <p>A "Beatmap" is a set of playable levels. Rhythm4K doesn't come with any beatmaps pre-loaded, so this step is to help you get started on your collection.</p>
             <h3 class="center">You currently have @(BeatmapSet.All.Count) beatmap(s) loaded!</h3>
             <p>To get you started, you can press the button below to start downloading a curated list of recommended beatmaps.</p>
-            <button class="center">Get recommended beatmaps</button>
-            <p>You can also download beatmaps for some songs that I've made. A bit of shameless self-promo :D</p>
-            <button class="center">Get Carson Kompon beatmaps</button>
+            <button class="center" onclick=@DownloadRecommendedCharts>Get recommended beatmaps</button>
+            @* <p>You can also download beatmaps for some songs that I've made. A bit of shameless self-promo :D</p>
+            <button class="center">Get Carson Kompon beatmaps</button> *@
             <p>You can also obtain more beatmaps from the main menu "browse" options at any time.</p>
         }
         else if(Page == 1)
@@ -79,6 +79,19 @@
 {
     public int Page { get; set; } = 0;
 
+    public int[] RecommendedChartIds { get; set; } = new int[]
+    {
+        2058816,
+        2059915,
+        2093768,
+        2102464,
+        2133548,
+        2135137,
+        476691,
+        1979588,
+        1999815
+    };
+
     RealTimeSince timeSinceCopiedToClipboard = 10f;
 
     string GetPageText(int page)
@@ -98,6 +111,14 @@
         }
 
         return "";
+    }
+
+    async void DownloadRecommendedCharts()
+    {
+        foreach(var id in RecommendedChartIds)
+        {
+            await SongDownloadPanel.Instance.QueueOsuDownload(id);
+        }
     }
 
     void BeatmapDirectoryButton()

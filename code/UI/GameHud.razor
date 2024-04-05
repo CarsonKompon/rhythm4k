@@ -7,15 +7,25 @@
 @namespace Rhythm4K
 
 <root>
-	<div class="score">@MathF.Round(GameManager.Score).ToString("0000000")</div>
-	<div class="combo">
-		<h1>Combo</h1>
-		<p @ref="ComboPanel"></p>
-	</div>
-	<div class="judgement" @ref="JudgementPanel"></div>
-	<div class="song-progress">
-		<div class="fill" style="width: @(GameManager.CurrentTimeNoLatency / GameManager.Beatmap.Length * 100f)%"></div>
-	</div>
+	@if(!GameManager.IsCalibrating)
+	{
+		<div class="score">
+			<h1>Score</h1>
+			<p>@MathF.Round(GameManager.Score).ToString("0000000")</p>
+		</div>
+		<div class="combo">
+			<h1>Combo</h1>
+			<p @ref="ComboPanel"></p>
+		</div>
+		<div class="accuracy">
+			<h1>Accuracy</h1>
+			<p>@($"{GameManager.Replay.GetAccuracy():N2}")%</p>
+		</div>
+		<div class="judgement" @ref="JudgementPanel"></div>
+		<div class="song-progress">
+			<div class="fill" style="width: @(GameManager.CurrentTimeNoLatency / GameManager.Beatmap.Length * 100f)%"></div>
+		</div>
+	}
 	<div class="pause-menu @(GameManager.Instance.IsPaused ? "" : "hidden")">
 		<h1>Paused</h1>
 		<div class="options">
@@ -53,6 +63,8 @@
 
 	protected override void OnUpdate()
 	{
+		if(JudgementPanel is null) return;
+
 		if(TimeSinceLastJudgement > 2f && JudgementPanel.Children.Count() > 0)
 		{
 			JudgementPanel.DeleteChildren();

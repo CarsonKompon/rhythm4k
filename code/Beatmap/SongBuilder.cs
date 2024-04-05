@@ -15,14 +15,17 @@ public static class SongBuilder
         var files = fileSystem.FindFile( path ).ToList();
 
         // Try to load baked chart
-        foreach ( var file in files )
-        {
-            if ( file.EndsWith( ".r4k" ) )
-            {
-                var set = fileSystem.ReadJson<BeatmapSet>( file );
-                return set;
-            }
-        }
+        // foreach ( var file in files )
+        // {
+        //     if ( file.EndsWith( ".r4k" ) )
+        //     {
+        //         var jsonString = await fileSystem.ReadAllTextAsync( path + "/" + file );
+        //         var set = Json.Deserialize<BeatmapSet>( jsonString );
+        //         if ( set is null ) continue;
+        //         Log.Info( $"Loaded {set.Name} from {file}" );
+        //         return set;
+        //     }
+        // }
 
         // Try each of the chart loaders
         var loaders = TypeLibrary.GetTypes<IChartLoader>();

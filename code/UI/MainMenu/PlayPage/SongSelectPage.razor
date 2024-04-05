@@ -7,7 +7,13 @@
 @namespace Rhythm4K
 
 <root>
-    <div class="menu">
+    <div class="header">
+        <div class="tab @PageClass(0)" onclick=@(() => ClickOrder(0))>Date Added</div>
+        <div class="tab @PageClass(1)" onclick=@(() => ClickOrder(1))>Artist</div>
+        <div class="tab @PageClass(2)" onclick=@(() => ClickOrder(2))>Title</div>
+        <div class="tab @PageClass(3)" onclick=@(() => ClickOrder(3))>Last Played</div>
+        <div class="tab @PageClass(4)" onclick=@(() => ClickOrder(4))>Key Count</div>
+        <div class="tab @PageClass(5)" onclick=@(() => ClickOrder(5))>Length</div>
 
     </div>
 </root>
@@ -15,5 +21,11 @@
 @code
 {
     
+    string PageClass(int order) => (SongListCarousel.Instance.SortOrder == order) ? "selected" : "";
+
+    void ClickOrder(int order)
+    {
+        SongListCarousel.Instance.SortOrder = order;
+    }
 
 }

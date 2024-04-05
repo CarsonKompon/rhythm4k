@@ -22,8 +22,8 @@
 		<div class="now-playing">
 			<i>music_note</i>
 			<div class="info">
-				<label class="title">@(CurrentSong is null ? ("Rhythm4K Menu") : CurrentSong.Name</label>
-				<label class="artist">@(CurrentSong is null ? ("Carson Kompon") : CurrentSong.Artist</label>
+				<label class="title">@(CurrentSong is null ? ("Rhythm4K Menu") : CurrentSong.Name)</label>
+				<label class="artist">@(CurrentSong is null ? ("Carson Kompon") : CurrentSong.Artist)</label>
 			</div>
 		</div>
 	}
@@ -295,7 +295,7 @@
 			Music.Seek(MathF.Max(beatmap.SampleStart, 0f));
 		}
 		Music.Volume = 0f;
-		TimeSinceLastSong = 0;
+		TimeSinceLastSong = MathF.Max(beatmap.SampleStart, 0f);
 	}
 
 	public void FadeToPlay(Beatmap beatmap)

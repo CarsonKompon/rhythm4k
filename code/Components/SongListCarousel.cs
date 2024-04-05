@@ -18,6 +18,19 @@ public sealed class SongListCarousel : Component
 	public float LastOffset { get; set; } = 0f;
 	public float Zoom { get; set; } = 0.7f;
 	bool firstLoad = true;
+	public int SortOrder
+	{
+		get => _sortOrder;
+		set
+		{
+			var selected = GetCurrentSetList()[_selectedIndex];
+			_sortOrder = value;
+			SelectedIndex = GetCurrentSetList().IndexOf( selected );
+			Cookie.Set( "sortOrder", _sortOrder );
+		}
+
+	}
+	int _sortOrder = Cookie.Get( "sortOrder", 0 );
 
 	public int SelectedIndex
 	{
@@ -25,26 +38,7 @@ public sealed class SongListCarousel : Component
 		set
 		{
 			_selectedIndex = value;
-			var panelIndex = value;
-			var all = BeatmapSet.All;
-			int totalAm = all.Count();
-			if ( totalAm <= 0 ) return;
-			while ( panelIndex < 0 )
-			{
-				panelIndex += SongPanelCount;
-			}
-			for ( int i = panelIndex - 6; i <= panelIndex + 6; i++ )
-			{
-				int offset = i - panelIndex;
-				var panel = SongPanels[(i + SongPanelCount * 2) % SongPanelCount];
-				int ind = _selectedIndex;
-				while ( ind < 0 )
-				{
-					ind += totalAm;
-				}
-				panel.Index = (ind + totalAm + offset) % totalAm;
-			}
-			SongListInfoPanel.Select( 0 );
+			ResetButtons();
 		}
 	}
 	private int _selectedIndex = 0;
@@ -83,7 +77,7 @@ public sealed class SongListCarousel : Component
 		else
 		{
 			var set = Beatmap.Loaded.GetBeatmapSet();
-			SelectedIndex = BeatmapSet.All.IndexOf( set );
+			SelectedIndex = GetCurrentSetList().IndexOf( set );
 			SongListInfoPanel.SelectedIndex = set.Beatmaps.OrderBy( x => x.Difficulty ).ToList().IndexOf( Beatmap.Loaded );
 			Beatmap.Loaded = null;
 		}
@@ -181,5 +175,44 @@ public sealed class SongListCarousel : Component
 			firstLoad = false;
 		}
 		Timer = 0f;
+	}
+
+	void ResetButtons()
+	{
+		var panelIndex = _selectedIndex;
+		var all = GetCurrentSetList();
+		int totalAm = all.Count();
+		if ( totalAm <= 0 ) return;
+		while ( panelIndex < 0 )
+		{
+			panelIndex += SongPanelCount;
+		}
+		for ( int i = panelIndex - 6; i <= panelIndex + 6; i++ )
+		{
+			int offset = i - panelIndex;
+			var panel = SongPanels[(i + SongPanelCount * 2) % SongPanelCount];
+			int ind = _selectedIndex;
+			while ( ind < 0 )
+			{
+				ind += totalAm;
+			}
+			panel.Index = (ind + totalAm + offset) % totalAm;
+		}
+		SongListInfoPanel.Select( 0 );
+	}
+
+	public List<BeatmapSet> GetCurrentSetList()
+	{
+		switch ( _sortOrder )
+		{
+			case 0:
+				return BeatmapSet.All.OrderBy( x => x.Name ).ToList();
+			case 1:
+				return BeatmapSet.All.OrderBy( x => x.Artist ).ToList();
+			case 2:
+				return BeatmapSet.All.OrderBy( x => x.Beatmaps.Count ).ToList();
+		}
+
+		return BeatmapSet.All;
 	}
 }

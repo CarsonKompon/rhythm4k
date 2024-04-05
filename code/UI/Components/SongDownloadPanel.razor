@@ -3,6 +3,7 @@
 @using Sandbox.UI;
 @using System.IO;
 @using System.IO.Compression;
+@using System.Threading.Tasks;
 @using Rhythm4K.Osu;
 @inherits Panel
 @attribute [StyleSheet]
@@ -25,7 +26,7 @@
     Panel CoverImage { get; set; }
     string CoverUrl { get; set; }
 
-    List<DownloadEntry> DownloadQueue = new List<DownloadEntry>();
+    static List<DownloadEntry> DownloadQueue = new List<DownloadEntry>();
 
     public class DownloadEntry
     {
@@ -57,8 +58,23 @@
         }
     }
 
+    public async Task QueueOsuDownload(int beatmapId)
+    {
+        if(BeatmapSet.All.Any(x => x.Path.StartsWith("beatmaps/" + beatmapId.ToString()))) return;
+        OsuBeatmapSet beatmapSet = await Http.RequestJsonAsync<OsuBeatmapSet>("https://beatconnect.io/api/beatmap/" + beatmapId.ToString() + $"?token={OsuPage.TOKEN}");
+        if(beatmapSet is not null)
+        {
+            Log.Info("yum");
+            var coverUrl = "";
+            if(beatmapSet.Covers.TryGetValue("cover", out var coverImage))
+			{
+				coverUrl = coverImage.ToString();
+			}
+            QueueOsuDownload(beatmapSet, coverUrl);
+        }
+    }
 
-    public void QueueDownload(OsuBeatmapSet beatmap, string coverUrl)
+    public void QueueOsuDownload(OsuBeatmapSet beatmap, string coverUrl)
     {
         DownloadQueue.Add(new DownloadEntry(beatmap, coverUrl));
     }

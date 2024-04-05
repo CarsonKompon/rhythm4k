@@ -26,6 +26,7 @@ public class OsuChartLoader : IChartLoader
         BeatmapSet set = new();
         set.Path = path;
         set.Beatmaps = new();
+        set.DateAdded = DateTime.Now;
 
         var files = fileSystem.FindFile( path, "*.osu" );
         foreach ( var file in files )
@@ -59,6 +60,8 @@ public class OsuChartLoader : IChartLoader
         {
             set.CoverArt = await fileSystem.ReadAllTextAsync( coverPath );
         }
+
+        set.Save( path + "/beatmap" );
 
         return set;
     }

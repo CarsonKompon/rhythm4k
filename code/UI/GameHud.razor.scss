@@ -11,9 +11,58 @@ GameHud
 		position: absolute;
 		top: 16px;
 		left: 16px;
-		font-family: Major Mono Display;
+		font-family: Orbitron;
 		font-size: 64px;
-		text-stroke: 2px black;
+		flex-direction: column;
+		font-weight: 200;
+
+		h1
+		{
+			font-size: 24px;
+			font-weight: 700;
+		}
+
+		p *
+		{
+			transform: scale(1);
+			transition: all 0.2s ease-out;
+			font-family: Major Mono Display;
+			font-size: 64px;
+			text-stroke: 2px black;
+
+			&:intro
+			{
+				transform: scale(1.2);
+			}
+		}
+	}
+
+	.accuracy
+	{
+		position: absolute;
+		top: 16px;
+		right: 16px;
+		font-family: Orbitron;
+		font-size: 64px;
+		flex-direction: column;
+		font-weight: 200;
+
+		h1
+		{
+			font-size: 24px;
+			font-weight: 700;
+		}
+
+		p *
+		{
+			transform: scale(1);
+			transition: all 0.2s ease-out;
+
+			&:intro
+			{
+				transform: scale(1.2);
+			}
+		}
 	}
 
 	.combo

@@ -25,7 +25,7 @@
 @code
 {
 	public int Index { get; set; } = -1;
-	public BeatmapSet Set => BeatmapSet.All[Index];
+	public BeatmapSet Set => SongListCarousel.Instance.GetCurrentSetList()[Index];
 
 	bool Grabbing = false;
 	Vector2 GrabPos = Vector2.Zero;
@@ -93,5 +93,5 @@
 		Grabbing = true;
 	}
 
-	protected override int BuildHash() => System.HashCode.Combine( Index, SongListCarousel.Instance?.SelectedIndex );
+	protected override int BuildHash() => System.HashCode.Combine( Index, SongListCarousel.Instance?.SelectedIndex, SongListCarousel.Instance?.SortOrder );
 }

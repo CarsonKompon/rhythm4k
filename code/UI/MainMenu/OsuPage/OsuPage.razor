@@ -55,7 +55,8 @@
     CustomDropDown StatusDropDown { get; set; }
 
     private string lastQuery = "";
-    private const string BASE_QUERY = "https://beatconnect.io/api/search/?&m=mania&diff_range=0-10&token=afa1dc64301e47aab7f21ab65d6a7b4c";
+    public const string TOKEN = "afa1dc64301e47aab7f21ab65d6a7b4c";
+    private const string BASE_QUERY = $"https://beatconnect.io/api/search/?&m=mania&diff_range=0-10&token={TOKEN}";
 
     protected override void OnAfterTreeRender(bool firstTime)
     {

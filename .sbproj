@@ -403,6 +403,12 @@
           "KeyboardCode": "SEMICOLON",
           "GamepadCode": "None",
           "GroupName": "Gameplay"
+        },
+        {
+          "Name": "Ctrl",
+          "KeyboardCode": "CTRL",
+          "GamepadCode": "None",
+          "GroupName": "Other"
         }
       ],
       "__guid": "083680a3-d5ee-4f17-8b47-d36c31cceaa9"

@@ -16,6 +16,7 @@ SetupWizard
     align-items: center;
     padding-top: 128px;
     transform: scale(1);
+    z-index: -100;
 
     > .header
     {

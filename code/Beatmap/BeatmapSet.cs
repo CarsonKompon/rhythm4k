@@ -1,4 +1,5 @@
 using Sandbox;
+using System;
 using System.Threading.Tasks;
 
 namespace Rhythm4K;
@@ -11,6 +12,9 @@ public class BeatmapSet
     public string Name { get; set; }
     public string Artist { get; set; }
     public List<Beatmap> Beatmaps { get; set; }
+
+    public DateTime DateAdded { get; set; }
+    public Dictionary<string, object> Metadata { get; set; }
 
     public static List<BeatmapSet> All { get; set; } = new();
     public static int BeatmapsToLoad { get; private set; } = 0;
@@ -34,5 +38,11 @@ public class BeatmapSet
         var set = await SongBuilder.Load( path );
         if ( set is null ) return;
         All.Add( set );
+    }
+
+    public void Save( string path )
+    {
+        if ( !path.EndsWith( ".r4k" ) ) path += ".r4k";
+        // FileSystem.Data.WriteJson( path, this );
     }
 }
