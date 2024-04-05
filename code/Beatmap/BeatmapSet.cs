@@ -1,5 +1,6 @@
 using Sandbox;
 using System;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Rhythm4K;
@@ -46,9 +47,7 @@ public class BeatmapSet
         BeatmapsToLoad += folders.Count();
         foreach ( var directory in folders )
         {
-            Log.Info( path + "/" + directory );
             var set = await Load( path + "/" + directory );
-            Log.Info( set );
             if ( set is null )
             {
                 await LoadFolder( path + "/" + directory );
@@ -66,13 +65,17 @@ public class BeatmapSet
         FileSystem.Data.WriteJson( path, this );
     }
 
+    [JsonIgnore] Texture _coverTexture = null;
     public Texture GetCoverTexture()
     {
+        if ( _coverTexture is not null ) return _coverTexture;
         if ( string.IsNullOrEmpty( CoverArt ) ) return null;
         if ( CoverArt.StartsWith( "http" ) )
         {
-            return Texture.Load( CoverArt );
+            _coverTexture = Texture.Load( CoverArt );
+            return _coverTexture;
         }
-        return Texture.LoadAsync( FileSystem.Data, CoverArt ).Result;
+        _coverTexture = Texture.LoadAsync( FileSystem.Data, CoverArt ).Result;
+        return _coverTexture;
     }
 }

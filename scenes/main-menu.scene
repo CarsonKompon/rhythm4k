@@ -706,8 +706,7 @@
             "prefab": "prefabs/mainmenu/song panel.prefab"
           },
           "SongXSpread": 110.00071,
-          "SongYSpread": 63.5,
-          "TargetAngle": 1.8325958
+          "SongYSpread": 63.5
         }
       ],
       "Children": [
@@ -760,7 +759,7 @@
   },
   "Title": "minimal",
   "Description": "",
-  "LastSaved": "2024-04-04T11:49:08.4421781-04:00",
+  "LastSaved": "2024-04-05T19:45:04.1483286-04:00",
   "ResourceVersion": 1,
   "__version": 1,
   "__references": [

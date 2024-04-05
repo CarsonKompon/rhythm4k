@@ -41,8 +41,6 @@ public class StepmaniaChartLoader : IChartLoader
         float sampleStart = 0f;
         List<BpmChange> bpmChanges = new();
 
-        Log.Info( set );
-
         foreach ( string prop in properties )
         {
             string tag = GetTag( prop );
@@ -154,7 +152,6 @@ public class StepmaniaChartLoader : IChartLoader
                         {
                             foreach ( var imageFile in fileSystem.FindFile( path, "*" ) )
                             {
-                                Log.Info( imageFile );
                                 var lastDot = imageFile.LastIndexOf( '.' );
                                 if ( lastDot == -1 ) continue;
                                 var fileNameWithoutExtension = imageFile.Substring( 0, lastDot );

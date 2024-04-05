@@ -83,7 +83,7 @@
     {
         Loading = true;
         lastQuery = BASE_QUERY + "&s=" + StatusDropDown.Selected.Title.ToString().ToLower() + "&q=" + SearchText;
-        Log.Info(lastQuery);
+        @* Log.Info(lastQuery); *@
         var response = await Http.RequestJsonAsync<OsuSearch>(lastQuery);
         LoadedBeatmaps = response.BeatmapSets;
         MaxPages = response.MaxPage;

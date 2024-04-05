@@ -214,6 +214,7 @@ public sealed class SongListCarousel : Component
 
 	public List<BeatmapSet> GetCurrentSetList()
 	{
+		// Get stack trace
 		List<BeatmapSet> list = new();
 		switch ( _sortOrder )
 		{
