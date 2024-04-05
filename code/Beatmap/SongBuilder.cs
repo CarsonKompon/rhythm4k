@@ -23,7 +23,6 @@ public static class SongBuilder
                 var set = Json.Deserialize<BeatmapSet>( jsonString );
                 if ( set is null ) continue;
                 if ( BeatmapSet.LatestVersion != set.Version ) continue;
-                continue;
                 // Log.Info( $"Loaded {set.Name} from {file}" );
                 return set;
             }
