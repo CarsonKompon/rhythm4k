@@ -7,7 +7,7 @@
 <root>
 	@if(true)
 	{
-		var all = SongListCarousel.Instance.GetCurrentSetList();
+		var all = SongListCarousel.Instance.CurrentSetList;
 		@if(all.Count > 0)
 		{
 			var set = all[Index];
@@ -95,7 +95,7 @@
 		get
 		{
 			var index = SongListCarousel.Instance.SelectedIndex;
-			var count = SongListCarousel.Instance.GetCurrentSetList().Count;
+			var count = SongListCarousel.Instance.CurrentSetList.Count;
 			if(count == 0) return 0;
 			while(index < 0)
 			{
@@ -117,7 +117,7 @@
 	{
 		if(!playingSong && timeSinceLastSelection > 0.25f && BeatmapSet.All.Count > 0)
 		{
-			var set = SongListCarousel.Instance.GetCurrentSetList()[Index];
+			var set = SongListCarousel.Instance.CurrentSetList[Index];
 			var list = set.Beatmaps.OrderBy(x => x?.Difficulty).ToList();
 			var chart = list.ElementAt(SelectedIndex);
 			MainMenuScreen.Instance.PlaySong(chart);
@@ -130,7 +130,7 @@
 		if(SelectedIndex == -1)
 			return;
 
-		var set = SongListCarousel.Instance.GetCurrentSetList()[Index];
+		var set = SongListCarousel.Instance.CurrentSetList[Index];
 		var list = set.Beatmaps.OrderBy(x => x.Difficulty).ToList();
 		MainMenuScreen.Instance.FadeToPlay(list.ElementAt(SelectedIndex));
 	}

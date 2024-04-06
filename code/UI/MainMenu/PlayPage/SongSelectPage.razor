@@ -40,7 +40,7 @@
         base.Tick();
 
         if(SongListInfoPanel.Instance is null) return;
-        var list = SongListCarousel.Instance?.GetCurrentSetList();
+        var list = SongListCarousel.Instance?.CurrentSetList;
         if(list is null) return;
 
         ScrollBarPosition = ScrollBarPosition.LerpTo(SongListInfoPanel.Instance.Index / (float)(list.Count - 1) * 90, 8f * Time.Delta);
@@ -64,12 +64,12 @@
 
     void SetScrollPos()
     {
-        SongListCarousel.Instance.SelectedIndex = (int)MathF.Round(MathX.Remap(Mouse.Position.y / Screen.Height, 0.05f, 0.95f, 0, SongListCarousel.Instance.GetCurrentSetList().Count - 1));
+        SongListCarousel.Instance.SelectedIndex = (int)MathF.Round(MathX.Remap(Mouse.Position.y / Screen.Height, 0.05f, 0.95f, 0, SongListCarousel.Instance.CurrentSetList.Count - 1));
     }
 
     protected override int BuildHash()
     {
-        return HashCode.Combine(SongListCarousel.Instance?.SortOrder, SongListInfoPanel.Instance?.Index, SongListCarousel.Instance?.GetCurrentSetList().Count, ScrollBarPosition);
+        return HashCode.Combine(SongListCarousel.Instance?.SortOrder, SongListInfoPanel.Instance?.Index, SongListCarousel.Instance?.CurrentSetList?.Count, ScrollBarPosition);
     }
 
 }

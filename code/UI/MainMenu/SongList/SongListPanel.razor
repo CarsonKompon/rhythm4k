@@ -7,9 +7,9 @@
 @namespace Rhythm4K
 
 <root>
-	@if(Index < 0 || Index >= BeatmapSet.All.Count()) return;
+	@if(Index < 0 || Index >= SongListCarousel.Instance.CurrentSetList.Count()) return;
 	@if(Set is null) return;
-	<Image Texture=@Set.GetCoverTexture() class="cover" />
+	<Image Texture=@(Set.GetCoverTexture()) class="cover" />
 	<div class="info">
 		<div class="title">@(Set.Name)</div>
 		<div class="subtitle">
@@ -32,7 +32,7 @@
 		{
 			try
 			{
-				var set = SongListCarousel.Instance.GetCurrentSetList()[Index];
+				var set = SongListCarousel.Instance.CurrentSetList[Index];
 				return set;
 			}
 			catch

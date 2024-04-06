@@ -23,10 +23,12 @@ public sealed class SongListCarousel : Component
 		get => _sortOrder;
 		set
 		{
+			var oldList = CurrentSetList;
+			CurrentSetList = GetCurrentSetList();
 			BeatmapSet selected;
 			try
 			{
-				selected = GetCurrentSetList()[SongListInfoPanel.Instance.Index];
+				selected = oldList[SongListInfoPanel.Instance.Index];
 			}
 			catch
 			{
@@ -35,7 +37,7 @@ public sealed class SongListCarousel : Component
 			_sortOrder = value;
 			if ( selected is not null )
 			{
-				SelectedIndex = GetCurrentSetList().IndexOf( selected );
+				SelectedIndex = CurrentSetList.IndexOf( selected );
 			}
 			CurrentAngle = TargetAngle + AngleOffset;
 			Cookie.Set( "sortOrder", _sortOrder );
@@ -54,6 +56,8 @@ public sealed class SongListCarousel : Component
 		}
 	}
 	private int _selectedIndex = 0;
+	public List<BeatmapSet> CurrentSetList { get; set; } = new();
+
 	float CurrentAngle { get; set; } = 0f;
 	List<SongListPanel> SongPanels { get; set; } = new();
 
@@ -82,9 +86,10 @@ public sealed class SongListCarousel : Component
 
 	protected override void OnStart()
 	{
+		CurrentSetList = GetCurrentSetList();
 		if ( Beatmap.Loaded is null )
 		{
-			SelectedIndex = Random.Shared.Int( 0, BeatmapSet.All.Count() - 1 );
+			SelectedIndex = Random.Shared.Int( 0, CurrentSetList.Count - 1 );
 		}
 		else
 		{
@@ -212,7 +217,7 @@ public sealed class SongListCarousel : Component
 		SongListInfoPanel.Select( 0 );
 	}
 
-	public List<BeatmapSet> GetCurrentSetList()
+	List<BeatmapSet> GetCurrentSetList()
 	{
 		// Get stack trace
 		List<BeatmapSet> list = new();
