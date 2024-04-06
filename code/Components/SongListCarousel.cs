@@ -166,10 +166,21 @@ public sealed class SongListCarousel : Component
 		}
 
 		float angle = CurrentAngle;
+		float diff = CurrentAngle - TargetAngle;
 		int index = 0;
+		var panelIndex = _selectedIndex % SongPanelCount;
+		while ( panelIndex < 0 )
+		{
+			panelIndex += SongPanelCount;
+		}
 		foreach ( var panel in SongPanels )
 		{
-			panel.Transform.LocalPosition = new Vector3( (SongXSpread / 2f) + (MathF.Cos( angle ) * SongXSpread * Zoom / 2f), 0f, MathF.Sin( angle ) * SongYSpread * Zoom );
+			var xSpread = SongXSpread;
+			if ( index == panelIndex )
+			{
+				xSpread *= 1.05f;
+			}
+			panel.Transform.LocalPosition = panel.Transform.LocalPosition.LerpTo( new Vector3( (xSpread / 2f) + (MathF.Cos( angle ) * xSpread * Zoom / 2f), 0f, MathF.Sin( angle ) * SongYSpread * Zoom ), 20f * Time.Delta );
 			panel.Transform.LocalRotation = Rotation.From( 0f, 90f, 0f );
 			panel.Transform.LocalScale = Zoom;
 			angle -= MathF.PI * 2f / (float)SongPanelCount;
