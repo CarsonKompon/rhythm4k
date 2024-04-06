@@ -179,7 +179,7 @@ public class StepmaniaChartLoader : IChartLoader
         {
             if ( set.Beatmaps[i] is null ) continue;
             set.Beatmaps[i].BakeValues();
-            var lastNote = set.Beatmaps[i].Notes.LastOrDefault();
+            var lastNote = set.Beatmaps[i].Notes.OrderBy( x => x.BakedTime + x.BakedLength ).LastOrDefault();
             set.Beatmaps[i].Length = lastNote.BakedTime + lastNote.BakedLength;
         }
 

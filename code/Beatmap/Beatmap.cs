@@ -51,45 +51,35 @@ public class Beatmap
     /// <summary>
     /// Returns a baked time (in seconds) based on BPM changes given an offset in steps.
     /// </summary>
-    public float GetTimeFromOffset( float offset )
+    public Note BakeNote( Note note )
     {
-        float currentOffset = 0f;
-        float currentTime = 0f;
-        float bpm = BpmChanges[0].BPM;
-        float offsetChange = 0f;
-        foreach ( BpmChange bpmChange in BpmChanges.OrderBy( o => o.Offset ) )
-        {
-            if ( bpmChange.Offset > offset ) break;
-            offsetChange = bpmChange.Offset - currentOffset;
-            currentOffset += offsetChange;
-            currentTime += (offsetChange / 1000f) * ((60f / bpm) * 4f);
-            bpm = bpmChange.BPM;
-        }
-        offsetChange = offset - currentOffset;
-        currentTime += (offsetChange / 1000f) * ((60f / bpm) * 4f);
-        return currentTime;
-    }
+        float offsetInSeconds = 0f;
+        float prevOffset = 0f;
+        var bpmChange = BpmChanges.FirstOrDefault();
 
-    /// <summary>
-    /// Returns an offset in steps based on BPM changes given a time in the song (in seconds).
-    /// </summary>
-    public float GetOffsetFromTime( float time )
-    {
-        float currentOffset = 0f;
-        float currentTime = 0f;
-        float bpm = BpmChanges[0].BPM;
-        float timeChange = 0f;
-        foreach ( BpmChange bpmChange in BpmChanges.OrderBy( o => o.Offset ) )
+        var bpmChanges = BpmChanges.OrderBy( o => o.Offset ).ToList();
+        for ( int i = 0; i < bpmChanges.Count; i++ )
         {
-            if ( currentTime > time ) break;
-            timeChange = bpmChange.Offset - currentOffset;
-            currentOffset += timeChange;
-            currentTime += (timeChange / 1000f) * ((60f / bpm) * 4f);
-            bpm = bpmChange.BPM;
+            if ( (bpmChanges[i].Offset / 4f) > (note.Offset / 1000f) )
+            {
+                break;
+            }
+            bpmChange = bpmChanges[i];
+            float prevBpm = i > 0 ? bpmChanges[i - 1].BPM : bpmChanges[0].BPM;
+            offsetInSeconds += ((bpmChange.Offset - prevOffset) / 1000f) * ((60f / prevBpm) * 4f);
+            prevOffset = bpmChange.Offset;
         }
-        timeChange = time - currentTime;
-        currentOffset += timeChange / ((60f / bpm) * 4f) * 1000f;
-        return currentOffset;
+
+        offsetInSeconds += ((note.Offset - bpmChange.Offset) / 1000f) * ((60f / bpmChange.BPM) * 4f);
+        note.BakedTime = offsetInSeconds;
+
+        if ( note.Length >= 0f )
+        {
+            float lengthInSeconds = (note.Length / 1000f) * ((60f / bpmChange.BPM) * 4f);
+            note.BakedLength = lengthInSeconds;
+        }
+
+        return note;
     }
 
 
@@ -126,39 +116,39 @@ public class Beatmap
         {
             Note note = Notes[i];
             if ( note.BakedTime >= 0f ) continue;
-            note.BakedTime = GetTimeFromOffset( note.Offset );
+            // note.BakedTime = GetTimeFromOffset( note.Offset );
             TotalNotes++;
             TotalChain++;
-            if ( note.Length > 0f )
-            {
-                note.BakedLength = GetTimeFromOffset( note.Offset + note.Length ) - note.BakedTime;
-                float length = note.Length;
-                float offset = note.Offset;
-                // TODO: This is a bit of a hack, but it works for now.
-                // Should be re-written to support bpm and bpm changes mid-hold.
-                while ( length >= 62.5f )
-                {
-                    offset += 62.5f;
-                    length -= 62.5f;
+            Notes[i] = BakeNote( note );
+            // if ( note.Length > 0f )
+            // {
+            //     note.BakedLength = GetTimeFromOffset( note.Offset + note.Length ) - note.BakedTime;
+            //     float length = note.Length;
+            //     float offset = note.Offset;
+            //     // TODO: This is a bit of a hack, but it works for now.
+            //     // Should be re-written to support bpm and bpm changes mid-hold.
+            //     while ( length >= 62.5f )
+            //     {
+            //         offset += 62.5f;
+            //         length -= 62.5f;
 
-                    float holdBakedTime = GetTimeFromOffset( offset );
-                    float holdBakedLength = GetTimeFromOffset( offset + length ) - holdBakedTime;
+            //         float holdBakedTime = GetTimeFromOffset( offset );
+            //         float holdBakedLength = GetTimeFromOffset( offset + length ) - holdBakedTime;
 
-                    var hold = new Note
-                    {
-                        Offset = offset,
-                        Length = length,
-                        Lane = note.Lane,
-                        Type = (int)NoteType.Hold,
-                        BakedTime = holdBakedTime,
-                        BakedLength = holdBakedLength
-                    };
+            //         var hold = new Note
+            //         {
+            //             Offset = offset,
+            //             Length = length,
+            //             Lane = note.Lane,
+            //             Type = (int)NoteType.Hold,
+            //             BakedTime = holdBakedTime,
+            //             BakedLength = holdBakedLength
+            //         };
 
-                    Notes.Add( hold );
-                    TotalChain++;
-                }
-            }
-            Notes[i] = note;
+            //         Notes.Add( hold );
+            //         TotalChain++;
+            //     }
+            // }
         }
     }
 }

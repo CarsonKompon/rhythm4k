@@ -210,7 +210,7 @@ public class OsuChartLoader : IChartLoader
                             break;
                     }
                 }
-                beatmap.Notes = beatmap.Notes.OrderBy( o => o.BakedTime ).ToList();
+                beatmap.Notes = beatmap.Notes.OrderBy( o => o.BakedTime + o.BakedLength ).ToList();
                 var lastNote = beatmap.Notes.LastOrDefault();
                 beatmap.Length = lastNote.BakedTime + lastNote.BakedLength;
             }
