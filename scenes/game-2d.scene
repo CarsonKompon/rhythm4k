@@ -1,0 +1,427 @@
+{
+  "__guid": "fdf1e098-1aa7-4805-83e4-026ba3b86e24",
+  "GameObjects": [
+    {
+      "__guid": "97f364ea-76c8-49c0-9732-6f6afb1ccc5a",
+      "Name": "Camera",
+      "Position": "-139.5225,-0.0002531592,949.7272",
+      "Rotation": "0,0.7071069,0,0.7071069",
+      "Tags": "maincamera",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "Components": [
+        {
+          "__type": "CameraComponent",
+          "__guid": "e3588842-904b-4007-b3dc-b0508edf165f",
+          "BackgroundColor": "1,1,1,1",
+          "ClearFlags": "All",
+          "FieldOfView": 60,
+          "IsMainCamera": true,
+          "Orthographic": true,
+          "OrthographicHeight": 900,
+          "Priority": 1,
+          "RenderExcludeTags": "",
+          "RenderTags": "",
+          "TargetEye": "None",
+          "Viewport": "0,0,1,1",
+          "ZFar": 10000,
+          "ZNear": 10
+        }
+      ]
+    },
+    {
+      "__guid": "7e2e9bea-e44d-419b-b588-882876390b25",
+      "Name": "Board Pivot",
+      "Position": "-1170.619,-0,675.8569",
+      "Rotation": "0,0.258819,0,0.9659258",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "Children": [
+        {
+          "__guid": "6528f295-82e4-4c4a-b2c5-3714cb045473",
+          "Name": "Game Manager",
+          "Position": "1351.714,0,0.0003662109",
+          "Rotation": "0,-0.258819,0,0.9659259",
+          "Enabled": true,
+          "NetworkMode": 2,
+          "Components": [
+            {
+              "__type": "GameManager",
+              "__guid": "1c3e0991-2ea4-443e-a0e0-151d16a0145e",
+              "LanePrefab": {
+                "_type": "gameobject",
+                "prefab": "prefabs/game/lane_3d.prefab"
+              },
+              "LaneSpacing": 92,
+              "MenuScene": "scenes/main-menu.scene",
+              "NotePrefab": {
+                "_type": "gameobject",
+                "prefab": "prefabs/game/note_3d.prefab"
+              },
+              "PeakThreshold": 1.09,
+              "ResultsScreen": {
+                "_type": "gameobject",
+                "go": "be885363-730b-4aa2-876a-1770926139d3"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "__guid": "820cb0ed-11fb-44ca-a075-b54ee6897018",
+      "Name": "Sun",
+      "Position": "-1500.599,235.6494,629.5671",
+      "Rotation": "0,0.3826834,0,0.9238796",
+      "Tags": "light_directional,light",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "Components": [
+        {
+          "__type": "DirectionalLight",
+          "__guid": "f5485561-1ff7-4db7-87fe-336a4b20dd13",
+          "FogMode": "Enabled",
+          "FogStrength": 1,
+          "LightColor": "0.91373,0.98039,1,1",
+          "Shadows": false,
+          "SkyColor": "0.05882,0.07451,0.08235,1"
+        }
+      ]
+    },
+    {
+      "__guid": "111e7647-a45f-4a84-b841-d777deff5d2e",
+      "Name": "Screen UI",
+      "Position": "-441.111,20.81034,33.97163",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "Components": [
+        {
+          "__type": "ScreenPanel",
+          "__guid": "4fdd9db3-febd-48af-ae4d-e24047b4d309",
+          "AutoScreenScale": true,
+          "Opacity": 1,
+          "Scale": 1,
+          "ZIndex": 100
+        },
+        {
+          "__type": "GameHud",
+          "__guid": "5039c156-1918-42eb-a60e-cb76af1af967",
+          "GameManager": {
+            "_type": "component",
+            "component_id": "1c3e0991-2ea4-443e-a0e0-151d16a0145e",
+            "go": "6528f295-82e4-4c4a-b2c5-3714cb045473",
+            "component_type": "GameManager"
+          }
+        }
+      ]
+    },
+    {
+      "__guid": "be885363-730b-4aa2-876a-1770926139d3",
+      "Name": "Results UI",
+      "Position": "-441.111,20.81034,33.97163",
+      "NetworkMode": 2,
+      "Components": [
+        {
+          "__type": "ScreenPanel",
+          "__guid": "79f6809c-4fd8-44ab-b7e5-ac62c0e61637",
+          "AutoScreenScale": true,
+          "Opacity": 1,
+          "Scale": 1,
+          "ZIndex": 80
+        },
+        {
+          "__type": "ResultsScreen",
+          "__guid": "b629edbe-e264-4187-b2ee-9f8bdc70f0c3",
+          "GameManager": {
+            "_type": "component",
+            "component_id": "1c3e0991-2ea4-443e-a0e0-151d16a0145e",
+            "go": "6528f295-82e4-4c4a-b2c5-3714cb045473",
+            "component_type": "GameManager"
+          },
+          "TimingGradient": {
+            "color": [
+              {
+                "c": "0.26512,0.26512,0.26512,1"
+              },
+              {
+                "t": 0.23290598,
+                "c": "0.60465,0.19405,0.20089,1"
+              },
+              {
+                "t": 0.5192308,
+                "c": "0.50884,0.60465,0.19405,1"
+              },
+              {
+                "t": 0.83760685,
+                "c": "0.19405,0.52937,0.60465,1"
+              },
+              {
+                "t": 1,
+                "c": "0.5648,0.85183,0.99535,1"
+              }
+            ],
+            "alpha": []
+          }
+        }
+      ],
+      "Children": [
+        {
+          "__guid": "d774cc6c-69cb-4279-9741-a1de031f86f3",
+          "Name": "Tooltip UI",
+          "Position": "-711.5023,211.8166,690.6369",
+          "Enabled": true,
+          "NetworkMode": 2,
+          "Components": [
+            {
+              "__type": "ScreenPanel",
+              "__guid": "32ba06ca-4d84-487d-ae4e-7d53603a3ad9",
+              "AutoScreenScale": true,
+              "Opacity": 1,
+              "Scale": 1,
+              "ZIndex": 70
+            },
+            {
+              "__type": "CustomTooltip",
+              "__guid": "e5cbc222-27f9-4cb1-bb3e-88ca6ceb4847"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "__guid": "03ec13b4-f8d3-4add-8765-f762891c07a5",
+      "Name": "Object",
+      "Position": "-53.92128,-0.00001525879,-1975.974",
+      "Rotation": "0,0,-0.7071067,0.7071068",
+      "Scale": "9.20517,9.20517,9.20517",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "Components": [
+        {
+          "__type": "VisualizerBarManager",
+          "__guid": "276b7b82-e6c5-4e86-a138-eb694e9aedfa",
+          "Amplitude": 0.1,
+          "BarCount": 512,
+          "BarWavyness": 8,
+          "BarWavynessAmplitude": 14.300189,
+          "BarWidth": 0.01,
+          "PlayerObject": {
+            "_type": "gameobject",
+            "go": "6528f295-82e4-4c4a-b2c5-3714cb045473"
+          },
+          "Prefab": {
+            "_type": "gameobject",
+            "prefab": "prefabs/game/gamevisualizerbar.prefab"
+          },
+          "RingRadius": 400,
+          "SpinOnBeat": 109.09974,
+          "WaveSpeed": 1.6000268
+        }
+      ]
+    },
+    {
+      "__guid": "0f2d76a2-b016-48d1-bd00-d8f4a54d8e33",
+      "Name": "Particles",
+      "Position": "-963.6552,-33.37906,521.7537",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "Components": [
+        {
+          "__type": "MusicReactiveParticle",
+          "__guid": "3b182009-36c6-4c8d-b6c1-2da065029c43",
+          "Particles": [
+            {
+              "_type": "component",
+              "component_id": "1c521856-a8fb-4fb3-bddc-e30ab30b451e",
+              "go": "6dc34da6-99f1-48fd-8f9b-342ff0f9d4a9",
+              "component_type": "ParticleEffect"
+            }
+          ],
+          "PlayerObject": {
+            "_type": "gameobject",
+            "go": "6528f295-82e4-4c4a-b2c5-3714cb045473"
+          }
+        }
+      ],
+      "Children": [
+        {
+          "__guid": "6dc34da6-99f1-48fd-8f9b-342ff0f9d4a9",
+          "Name": "Smoke",
+          "Position": "0,0,0",
+          "Tags": "particles",
+          "Enabled": true,
+          "NetworkMode": 2,
+          "Components": [
+            {
+              "__type": "ParticleEffect",
+              "__guid": "1c521856-a8fb-4fb3-bddc-e30ab30b451e",
+              "Alpha": {
+                "Type": "Curve",
+                "CurveA": [
+                  {
+                    "in": -4.0000024,
+                    "out": 4.0000024
+                  },
+                  {
+                    "x": 0.20812808,
+                    "y": 0.475
+                  },
+                  {
+                    "x": 1
+                  }
+                ],
+                "Constants": "1,0,0,0"
+              },
+              "ApplyColor": true,
+              "ApplyRotation": true,
+              "ApplyShape": true,
+              "Bounce": {
+                "Constants": "1,0,0,0"
+              },
+              "Brightness": {
+                "Constants": "1,0,0,0"
+              },
+              "Bumpiness": {},
+              "Collision": false,
+              "CollisionRadius": 1,
+              "Damping": {
+                "Constants": "0.1,0,0,0"
+              },
+              "DieOnCollisionChance": {},
+              "Force": true,
+              "ForceDirection": "0,0,108.5998",
+              "ForceScale": {
+                "Constants": "1,0,0,0"
+              },
+              "Friction": {
+                "Constants": "1,0,0,0"
+              },
+              "Gradient": {
+                "Type": "Range",
+                "GradientA": {
+                  "color": [
+                    {
+                      "t": 0.5,
+                      "c": "1,1,1,1"
+                    }
+                  ],
+                  "alpha": []
+                },
+                "GradientB": {
+                  "color": [
+                    {
+                      "t": 0.5,
+                      "c": "1,1,1,1"
+                    }
+                  ],
+                  "alpha": []
+                },
+                "ConstantA": "0,0,0,0.51",
+                "ConstantB": "0,0,0,0.83"
+              },
+              "Lifetime": {
+                "Type": "Range",
+                "Evaluation": "Particle",
+                "Constants": "5,8,0,0"
+              },
+              "MaxParticles": 5000,
+              "PerParticleTimeScale": {
+                "Constants": "1,0.4,0,0"
+              },
+              "PreWarm": 1,
+              "PushStrength": {},
+              "Roll": {
+                "Type": "Range",
+                "Evaluation": "Particle",
+                "Constants": "0,360,0,0"
+              },
+              "Scale": {
+                "Type": "Range",
+                "Evaluation": "Particle",
+                "CurveA": [
+                  {}
+                ],
+                "Constants": "0.5,1,0,0"
+              },
+              "SequenceId": {},
+              "SequenceSpeed": {
+                "Constants": "0.5,0,0,0"
+              },
+              "SequenceTime": {
+                "Constants": "1,0,0,0"
+              },
+              "SheetSequence": true,
+              "Space": "World",
+              "StartVelocity": {
+                "Type": "Range",
+                "Evaluation": "Particle",
+                "Constants": "-70,70,0,0"
+              },
+              "Stretch": {},
+              "TimeScale": 0.65889215,
+              "Tint": "1,1,1,1"
+            },
+            {
+              "__type": "ParticleSpriteRenderer",
+              "__guid": "bbc322b9-d0a4-44a5-957a-1364dd660394",
+              "Additive": false,
+              "BlurAmount": 0.49,
+              "BlurOpacity": 0.55,
+              "BlurSpacing": 0.44,
+              "DepthFeather": 0,
+              "FaceVelocity": false,
+              "FogStrength": 1,
+              "LeadingTrail": true,
+              "MotionBlur": true,
+              "Opaque": false,
+              "RotationOffset": 0,
+              "Scale": 1,
+              "Shadows": false,
+              "SortMode": "Unsorted",
+              "Texture": "materials/particles/shapes/circle1.vtex"
+            },
+            {
+              "__type": "ParticleBoxEmitter",
+              "__guid": "064d1a19-85a2-494c-8eff-5c01bbbe32bb",
+              "Burst": 0,
+              "Delay": 0,
+              "DestroyOnEnd": false,
+              "Duration": 10,
+              "Loop": true,
+              "OnEdge": false,
+              "Rate": 178.24,
+              "Size": "175.7,420.8002,124.6996"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "SceneProperties": {
+    "FixedUpdateFrequency": 50,
+    "Lerping": true,
+    "MaxFixedUpdates": 5,
+    "NetworkFrequency": 30,
+    "ThreadedAnimation": true,
+    "TimeScale": 1,
+    "UseFixedUpdate": true,
+    "NavMesh": {
+      "Enabled": false,
+      "IncludeStaticBodies": true,
+      "IncludeKeyframedBodies": true,
+      "EditorAutoUpdate": true,
+      "AgentHeight": 64,
+      "AgentRadius": 16,
+      "AgentStepSize": 18,
+      "AgentMaxSlope": 40,
+      "ExcludedBodies": "",
+      "IncludedBodies": ""
+    }
+  },
+  "Title": "game-3d",
+  "Description": "",
+  "LastSaved": "2024-04-06T18:12:48.7508741-04:00",
+  "ResourceVersion": 1,
+  "__version": 1,
+  "__references": []
+}

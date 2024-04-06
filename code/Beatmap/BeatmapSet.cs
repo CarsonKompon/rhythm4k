@@ -55,14 +55,16 @@ public class BeatmapSet
         }
     }
 
-    public void Save( string path = "" )
+    public void Save( BaseFileSystem fileSystem = null, string path = "" )
     {
+        if ( fileSystem is null ) fileSystem = FileSystem.Data;
+        if ( fileSystem == FileSystem.Mounted ) return;
         if ( string.IsNullOrEmpty( path ) )
         {
             path = Path + "/beatmap.r4k";
         }
         if ( !path.EndsWith( ".r4k" ) ) path += ".r4k";
-        FileSystem.Data.WriteJson( path, this );
+        fileSystem.WriteJson( path, this );
     }
 
     [JsonIgnore] Texture _coverTexture = null;

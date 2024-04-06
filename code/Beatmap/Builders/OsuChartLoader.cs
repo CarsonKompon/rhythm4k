@@ -62,7 +62,7 @@ public class OsuChartLoader : IChartLoader
             set.CoverArt = await fileSystem.ReadAllTextAsync( coverPath );
         }
 
-        set.Save();
+        set.Save( fileSystem );
 
         return set;
     }

@@ -56,8 +56,9 @@
         <CustomDropDown @ref="GameplayStyleDropDown" onchange=@OnGameplayStyleChanged />
     </div>
     <div class="option">
-        <label>Note Style</label>
-        <CustomDropDown @ref="NoteStyleDropDown" onchange=@OnNoteStyleChanged />
+        <label>Note Shape</label>
+        <p>COMING SOON</p>
+        @* <CustomDropDown @ref="NoteStyleDropDown" onchange=@OnNoteStyleChanged /> *@
     </div>
     <div class="option">
         <label>Background Effects</label>
@@ -118,13 +119,16 @@
             };
             GameplayStyleDropDown.Selected = GameplayStyleDropDown.Options[GamePreferences.Settings.GameStyle];
         
-            List<Option> options = new();
-            foreach(var enumName in Enum.GetNames(typeof(NoteStyle)))
+            if(NoteStyleDropDown is not null)
             {
-                options.Add(new Option(enumName, (int)Enum.Parse<NoteStyle>(enumName)));
+                List<Option> options = new();
+                foreach(var enumName in Enum.GetNames(typeof(NoteStyle)))
+                {
+                    options.Add(new Option(enumName, (int)Enum.Parse<NoteStyle>(enumName)));
+                }
+                NoteStyleDropDown.Options = options;
+                NoteStyleDropDown.Selected = NoteStyleDropDown.Options[(int)GamePreferences.Settings.NoteStyle];
             }
-            NoteStyleDropDown.Options = options;
-            NoteStyleDropDown.Selected = NoteStyleDropDown.Options[(int)GamePreferences.Settings.NoteStyle];
         }
     }
 

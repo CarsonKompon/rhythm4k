@@ -131,8 +131,9 @@
         {
           "__type": "MainMenuScreen",
           "__guid": "f14cb509-9fcf-4389-9a00-7809a1c9e799",
-          "PeakThreshold": 1.08,
-          "SingleplayerScene": "scenes/game-3d.scene"
+          "GameScene2D": "scenes/game-2d.scene",
+          "GameScene3D": "scenes/game-3d.scene",
+          "PeakThreshold": 1.08
         }
       ]
     },
@@ -759,7 +760,7 @@
   },
   "Title": "minimal",
   "Description": "",
-  "LastSaved": "2024-04-05T19:45:04.1483286-04:00",
+  "LastSaved": "2024-04-06T19:00:36.0583735-04:00",
   "ResourceVersion": 1,
   "__version": 1,
   "__references": [

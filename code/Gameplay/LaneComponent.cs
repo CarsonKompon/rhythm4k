@@ -32,7 +32,7 @@ public sealed class Lane : Component
 	protected override void OnUpdate()
 	{
 		if ( GameManager.Instance.IsPaused ) return;
-		if ( Input.Down( LaneKey ) )
+		if ( Input.Down( LaneKey ) && GamePreferences.Settings.LightUpLanes )
 		{
 			LaneModel.Tint = new Color( 0xFF333333 ).WithAlpha( StartingColor.a + MathF.Sin( Time.Now * 20f ) / 50f );
 		}
@@ -44,6 +44,7 @@ public sealed class Lane : Component
 
 	public void HighlightHit()
 	{
+		if ( !GamePreferences.Settings.HitEffects ) return;
 		LaneHitHighlight.Tint = Color.White;
 		BurstPrefab.Clone( EndPosition.Transform.World.Position );
 	}

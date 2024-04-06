@@ -183,7 +183,7 @@ public class StepmaniaChartLoader : IChartLoader
             set.Beatmaps[i].Length = lastNote.BakedTime + lastNote.BakedLength;
         }
 
-        set.Save();
+        set.Save( fileSystem );
 
         await GameTask.Delay( 1 );
 

@@ -66,7 +66,8 @@
 	public static MainMenuScreen Instance { get; private set; }
 	public static string StartingUrl { get; set; } = "";
 
-	[Property] public SceneFile SingleplayerScene { get; set; }
+	[Property] public SceneFile GameScene3D { get; set; }
+	[Property] public SceneFile GameScene2D { get; set; }
 	MainMenu MainMenu { get; set;}
 
 	public string CurrentUrl => MainMenu?.CurrentUrl ?? "";
@@ -312,7 +313,14 @@
 
 	public void StartGame()
 	{
-		Scene.Load(SingleplayerScene);
+		if(GamePreferences.Settings.GameStyle == 0)
+		{
+			Scene.Load(GameScene2D);
+		}
+		else
+		{
+			Scene.Load(GameScene3D);
+		}
 	}
 
 	protected override int BuildHash()
