@@ -8,7 +8,9 @@ public sealed class Lane : Component
 	[Property] public ModelRenderer LaneModel { get; set; }
 	[Property] public GameObject StartPosition { get; set; }
 	[Property] public GameObject EndPosition { get; set; }
+	[Property] public ModelRenderer LaneHitHighlight { get; set; }
 	[Property] public LaneKeyScreen LaneKeyScreen { get; set; }
+	[Property] GameObject BurstPrefab { get; set; }
 
 	public int LaneIndex { get; set; }
 	public string LaneKey = "";
@@ -36,5 +38,13 @@ public sealed class Lane : Component
 		}
 
 		LaneModel.Tint = Color.Lerp( LaneModel.Tint, StartingColor, Time.Delta * 20f );
+		LaneHitHighlight.Tint = Color.Lerp( LaneHitHighlight.Tint, LaneHitHighlight.Tint.WithAlpha( 0f ), Time.Delta * 5f );
+		// Log.Info( LaneHitHighlight.Tint );
+	}
+
+	public void HighlightHit()
+	{
+		LaneHitHighlight.Tint = Color.White;
+		BurstPrefab.Clone( EndPosition.Transform.World.Position );
 	}
 }

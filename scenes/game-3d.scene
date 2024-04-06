@@ -30,6 +30,45 @@
       ]
     },
     {
+      "__guid": "7e2e9bea-e44d-419b-b588-882876390b25",
+      "Name": "Board Pivot",
+      "Position": "-1170.619,-0,675.8569",
+      "Rotation": "0,0.258819,0,0.9659258",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "Children": [
+        {
+          "__guid": "6528f295-82e4-4c4a-b2c5-3714cb045473",
+          "Name": "Game Manager",
+          "Position": "1351.714,0,0.0003662109",
+          "Rotation": "0,-0.258819,0,0.9659259",
+          "Enabled": true,
+          "NetworkMode": 2,
+          "Components": [
+            {
+              "__type": "GameManager",
+              "__guid": "1c3e0991-2ea4-443e-a0e0-151d16a0145e",
+              "LanePrefab": {
+                "_type": "gameobject",
+                "prefab": "prefabs/game/lane_3d.prefab"
+              },
+              "LaneSpacing": 92,
+              "MenuScene": "scenes/main-menu.scene",
+              "NotePrefab": {
+                "_type": "gameobject",
+                "prefab": "prefabs/game/note_3d.prefab"
+              },
+              "PeakThreshold": 1.09,
+              "ResultsScreen": {
+                "_type": "gameobject",
+                "go": "be885363-730b-4aa2-876a-1770926139d3"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
       "__guid": "820cb0ed-11fb-44ca-a075-b54ee6897018",
       "Name": "Sun",
       "Position": "-1500.599,235.6494,629.5671",
@@ -46,33 +85,6 @@
           "LightColor": "0.91373,0.98039,1,1",
           "Shadows": false,
           "SkyColor": "0.05882,0.07451,0.08235,1"
-        }
-      ]
-    },
-    {
-      "__guid": "6528f295-82e4-4c4a-b2c5-3714cb045473",
-      "Name": "Game Manager",
-      "Enabled": true,
-      "NetworkMode": 2,
-      "Components": [
-        {
-          "__type": "GameManager",
-          "__guid": "1c3e0991-2ea4-443e-a0e0-151d16a0145e",
-          "LanePrefab": {
-            "_type": "gameobject",
-            "prefab": "prefabs/game/lane_3d.prefab"
-          },
-          "LaneSpacing": 92,
-          "MenuScene": "scenes/main-menu.scene",
-          "NotePrefab": {
-            "_type": "gameobject",
-            "prefab": "prefabs/game/note_3d.prefab"
-          },
-          "PeakThreshold": 1.09,
-          "ResultsScreen": {
-            "_type": "gameobject",
-            "go": "be885363-730b-4aa2-876a-1770926139d3"
-          }
         }
       ]
     },
@@ -408,7 +420,7 @@
   },
   "Title": "game-3d",
   "Description": "",
-  "LastSaved": "2024-03-30T22:42:06.3885258-04:00",
+  "LastSaved": "2024-04-06T18:06:53.3005025-04:00",
   "ResourceVersion": 1,
   "__version": 1,
   "__references": []

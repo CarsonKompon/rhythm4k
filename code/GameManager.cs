@@ -225,7 +225,7 @@ public sealed class GameManager : Component, IMusicPlayer
 			if ( pressed[note.Note.Lane] )
 			{
 				Notes.Remove( note );
-				note.GameObject.Destroy();
+				note?.GameObject?.Destroy();
 				HitNote( note );
 				hitNotes.Add( note );
 			}
@@ -359,6 +359,8 @@ public sealed class GameManager : Component, IMusicPlayer
 		Replay.MaxCombo = Math.Max( Replay.MaxCombo, Combo );
 		GameHud.Instance?.SetCombo( Combo );
 		Replay.Hits.Add( new HitInfo( note.Note.Lane, IsCalibrating ? CurrentTimeNoLatency : CurrentTime, difference ) );
+		var lane = Lanes[note.Note.Lane];
+		lane.HighlightHit();
 	}
 
 	void SpawnNextNotes()
