@@ -1,0 +1,136 @@
+@using System;
+@using System.Collections.Generic;
+@using System.Linq;
+@using System.Net.Http;
+@using System.Threading.Tasks;
+@using System.IO;
+@using System.IO.Compression;
+@using Sandbox;
+@using Sandbox.UI;
+@using Sandbox.UI.GameMenu;
+@inherits Panel
+@attribute [StyleSheet]
+
+@namespace Rhythm4K.Chorus
+
+<root>
+    <div class="background" />
+    <div class="navbar">
+        <div class="buttons">
+            <a class="button" href="/play"> &lt; Back</a>
+        </div>
+
+        <div class="search">
+            <CustomDropDown @ref="StatusDropDown" onchange=@Search />
+            <TextEntry onsubmit=@Search Value:bind=@SearchText Tooltip="Search for songs by title, artist, or URL" Placeholder="Enter a search query..." ></TextEntry>
+            <span class="button" onclick=@Search>Search</span>
+        </div>
+    </div>
+
+    <div class="content">
+        @if(Loading)
+        {
+            <span class="loading">Loading...</span>
+        }
+        else
+        {
+            @foreach(var beatmap in LoadedBeatmaps)
+            {
+                <ChorusButton BeatmapSet=@beatmap />
+            }
+            @if(LoadedBeatmaps.Count() > 0 && Page < MaxPages)
+            {
+                <span class="load-more" onclick=@LoadMoreBeatmaps>Load more...</span>
+            }
+        }
+    </div>
+</root>
+
+@code
+{
+	public List<ChorusBeatmap> LoadedBeatmaps { get; set; } = new();
+	public string SearchText { get; set; } = "";
+	public int Page { get; set; } = 0;
+	public int MaxPages { get; set; } = 0;
+	public bool Loading { get; private set; } = false;
+
+    CustomDropDown StatusDropDown { get; set; }
+
+    private ChorusQuery lastQuery = null;
+    private const string BASE_QUERY = $"https://api.enchor.us/search";
+
+    protected override void OnAfterTreeRender(bool firstTime)
+    {
+        base.OnAfterTreeRender(firstTime);
+
+        if (firstTime)
+        {
+            LoadTopBeatmaps();
+
+            StatusDropDown.Options = new()
+            {
+                new Option("All", 0),
+                new Option("Ranked", 1),
+                @* new Option("Approved", 2), *@
+                new Option("Qualified", 2),
+                new Option("Loved", 3),
+                new Option("Unranked", 4),
+            };
+            StatusDropDown.Selected = StatusDropDown.Options[1];
+        }
+    }
+    
+    private async void Search()
+    {
+        Loading = true;
+        @* Log.Info(lastQuery); *@
+        lastQuery = new ChorusQuery();
+        lastQuery.Search = SearchText;
+        lastQuery.Page = 1;
+        var response = await Request();
+        LoadedBeatmaps = response.Beatmaps;
+        MaxPages = (int)MathF.Ceiling(response.Found / 10f);
+        Page = 0;
+        Loading = false;
+    }
+
+    private async void LoadTopBeatmaps()
+    {
+        Loading = true;
+        lastQuery = new ChorusQuery();
+        lastQuery.Search = "";
+        lastQuery.Page = 1;
+        var response = await Request();
+        LoadedBeatmaps = response.Beatmaps;
+        MaxPages = (int)MathF.Ceiling(response.Found / 10f);
+        Page = 0;
+        Loading = false;
+    }
+
+    private async void LoadMoreBeatmaps()
+    {
+        if(lastQuery is null) return;
+        if(Page >= MaxPages) return;
+        lastQuery.Page++;
+
+        var response = await Request();
+        LoadedBeatmaps.AddRange(response.Beatmaps);
+        
+        @* Page++;
+        var response = await Http.RequestJsonAsync<ChorusSearch>(lastQuery + "&p=" + Page.ToString());
+        LoadedBeatmaps.AddRange(response.Beatmaps); *@
+    }
+
+    async Task<ChorusSearch> Request()
+    {
+        Log.Info(lastQuery.ToString());
+        HttpContent content = new StringContent(lastQuery.ToString(), System.Text.Encoding.UTF8, "application/json");
+        var response = await Http.RequestJsonAsync<ChorusSearch>(BASE_QUERY, "POST", content);
+        return response;
+    }
+
+    protected override int BuildHash()
+    {
+        return HashCode.Combine(Loading, LoadedBeatmaps.Count());
+    }
+}

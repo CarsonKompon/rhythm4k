@@ -1,0 +1,9 @@
+{
+  "Name": "Square",
+  "NotePrefab": "prefabs/game/note_square.prefab",
+  "BurstPrefab": "prefabs/game/note_rectangle_burst.prefab",
+  "ReceptorPrefab": "prefabs/game/receptor_square.prefab",
+  "ResourceVersion": 0,
+  "__version": 0,
+  "__references": []
+}

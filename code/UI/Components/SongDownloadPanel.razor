@@ -5,6 +5,7 @@
 @using System.IO.Compression;
 @using System.Threading.Tasks;
 @using Rhythm4K.Osu;
+@using Rhythm4K.Chorus;
 @inherits Panel
 @attribute [StyleSheet]
 
@@ -30,13 +31,19 @@
 
     public class DownloadEntry
     {
-        public OsuBeatmapSet OsuBeatmap;
+        public OsuBeatmapSet OsuBeatmap = null;
+        public ChorusBeatmap ChorusBeatmap = null;
         public string CoverUrl;
 
         public DownloadEntry(OsuBeatmapSet beatmap, string coverUrl)
         {
             OsuBeatmap = beatmap;
             CoverUrl = coverUrl;
+        }
+
+        public DownloadEntry(ChorusBeatmap beatmap)
+        {
+            ChorusBeatmap = beatmap;
         }
     }
 
@@ -75,7 +82,14 @@
 
     public void QueueOsuDownload(OsuBeatmapSet beatmap, string coverUrl)
     {
+        if(beatmap.IsDownloaded()) return;
         DownloadQueue.Add(new DownloadEntry(beatmap, coverUrl));
+    }
+
+    public void QueueChorusDownload(ChorusBeatmap beatmap)
+    {
+        if(beatmap.IsDownloaded()) return;
+        DownloadQueue.Add(new DownloadEntry(beatmap));
     }
 
     public void DownloadBeatmap(DownloadEntry entry)
@@ -83,6 +97,10 @@
         if(entry.OsuBeatmap is not null)
         {
             DownloadOsuBeatmap(entry.OsuBeatmap, entry.CoverUrl);
+        }
+        else if(entry.ChorusBeatmap is not null)
+        {
+            DownloadChorusBeatmap(entry.ChorusBeatmap);
         }
     }
 
@@ -151,6 +169,59 @@
         finally
         {
             if(Descendants.Where(x => x is OsuButton btn && btn.BeatmapSet == beatmapSet).FirstOrDefault() is OsuButton button)
+            {
+                button.Downloading = false;
+            }
+            Downloading = false;
+        }
+    }
+
+    public async void DownloadChorusBeatmap(ChorusBeatmap beatmap)
+    {
+        if(beatmap.IsDownloaded()) return;
+
+        Dictionary<string, string> headers = new Dictionary<string, string>
+        {
+            { "Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8" }
+        };
+        string url = $"https://www.enchor.us/download?md5={beatmap.Md5}&isSng=false&filename={beatmap.GetFullSongId()}";
+        byte[] fileData = await Http.RequestBytesAsync(url, "GET", null, headers);
+        try
+        {
+            Log.Info(fileData);
+            FileSystem.Data.OpenWrite("test.zip").Write(fileData);
+            ZipArchive archive = new ZipArchive(new MemoryStream(fileData), ZipArchiveMode.Read);
+
+            // Save the contents of the archive
+            string dir = $"beatmaps/downloads-enchorus";
+            FileSystem.Data.CreateDirectory(dir);
+            foreach (var entry in archive.Entries)
+            {
+                string path = dir + "/" + entry.FullName;
+                Log.Info("Saving file " + path);
+                Stream zipStream = entry.Open();
+                Stream fileStream = FileSystem.Data.OpenWrite(path);
+                await zipStream.CopyToAsync(fileStream);
+                fileStream.Close();
+                zipStream.Close();
+            }
+
+            string coverArt = beatmap?.AlbumArtMd5?.ToString() ?? "";
+			if(!string.IsNullOrEmpty(coverArt))
+			{
+                FileSystem.Data.WriteAllText(dir + "/cover-image.txt", $"https://files.enchor.us/{coverArt}.jpg");
+            }
+
+            await BeatmapSet.Load(dir);
+        }
+        catch (Exception e)
+        {
+            Log.Error(e.Message);
+            Log.Warning(e.StackTrace);
+        }
+        finally
+        {
+            if(Descendants.Where(x => x is ChorusButton btn && btn.BeatmapSet.Md5 == beatmap.Md5).FirstOrDefault() is OsuButton button)
             {
                 button.Downloading = false;
             }

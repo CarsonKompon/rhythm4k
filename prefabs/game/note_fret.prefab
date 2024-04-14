@@ -1,0 +1,39 @@
+{
+  "RootObject": {
+    "__guid": "42fced39-a628-4e49-a6e2-dbe54e4376ad",
+    "Name": "note_fret",
+    "Enabled": true,
+    "NetworkMode": 2,
+    "Components": [
+      {
+        "__type": "Rhythm4K.NoteComponent",
+        "__guid": "a987a8c0-3370-4c31-9526-e1190ef648c9"
+      }
+    ],
+    "Children": [
+      {
+        "__guid": "4b046172-5caa-4473-a05a-0eb301cd1428",
+        "Name": "Object",
+        "Scale": "1.25,1.25,1.25",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "Components": [
+          {
+            "__type": "Sandbox.ModelRenderer",
+            "__guid": "a452c06d-7852-4b8f-ad01-b5006b6b6657",
+            "BodyGroups": 18446744073709551615,
+            "Model": "models/note_fret.vmdl",
+            "RenderType": "Off",
+            "Tint": "1,1,1,1"
+          }
+        ]
+      }
+    ]
+  },
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "ResourceVersion": 1,
+  "__version": 1,
+  "__references": []
+}

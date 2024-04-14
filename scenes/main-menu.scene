@@ -132,7 +132,9 @@
           "__type": "MainMenuScreen",
           "__guid": "f14cb509-9fcf-4389-9a00-7809a1c9e799",
           "GameScene2D": "scenes/game-2d.scene",
+          "GameScene2DUpscroll": "scenes/game-2d-upscroll.scene",
           "GameScene3D": "scenes/game-3d.scene",
+          "GameScene3DUpscroll": "scenes/game-3d-upscroll.scene",
           "PeakThreshold": 1.08
         }
       ]
@@ -250,7 +252,7 @@
                   "CurrentPanelScale": 0,
                   "CurrentPanelScaleFromScreen": 0,
                   "CurrentPanelScaleToScreen": 0,
-                  "CurrentScreenSize": "878,494",
+                  "CurrentScreenSize": "1658,933",
                   "CustomPanelBounds": {
                     "Size": "1024,256"
                   },
@@ -760,7 +762,7 @@
   },
   "Title": "minimal",
   "Description": "",
-  "LastSaved": "2024-04-06T19:00:36.0583735-04:00",
+  "LastSaved": "2024-04-08T19:15:12.6241082-04:00",
   "ResourceVersion": 1,
   "__version": 1,
   "__references": [

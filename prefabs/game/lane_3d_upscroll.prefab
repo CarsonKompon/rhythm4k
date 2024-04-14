@@ -1,7 +1,7 @@
 {
   "RootObject": {
     "__guid": "fc4609b0-3715-4f62-a806-2454fddbac02",
-    "Name": "lane_3d",
+    "Name": "lane_3d_upscroll",
     "Enabled": true,
     "NetworkMode": 2,
     "Components": [
@@ -29,10 +29,6 @@
           "component_id": "f146b869-89ff-43ef-a992-97877ef40f48",
           "go": "78d37647-81ff-49b4-80ef-66eadc53d89d",
           "component_type": "ModelRenderer"
-        },
-        "Receptor": {
-          "_type": "gameobject",
-          "go": "2c22649e-5b59-4bfa-bf9a-5285a5367ec5"
         },
         "StartPosition": {
           "_type": "gameobject",
@@ -70,7 +66,7 @@
         ]
       },
       {
-        "__guid": "2c22649e-5b59-4bfa-bf9a-5285a5367ec5",
+        "__guid": "07291f68-0507-4784-bb99-5b20fde6caa5",
         "Name": "Receptor",
         "Position": "-416,0,0",
         "Enabled": true,
@@ -94,7 +90,7 @@
         "__guid": "0024de59-661f-426c-b06b-3532df2b292a",
         "Name": "KeyPrompt",
         "Position": "-512,0,32",
-        "Rotation": "0.5,0.0000000973536,0.8660254,0.0000001686214",
+        "Rotation": "0.0000003532422,0.8660254,0.0000001787077,-0.5",
         "Enabled": true,
         "NetworkMode": 2,
         "Components": [

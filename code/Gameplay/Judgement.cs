@@ -1,3 +1,4 @@
+using System;
 using Sandbox;
 
 public static class Judgement
@@ -24,7 +25,7 @@ public static class Judgement
 
     public static List<float> GetJudgementTimes( float difficulty )
     {
-        var diff = 0.003f * difficulty;
+        var diff = 0.003f * MathX.Clamp( difficulty, 1f, 10 );
         return new List<float>
         {
             0.016f,

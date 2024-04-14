@@ -1,0 +1,32 @@
+@using System;
+@using Sandbox;
+@using Sandbox.UI;
+@attribute [StyleSheet]
+@inherits Panel
+
+@namespace Rhythm4K
+
+<root>
+    <h1>General</h1>
+    <div class="option">
+        <label>Resolution</label>
+        <button>1920x1080</button>
+    </div>
+    <h1>Gameplay</h1>
+    <h3>1 Key</h3>
+    <div class="option">
+        <label>Music</label>
+        <button>Michael</button>
+    </div>
+</root>
+
+@code
+{
+    
+    protected override void OnAfterTreeRender(bool firstTime)
+    {
+        base.OnAfterTreeRender(firstTime);
+    }
+
+
+}

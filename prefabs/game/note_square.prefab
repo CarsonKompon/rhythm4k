@@ -1,13 +1,13 @@
 {
   "RootObject": {
     "__guid": "42fced39-a628-4e49-a6e2-dbe54e4376ad",
-    "Name": "note_3d",
-    "Scale": "1,1.706604,0.4134464",
+    "Name": "note_square",
+    "Scale": "1.7,1.706604,0.4134464",
     "Enabled": true,
     "NetworkMode": 2,
     "Components": [
       {
-        "__type": "ModelRenderer",
+        "__type": "Sandbox.ModelRenderer",
         "__guid": "9895d71c-0fa0-48da-9caa-b9b089af58f0",
         "BodyGroups": 18446744073709551615,
         "Model": "models/dev/box.vmdl",
@@ -15,12 +15,8 @@
         "Tint": "1,1,1,1"
       },
       {
-        "__type": "NoteComponent",
-        "__guid": "a987a8c0-3370-4c31-9526-e1190ef648c9",
-        "BurstPrefab": {
-          "_type": "gameobject",
-          "prefab": "prefabs/game/note_burst_3d_rectangle.prefab"
-        }
+        "__type": "Rhythm4K.NoteComponent",
+        "__guid": "a987a8c0-3370-4c31-9526-e1190ef648c9"
       }
     ],
     "Children": []

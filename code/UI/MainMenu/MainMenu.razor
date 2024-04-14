@@ -4,6 +4,7 @@
 @using Sandbox;
 @using Sandbox.UI;
 @using Rhythm4K.Osu;
+@using Rhythm4K.Chorus;
 @attribute [StyleSheet]
 
 @inherits Sandbox.UI.NavHostPanel
@@ -23,7 +24,8 @@
 
         AddDestination("/", typeof(MainMenuFrontPage));
         AddDestination("/play", typeof(MainMenuPlayPage));
-        AddDestination("/browse", typeof(OsuPage));
+        AddDestination("/browse-osu", typeof(OsuPage));
+        @* AddDestination("/browse-chorus", typeof(ChorusPage)); *@
         AddDestination("/song-select", typeof(SongSelectPage));
         AddDestination("/settings", typeof(SettingsPage));
         @* AddDestination("/songs", typeof(SongSelectPage));

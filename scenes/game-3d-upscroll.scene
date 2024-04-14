@@ -2,23 +2,23 @@
   "__guid": "fdf1e098-1aa7-4805-83e4-026ba3b86e24",
   "GameObjects": [
     {
-      "__guid": "97f364ea-76c8-49c0-9732-6f6afb1ccc5a",
+      "__guid": "3850a8ee-6a99-4bee-a92d-4f11b3c8b25b",
       "Name": "Camera",
-      "Position": "-139.5225,-0.0002531592,949.7272",
-      "Rotation": "0,0.7071069,0,0.7071069",
+      "Position": "-1170.619,-0,675.8569",
+      "Rotation": "0,0.258819,0,0.9659258",
       "Tags": "maincamera",
       "Enabled": true,
       "NetworkMode": 2,
       "Components": [
         {
           "__type": "CameraComponent",
-          "__guid": "e3588842-904b-4007-b3dc-b0508edf165f",
+          "__guid": "25fff3cf-6727-44b0-813a-70d41c56f475",
           "BackgroundColor": "1,1,1,1",
           "ClearFlags": "All",
           "FieldOfView": 60,
           "IsMainCamera": true,
-          "Orthographic": true,
-          "OrthographicHeight": 900,
+          "Orthographic": false,
+          "OrthographicHeight": 1204,
           "Priority": 1,
           "RenderExcludeTags": "",
           "RenderTags": "",
@@ -32,7 +32,8 @@
     {
       "__guid": "6528f295-82e4-4c4a-b2c5-3714cb045473",
       "Name": "Game Manager",
-      "Position": "-0.0002441406,0,0.0002441406",
+      "Position": "-0.0004882812,0.00000000002961405,-0.0003662109",
+      "Rotation": "0.8660254,-0.0000000000000008881784,-0.4999999,-0.00000004371139",
       "Enabled": true,
       "NetworkMode": 2,
       "Components": [
@@ -41,7 +42,7 @@
           "__guid": "1c3e0991-2ea4-443e-a0e0-151d16a0145e",
           "LanePrefab": {
             "_type": "gameobject",
-            "prefab": "prefabs/game/lane_2d.prefab"
+            "prefab": "prefabs/game/lane_3d_upscroll.prefab"
           },
           "LaneSpacing": 92,
           "MenuScene": "scenes/main-menu.scene",
@@ -54,7 +55,7 @@
             "_type": "gameobject",
             "go": "be885363-730b-4aa2-876a-1770926139d3"
           },
-          "ReverseLaneOrder": false
+          "ReverseLaneOrder": true
         }
       ]
     },
@@ -410,7 +411,7 @@
   },
   "Title": "game-3d",
   "Description": "",
-  "LastSaved": "2024-04-08T20:06:50.3834338-04:00",
+  "LastSaved": "2024-04-08T19:32:18.7027126-04:00",
   "ResourceVersion": 1,
   "__version": 1,
   "__references": []

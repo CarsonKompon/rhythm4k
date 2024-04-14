@@ -1,0 +1,129 @@
+{
+  "RootObject": {
+    "__guid": "fc4609b0-3715-4f62-a806-2454fddbac02",
+    "Name": "lane_2d_upscroll",
+    "Enabled": true,
+    "NetworkMode": 2,
+    "Components": [
+      {
+        "__type": "Rhythm4K.Lane",
+        "__guid": "41a333bf-7f5c-4167-86af-0f0c295031f2",
+        "EndPosition": {
+          "_type": "gameobject",
+          "go": "8696a5b8-0bf0-4229-a396-27b108b83550"
+        },
+        "LaneHitHighlight": {
+          "_type": "component",
+          "component_id": "5cc2928f-3622-4d68-8893-dba7ec9df6ab",
+          "go": "ca9c6103-55b6-421e-9e16-9150c9b5d8eb",
+          "component_type": "ModelRenderer"
+        },
+        "LaneKeyScreen": {
+          "_type": "component",
+          "component_id": "5760c3e6-4f5e-4027-9dac-f970e9e5b636",
+          "go": "0024de59-661f-426c-b06b-3532df2b292a",
+          "component_type": "LaneKeyScreen"
+        },
+        "LaneModel": {
+          "_type": "component",
+          "component_id": "f146b869-89ff-43ef-a992-97877ef40f48",
+          "go": "78d37647-81ff-49b4-80ef-66eadc53d89d",
+          "component_type": "ModelRenderer"
+        },
+        "Receptor": {
+          "_type": "gameobject",
+          "go": "07291f68-0507-4784-bb99-5b20fde6caa5"
+        },
+        "StartPosition": {
+          "_type": "gameobject",
+          "go": "ff7497e0-868b-4878-ada2-cd9fa3af2cf1"
+        }
+      }
+    ],
+    "Children": [
+      {
+        "__guid": "0024de59-661f-426c-b06b-3532df2b292a",
+        "Name": "KeyPrompt",
+        "Position": "512,0.0001993802,32",
+        "Rotation": "-0.7071066,0.0000001799007,-0.7071068,-0.0000001489922",
+        "Scale": "1.329747,1.329747,1.329747",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "Components": [
+          {
+            "__type": "Sandbox.WorldPanel",
+            "__guid": "07a2bc7b-9c02-46df-8629-eacd9db32f7c",
+            "HorizontalAlign": "Center",
+            "LookAtCamera": false,
+            "PanelSize": "512,512",
+            "RenderScale": 1,
+            "VerticalAlign": "Center"
+          },
+          {
+            "__type": "Rhythm4K.LaneKeyScreen",
+            "__guid": "5760c3e6-4f5e-4027-9dac-f970e9e5b636"
+          }
+        ]
+      },
+      {
+        "__guid": "8696a5b8-0bf0-4229-a396-27b108b83550",
+        "Name": "EndPosition",
+        "Position": "416,0.0001619964,0",
+        "Rotation": "0,0,-1,0.0000001947072",
+        "Enabled": true,
+        "NetworkMode": 2
+      },
+      {
+        "__guid": "ff7497e0-868b-4878-ada2-cd9fa3af2cf1",
+        "Name": "StartPosition",
+        "Position": "-736,-0.000286609,0",
+        "Rotation": "0,0,-1,0.0000001947072",
+        "Enabled": true,
+        "NetworkMode": 2
+      },
+      {
+        "__guid": "07291f68-0507-4784-bb99-5b20fde6caa5",
+        "Name": "Receptor",
+        "Position": "416,0.0001619964,0",
+        "Rotation": "0,0,-1,0.0000001947072",
+        "Enabled": true,
+        "NetworkMode": 2
+      },
+      {
+        "__guid": "78d37647-81ff-49b4-80ef-66eadc53d89d",
+        "Name": "Plane",
+        "Rotation": "0,0,-1,0.0000001947072",
+        "Scale": "15,1,1",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "Components": [
+          {
+            "__type": "Sandbox.ModelRenderer",
+            "__guid": "f146b869-89ff-43ef-a992-97877ef40f48",
+            "BodyGroups": 18446744073709551615,
+            "MaterialOverride": "materials/3d_lane_mat.vmat",
+            "Model": "models/dev/plane.vmdl",
+            "RenderType": "On",
+            "Tint": "0,0,0,0.89"
+          },
+          {
+            "__type": "FixTransparency",
+            "__guid": "d8d0158c-afa3-49de-8f42-2443c8cf229d",
+            "modelRenderer": {
+              "_type": "component",
+              "component_id": "f146b869-89ff-43ef-a992-97877ef40f48",
+              "go": "78d37647-81ff-49b4-80ef-66eadc53d89d",
+              "component_type": "ModelRenderer"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "ResourceVersion": 1,
+  "__version": 1,
+  "__references": []
+}

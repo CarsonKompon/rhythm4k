@@ -101,7 +101,7 @@ public class OsuChartLoader : IChartLoader
                         case "Mode":
                             if ( value != "3" )
                             {
-                                Log.Warning( "Osu chart " + path + " is not an osu!mania chart, skipping..." );
+                                // Log.Warning( "Osu chart " + path + " is not an osu!mania chart, skipping..." );
                                 return null;
                             }
                             break;

@@ -30,31 +30,42 @@
       ]
     },
     {
-      "__guid": "6528f295-82e4-4c4a-b2c5-3714cb045473",
-      "Name": "Game Manager",
-      "Position": "-0.0002441406,0,0.0002441406",
+      "__guid": "7e2e9bea-e44d-419b-b588-882876390b25",
+      "Name": "Board Pivot",
+      "Position": "-1425.922,-0,675.8569",
+      "Rotation": "0,0.258819,0,0.9659258",
       "Enabled": true,
       "NetworkMode": 2,
-      "Components": [
+      "Children": [
         {
-          "__type": "GameManager",
-          "__guid": "1c3e0991-2ea4-443e-a0e0-151d16a0145e",
-          "LanePrefab": {
-            "_type": "gameobject",
-            "prefab": "prefabs/game/lane_2d.prefab"
-          },
-          "LaneSpacing": 92,
-          "MenuScene": "scenes/main-menu.scene",
-          "NotePrefab": {
-            "_type": "gameobject",
-            "prefab": "prefabs/game/note_3d.prefab"
-          },
-          "PeakThreshold": 1.09,
-          "ResultsScreen": {
-            "_type": "gameobject",
-            "go": "be885363-730b-4aa2-876a-1770926139d3"
-          },
-          "ReverseLaneOrder": false
+          "__guid": "6528f295-82e4-4c4a-b2c5-3714cb045473",
+          "Name": "Game Manager",
+          "Position": "1351.714,0,0.0003662109",
+          "Rotation": "0,-0.258819,0,0.9659259",
+          "Enabled": true,
+          "NetworkMode": 2,
+          "Components": [
+            {
+              "__type": "GameManager",
+              "__guid": "1c3e0991-2ea4-443e-a0e0-151d16a0145e",
+              "LanePrefab": {
+                "_type": "gameobject",
+                "prefab": "prefabs/game/lane_2d_upscroll.prefab"
+              },
+              "LaneSpacing": 92,
+              "MenuScene": "scenes/main-menu.scene",
+              "NotePrefab": {
+                "_type": "gameobject",
+                "prefab": "prefabs/game/note_3d.prefab"
+              },
+              "PeakThreshold": 1.09,
+              "ResultsScreen": {
+                "_type": "gameobject",
+                "go": "be885363-730b-4aa2-876a-1770926139d3"
+              },
+              "ReverseLaneOrder": false
+            }
+          ]
         }
       ]
     },
@@ -410,7 +421,7 @@
   },
   "Title": "game-3d",
   "Description": "",
-  "LastSaved": "2024-04-08T20:06:50.3834338-04:00",
+  "LastSaved": "2024-04-08T19:13:56.2326146-04:00",
   "ResourceVersion": 1,
   "__version": 1,
   "__references": []

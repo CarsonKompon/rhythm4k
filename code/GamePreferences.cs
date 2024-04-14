@@ -34,7 +34,6 @@ public class RhythmSettings
     public float SoundVolume { get; set; } = 80f;
     public float UnfocusedVolume { get; set; } = 40f;
 
-
     public bool Downscroll { get; set; } = true;
     public float ScrollSpeedMultiplier { get; set; } = 1f;
     public float AudioLatency { get; set; } = 0f;
@@ -47,4 +46,14 @@ public class RhythmSettings
     public bool LightUpLanes { get; set; } = true;
 
     public bool DoneFirstTimeSetup { get; set; } = false;
+
+    int _noteStyle = -1;
+    NoteTheme _noteTheme;
+    public NoteTheme GetNoteTheme()
+    {
+        if ( _noteStyle == (int)NoteStyle ) return _noteTheme;
+        _noteStyle = (int)NoteStyle;
+        _noteTheme = NoteTheme.GetFromResourceName( NoteStyle.ToString().ToLower() );
+        return _noteTheme;
+    }
 }

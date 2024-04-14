@@ -1,0 +1,85 @@
+{
+  "RootObject": {
+    "__guid": "07291f68-0507-4784-bb99-5b20fde6caa5",
+    "Name": "receptor_rectangle",
+    "Scale": "1.352566,1,1",
+    "Enabled": true,
+    "NetworkMode": 2,
+    "Children": [
+      {
+        "__guid": "58b95f26-6040-47da-ae03-e1e7da6f0bb3",
+        "Name": "Line",
+        "Position": "24,0,3.735053",
+        "Scale": "0.09710931,1,1",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "Components": [
+          {
+            "__type": "Sandbox.ModelRenderer",
+            "__guid": "65cba062-052b-4cd3-be6d-2018314e0322",
+            "BodyGroups": 18446744073709551615,
+            "MaterialOverride": "materials/3d_lane_mat.vmat",
+            "Model": "models/dev/plane.vmdl",
+            "RenderType": "On",
+            "Tint": "1,1,1,1"
+          }
+        ]
+      },
+      {
+        "__guid": "13aa9057-0a69-4d9e-9d02-855a47d46ddf",
+        "Name": "Line",
+        "Position": "-24,0,3.735053",
+        "Scale": "0.09710931,1,1",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "Components": [
+          {
+            "__type": "Sandbox.ModelRenderer",
+            "__guid": "03412822-9134-4b93-8b62-9e976c04e000",
+            "BodyGroups": 18446744073709551615,
+            "MaterialOverride": "materials/3d_lane_mat.vmat",
+            "Model": "models/dev/plane.vmdl",
+            "RenderType": "On",
+            "Tint": "1,1,1,1"
+          }
+        ]
+      },
+      {
+        "__guid": "ca9c6103-55b6-421e-9e16-9150c9b5d8eb",
+        "Name": "Highlight",
+        "Position": "0,0,0.7932932",
+        "Scale": "0.5086494,1,1",
+        "Tags": "highlight",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "Components": [
+          {
+            "__type": "Sandbox.ModelRenderer",
+            "__guid": "5cc2928f-3622-4d68-8893-dba7ec9df6ab",
+            "BodyGroups": 18446744073709551615,
+            "MaterialOverride": "materials/3d_lane_additive.vmat",
+            "Model": "models/dev/plane.vmdl",
+            "RenderType": "On",
+            "Tint": "1,1,1,1"
+          },
+          {
+            "__type": "FixTransparency",
+            "__guid": "8ee6a01e-d4e6-4c70-9f37-800d28fc8355",
+            "modelRenderer": {
+              "_type": "component",
+              "component_id": "5cc2928f-3622-4d68-8893-dba7ec9df6ab",
+              "go": "ca9c6103-55b6-421e-9e16-9150c9b5d8eb",
+              "component_type": "ModelRenderer"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "ResourceVersion": 1,
+  "__version": 1,
+  "__references": []
+}

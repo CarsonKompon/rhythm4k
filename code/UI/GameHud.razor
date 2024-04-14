@@ -19,7 +19,7 @@
 		</div>
 		<div class="accuracy">
 			<h1>Accuracy</h1>
-			<p>@($"{GameManager.Replay.GetAccuracy():N2}")%</p>
+			<p>@($"{(GameManager?.Replay?.GetAccuracy() ?? 0):N2}")%</p>
 		</div>
 		<div class="judgement" @ref="JudgementPanel"></div>
 		<div class="song-progress">

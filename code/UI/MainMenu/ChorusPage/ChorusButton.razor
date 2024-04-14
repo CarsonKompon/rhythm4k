@@ -1,0 +1,103 @@
+@using System;
+@using System.Collections.Generic;
+@using System.Linq;
+@using Sandbox;
+@using Sandbox.UI;
+@using Sandbox.UI.GameMenu;
+@inherits Panel
+@attribute [StyleSheet]
+
+@namespace Rhythm4K.Chorus
+
+<root onclick=@DownloadBeatmap class="@DownloadingClass()">
+    <div class="background" />
+    <span @ref="CoverImage" class="image">
+		@if (Downloaded)
+		{
+			<span class="overlay downloaded">Downloaded <i>file_download</i></span>
+		}
+		else if(Downloading)
+		{
+			<span class="overlay downloading">Downloading <i>cached</i></span>
+		}
+		<div class="instruments">
+			@if(true)
+			{
+				var instruments = new List<string>();
+				@foreach(var info in BeatmapSet.NotesData.NoteInformation)
+				{
+					if(instruments.Contains(info.Instrument)) continue;
+					instruments.Add(info.Instrument);
+					<img src=@($"https://enchor.us/assets/images/instruments/{info.Instrument}.png") class="instrument" />
+				}
+			}
+		</div>
+	</span>
+    <div class="info">
+        <span class="title">@BeatmapSet.Name</span>
+        <div class="sub">
+            <span class="artist">@BeatmapSet.Artist</span>
+            <span class="creator">@BeatmapSet.Charter</span>
+        </div>
+    </div>
+</root>
+
+@code
+{
+	public Panel CoverImage { get; set; }
+	public ChorusBeatmap BeatmapSet { get; set; }
+	public bool Downloading { get; set; } = false;
+	public bool Downloaded { get; set; } = false;
+	public string CoverUrl { get; set; } = "";
+
+	protected override void OnAfterTreeRender(bool firstTime)
+	{
+		base.OnAfterTreeRender(firstTime);
+
+		if (firstTime)
+		{
+			string coverArt = BeatmapSet?.AlbumArtMd5?.ToString() ?? "";
+			if(!string.IsNullOrEmpty(coverArt))
+			{
+				CoverImage.Style.SetBackgroundImage($"https://files.enchor.us/{coverArt}.jpg");
+			}
+			
+			Downloaded = BeatmapSet.IsDownloaded();
+		}
+	}
+
+    public override void Tick()
+    {
+        base.Tick();
+
+        if(Downloading && BeatmapSet.IsDownloaded())
+        {
+            Downloading = false;
+            Downloaded = true;
+        }
+    }
+
+	public void DownloadBeatmap()
+	{
+		if(BeatmapSet.IsDownloaded())
+		{
+			return;
+		}
+
+        Downloading = true;
+
+		SongDownloadPanel.Instance?.QueueChorusDownload(BeatmapSet);
+	}
+
+	public string DownloadingClass()
+	{
+		if (Downloading) return "no-hover";
+		else return "";
+	}
+
+	protected override int BuildHash()
+	{
+		return HashCode.Combine(Downloaded, Downloading);
+	}
+	
+}

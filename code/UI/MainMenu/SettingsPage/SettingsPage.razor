@@ -12,7 +12,7 @@
 
         <div class="options">
             <div class="background" />
-            <SettingsPanel />
+            <SettingsPanel @ref="SettingsPanel" />
         </div>
 
         <MainMenuButton Text="Back" class="back" onclick=@BackButton/>
@@ -21,9 +21,15 @@
 
 @code
 {
+    SettingsPanel SettingsPanel { get; set; }
 
     void BackButton()
     {
+        if(SettingsPanel.InKeybindsMenu)
+        {
+            SettingsPanel.InKeybindsMenu = false;
+            return;
+        }
         GamePreferences.SaveSettings();
         MainMenuScreen.Instance.Navigate("/");
     }

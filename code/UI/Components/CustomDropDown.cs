@@ -36,6 +36,8 @@ public class CustomDropDown : PopupButton
 	object _value;
 	int _valueHash;
 
+	TimeSince hiddenCheck = 0;
+
 	/// <summary>
 	/// The current string value. This is useful to have if Selected is null.
 	/// </summary>
@@ -101,6 +103,19 @@ public class CustomDropDown : PopupButton
 	public CustomDropDown( Panel parent ) : this()
 	{
 		Parent = parent;
+	}
+
+	public override void Tick()
+	{
+		base.Tick();
+		if ( hiddenCheck > 1f )
+		{
+			if ( HasClass( "hidden" ) )
+			{
+				Popup?.Delete();
+			}
+			hiddenCheck = 0;
+		}
 	}
 
 	public override void SetPropertyObject( string name, object value )
@@ -212,5 +227,11 @@ public class CustomDropDown : PopupButton
 				Options.Add( o );
 			}
 		}
+	}
+
+	public override void OnDeleted()
+	{
+		base.OnDeleted();
+		Popup?.Delete();
 	}
 }

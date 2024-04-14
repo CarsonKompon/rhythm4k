@@ -14,8 +14,8 @@ public sealed class GameManager : Component, IMusicPlayer
 	[Property] public GameObject ResultsScreen { get; set; }
 	[Property] public SceneFile MenuScene { get; set; }
 	[Property] public GameObject LanePrefab { get; set; }
-	[Property] public GameObject NotePrefab { get; set; }
 	[Property] float LaneSpacing { get; set; } = 64f;
+	[Property] bool ReverseLaneOrder { get; set; } = false;
 
 	[Property] public float PeakThreshold { get; set; } = 1.08f;
 	public float AdjustedPeakThreshold { get; private set; } = 0f;
@@ -59,9 +59,11 @@ public sealed class GameManager : Component, IMusicPlayer
 
 	List<Note> NotesToSpawn = new();
 	List<BpmChange> BpmChanges = new();
+	GameObject NotePrefab;
 
 	protected override void OnStart()
 	{
+		NotePrefab = SceneUtility.GetPrefabScene( GamePreferences.Settings.GetNoteTheme().NotePrefab );
 		Beatmap = Beatmap.Loaded;
 		BeatmapSet = Beatmap?.GetBeatmapSet();
 		if ( Beatmap is null )
@@ -82,7 +84,7 @@ public sealed class GameManager : Component, IMusicPlayer
 	{
 		if ( !IsPlaying ) return;
 
-		if ( !IsFinished && CurrentTime >= Beatmap.Length + 3f )
+		if ( !IsFinished && _currentTime >= Beatmap.Length + 3f )
 		{
 			ResultsScreen.Enabled = true;
 			IsFinished = true;
@@ -176,7 +178,7 @@ public sealed class GameManager : Component, IMusicPlayer
 		foreach ( NoteComponent note in Notes )
 		{
 			if ( !note.IsValid() ) continue;
-			note.Transform.Position = note.Lane.StartPosition.Transform.Position.LerpTo( note.Lane.EndPosition.Transform.Position, 1f - (note.Note.BakedTime - CurrentTime) / ScreenTime, false );
+			note.Transform.Position = note.Lane.StartPosition.Transform.Position.LerpTo( note.Lane.EndPosition.Transform.Position, 1f - (note.Note.BakedTime - note.CurrentTime) / ScreenTime, false );
 
 			float timing = 0.15f;
 			var noteTime = note.Note.BakedTime;
@@ -253,6 +255,7 @@ public sealed class GameManager : Component, IMusicPlayer
 
 		Music.Position = Scene.Camera.Transform.Position;
 		Music.Paused = IsPaused;
+		_currentTime = SongTime;
 
 		// if ( SongTime > 0 )
 		// {
@@ -409,6 +412,7 @@ public sealed class GameManager : Component, IMusicPlayer
 		var noteScript = noteObject.Components.Get<NoteComponent>();
 		noteScript.Note = note;
 		noteScript.Lane = Lanes[note.Lane];
+		noteScript.CurrentTime = SongTime - AudioLatency;
 		return noteScript;
 	}
 
@@ -419,9 +423,12 @@ public sealed class GameManager : Component, IMusicPlayer
 
 		for ( var i = 0; i < laneCount; i++ )
 		{
+			var index = i;
+			if ( ReverseLaneOrder ) index = laneCount - i - 1;
 			var lane = LanePrefab.Clone();
 			lane.SetParent( GameObject );
-			lane.Transform.LocalPosition = new Vector3( 0, laneOffset - i * LaneSpacing, 0 );
+			lane.Transform.LocalPosition = new Vector3( 0, laneOffset - index * LaneSpacing, 0 );
+			lane.Transform.Rotation = Transform.Rotation;
 			var laneScript = lane.Components.Get<Lane>();
 			laneScript.SetLane( i );
 			Lanes.Add( laneScript );

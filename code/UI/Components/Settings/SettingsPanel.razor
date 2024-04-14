@@ -7,6 +7,13 @@
 @namespace Rhythm4K
 
 <root>
+    
+    @if(InKeybindsMenu)
+    {
+        <KeybindPanel />
+        return;
+    }
+
     <h1>General</h1>
     <div class="option">
         <label>Master Volume</label>
@@ -31,7 +38,7 @@
     <h1>Input</h1>
     <div class="option">
         <label>Key Bindings</label>
-        <button>Configure</button>
+        <button onclick=@OpenKeybindMenu>Configure</button>
     </div>
     <div class="option">
         <label>Audio Offset</label>
@@ -57,8 +64,7 @@
     </div>
     <div class="option">
         <label>Note Shape</label>
-        <p>COMING SOON</p>
-        @* <CustomDropDown @ref="NoteStyleDropDown" onchange=@OnNoteStyleChanged /> *@
+        <CustomDropDown @ref="NoteStyleDropDown" onchange=@OnNoteStyleChanged />
     </div>
     <div class="option">
         <label>Background Effects</label>
@@ -95,6 +101,7 @@
 @code
 {
     public bool ShowSetupWizard { get; set; } = true;
+    public bool InKeybindsMenu { get; set; } = false;
 
     CustomDropDown ScrollDirectionDropDown = new();
     CustomDropDown GameplayStyleDropDown = new();
@@ -151,4 +158,12 @@
     {
         GamePreferences.Settings.NoteStyle = (NoteStyle)NoteStyleDropDown.Selected.Value;
     }
+
+    void OpenKeybindMenu()
+    {
+        Game.Overlay.ShowBinds();
+        @* InKeybindsMenu = true; *@
+    }
+
+    protected override int BuildHash() => System.HashCode.Combine(InKeybindsMenu);
 }

@@ -1,0 +1,30 @@
+{
+  "RootObject": {
+    "__guid": "a0473ae3-f737-44dc-95c6-f7312652a033",
+    "Name": "note_rectangle",
+    "Scale": "0.9323971,1.706604,0.4134464",
+    "Enabled": true,
+    "NetworkMode": 2,
+    "Components": [
+      {
+        "__type": "Sandbox.ModelRenderer",
+        "__guid": "d18e9c78-8b13-4feb-97e9-3e433ef67e6b",
+        "BodyGroups": 18446744073709551615,
+        "Model": "models/dev/box.vmdl",
+        "RenderType": "On",
+        "Tint": "1,1,1,1"
+      },
+      {
+        "__type": "Rhythm4K.NoteComponent",
+        "__guid": "a28b0227-f49b-4a2b-a007-5d60fddef522"
+      }
+    ],
+    "Children": []
+  },
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "ResourceVersion": 1,
+  "__version": 1,
+  "__references": []
+}

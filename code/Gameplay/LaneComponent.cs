@@ -8,16 +8,22 @@ public sealed class Lane : Component
 	[Property] public ModelRenderer LaneModel { get; set; }
 	[Property] public GameObject StartPosition { get; set; }
 	[Property] public GameObject EndPosition { get; set; }
-	[Property] public ModelRenderer LaneHitHighlight { get; set; }
 	[Property] public LaneKeyScreen LaneKeyScreen { get; set; }
-	[Property] GameObject BurstPrefab { get; set; }
+	[Property] public GameObject Receptor { get; set; }
 
 	public int LaneIndex { get; set; }
 	public string LaneKey = "";
 	Color StartingColor = Color.White;
+	GameObject BurstPrefab;
+	ModelRenderer LaneHitHighlight;
 
 	protected override void OnStart()
 	{
+		var theme = GamePreferences.Settings.GetNoteTheme();
+		var receptor = SceneUtility.GetPrefabScene( theme.ReceptorPrefab ).Clone( Receptor.Transform.World.Position );
+		BurstPrefab = SceneUtility.GetPrefabScene( theme.BurstPrefab );
+		LaneHitHighlight = receptor.Children.Where( x => x.Tags.Has( "highlight" ) ).FirstOrDefault()?.Components?.Get<ModelRenderer>();
+
 		StartingColor = LaneModel.Tint;
 	}
 

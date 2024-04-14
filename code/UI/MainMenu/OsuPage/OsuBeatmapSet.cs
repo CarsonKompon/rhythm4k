@@ -132,7 +132,7 @@ public class OsuBeatmapSet
 
     public bool IsDownloaded()
     {
-        return FileSystem.Data.DirectoryExists( $"beatmaps/{GetFullSongId()}" );
+        return FileSystem.Data.DirectoryExists( $"beatmaps/downloads-beatconnect/{GetFullSongId()}" );
     }
 
 }
