@@ -142,10 +142,10 @@ public sealed class GameManager : Component, IMusicPlayer
 		BaseScreenTime = 120f / CurrentBPM * scrollSpeed / 2f;
 		_currentTime = Beatmap.Offset - ScreenTime;
 
-		IsPlaying = true;
 		Score = 0;
 		Combo = 0;
 		Replay.Hits.Clear();
+		IsPlaying = true;
 
 		if ( CurrentTime < 0 )
 		{
@@ -264,8 +264,7 @@ public sealed class GameManager : Component, IMusicPlayer
 
 		Music.Position = Scene.Camera.Transform.Position;
 		Music.Paused = IsPaused;
-		Log.Info( Music.Duration );
-		if ( MathF.Abs( SongTime - Music.Duration ) <= 0.025f )
+		if ( MathF.Abs( SongTime - Music.Duration ) > 1f )
 		{
 			_currentTime = SongTime;
 		}
@@ -430,7 +429,10 @@ public sealed class GameManager : Component, IMusicPlayer
 		var noteScript = noteObject.Components.Get<NoteComponent>();
 		noteScript.Note = note;
 		noteScript.Lane = Lanes[note.Lane];
-		noteScript.CurrentTime = SongTime - AudioLatency;
+		if ( _currentTime < 0f )
+			noteScript.CurrentTime = CurrentTime;
+		else
+			noteScript.CurrentTime = SongTime - AudioLatency;
 		return noteScript;
 	}
 

@@ -1,12 +1,12 @@
 {
   "RootObject": {
-    "__guid": "07291f68-0507-4784-bb99-5b20fde6caa5",
+    "__guid": "fbb61de3-ce0f-46ab-8224-f164791a2250",
     "Name": "receptor_circle",
     "Enabled": true,
     "NetworkMode": 2,
     "Children": [
       {
-        "__guid": "ca9c6103-55b6-421e-9e16-9150c9b5d8eb",
+        "__guid": "0e38ac8e-9f4b-4ac8-bc43-e6bd73b603f4",
         "Name": "Highlight",
         "Position": "0,0,0.7932932",
         "Scale": "1.28091,1.28091,0.01",
@@ -16,7 +16,7 @@
         "Components": [
           {
             "__type": "Sandbox.ModelRenderer",
-            "__guid": "5cc2928f-3622-4d68-8893-dba7ec9df6ab",
+            "__guid": "442d2a79-94a6-46e1-ab1c-7fb924dbe630",
             "BodyGroups": 18446744073709551615,
             "MaterialOverride": "materials/3d_lane_additive.vmat",
             "Model": "models/note_circle.vmdl",
@@ -25,18 +25,18 @@
           },
           {
             "__type": "FixTransparency",
-            "__guid": "8ee6a01e-d4e6-4c70-9f37-800d28fc8355",
+            "__guid": "c668cfc4-f4a5-46aa-a69e-a0b90e2a4818",
             "modelRenderer": {
               "_type": "component",
-              "component_id": "5cc2928f-3622-4d68-8893-dba7ec9df6ab",
-              "go": "ca9c6103-55b6-421e-9e16-9150c9b5d8eb",
+              "component_id": "442d2a79-94a6-46e1-ab1c-7fb924dbe630",
+              "go": "0e38ac8e-9f4b-4ac8-bc43-e6bd73b603f4",
               "component_type": "ModelRenderer"
             }
           }
         ]
       },
       {
-        "__guid": "4328f2d2-5729-45b5-91e5-e10ad1fec1e0",
+        "__guid": "9d7d93e8-0796-479e-8645-c426db97e215",
         "Name": "Object",
         "Scale": "1.25,1.25,1.25",
         "Enabled": true,
@@ -44,9 +44,9 @@
         "Components": [
           {
             "__type": "Sandbox.ModelRenderer",
-            "__guid": "bb0acc48-6b66-4a5e-aa77-fb8eeccb3c17",
+            "__guid": "88a7cc4d-3c3a-45d9-a362-2d6a850627c1",
             "BodyGroups": 18446744073709551615,
-            "MaterialOverride": "materials/3d_lane_mat.vmat",
+            "MaterialOverride": "materials/3d_receptor_mat.vmat",
             "Model": "models/receptor_circle.vmdl",
             "RenderType": "On",
             "Tint": "1,1,1,1"

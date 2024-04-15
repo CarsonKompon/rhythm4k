@@ -232,11 +232,14 @@
 
         // Energy History Average
         EnergyHistoryAverage = 0f;
-        for ( int i = 0; i < EnergyHistory.Count; i++ )
-        {
-            EnergyHistoryAverage += EnergyHistory[i];
-        }
-        EnergyHistoryAverage /= (EnergyHistory?.Count ?? 1);
+		if((EnergyHistory?.Count ?? 0) > 0)
+		{
+			for ( int i = 0; i < EnergyHistory.Count; i++ )
+			{
+				EnergyHistoryAverage += EnergyHistory[i];
+			}
+			EnergyHistoryAverage /= (EnergyHistory?.Count ?? 1);
+		}
 
         // Beat Detection
         float energySum = 0f;

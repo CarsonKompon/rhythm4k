@@ -25,7 +25,6 @@ public sealed class Lane : Component
 		LaneHitHighlight = receptor.Children.Where( x => x.Tags.Has( "highlight" ) ).FirstOrDefault()?.Components?.Get<ModelRenderer>();
 
 		StartingColor = GamePreferences.Settings.GetLaneColor( Beatmap.Loaded.Lanes + "K" + (LaneIndex + 1) ).WithAlpha( 0.7f );
-		Log.Info( $"{LaneIndex} {StartingColor}" );
 	}
 
 	public void SetLane( int index )

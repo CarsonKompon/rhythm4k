@@ -17,7 +17,7 @@
             "__type": "Sandbox.ModelRenderer",
             "__guid": "65cba062-052b-4cd3-be6d-2018314e0322",
             "BodyGroups": 18446744073709551615,
-            "MaterialOverride": "materials/3d_lane_mat.vmat",
+            "MaterialOverride": "materials/3d_receptor_mat.vmat",
             "Model": "models/dev/plane.vmdl",
             "RenderType": "On",
             "Tint": "1,1,1,1"
@@ -36,7 +36,7 @@
             "__type": "Sandbox.ModelRenderer",
             "__guid": "03412822-9134-4b93-8b62-9e976c04e000",
             "BodyGroups": 18446744073709551615,
-            "MaterialOverride": "materials/3d_lane_mat.vmat",
+            "MaterialOverride": "materials/3d_receptor_mat.vmat",
             "Model": "models/dev/plane.vmdl",
             "RenderType": "On",
             "Tint": "1,1,1,1"
