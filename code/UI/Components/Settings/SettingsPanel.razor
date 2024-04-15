@@ -80,21 +80,32 @@
     </div>
     <h3>Lanes</h3>
     <div class="page-selector">
-        <MainMenuButton Text="1K" />
-        <MainMenuButton class="selected" Text="2K" />
-        <MainMenuButton Text="3K" />
-        <MainMenuButton Text="4K" />
-        <MainMenuButton Text="5K" />
-        <MainMenuButton Text="6K" />
-        <MainMenuButton Text="7K" />
-        <MainMenuButton Text="8K" />
-        <MainMenuButton Text="9K" />
-        <MainMenuButton Text="10K" />
+        <MainMenuButton class="@(PageSelected(0))" Text="1K" onclick=@(() => SelectPage(0))/>
+        <MainMenuButton class="@(PageSelected(1))" Text="2K" onclick=@(() => SelectPage(1))/>
+        <MainMenuButton class="@(PageSelected(2))" Text="3K" onclick=@(() => SelectPage(2))/>
+        <MainMenuButton class="@(PageSelected(3))" Text="4K" onclick=@(() => SelectPage(3))/>
+        <MainMenuButton class="@(PageSelected(4))" Text="5K" onclick=@(() => SelectPage(4))/>
+        <MainMenuButton class="@(PageSelected(5))" Text="6K" onclick=@(() => SelectPage(5))/>
+        <MainMenuButton class="@(PageSelected(6))" Text="7K" onclick=@(() => SelectPage(6))/>
+        <MainMenuButton class="@(PageSelected(7))" Text="8K" onclick=@(() => SelectPage(7))/>
+        <MainMenuButton class="@(PageSelected(8))" Text="9K" onclick=@(() => SelectPage(8))/>
+        <MainMenuButton class="@(PageSelected(9))" Text="10K" onclick=@(() => SelectPage(9))/>
     </div>
     <div class="page-contents lanes">
-        <div class="option">
-            <label>Lane Colour</label>
-        </div>
+        @for(int i=0; i<=LanePage; i++)
+        {
+            var lane = $"{LanePage + 1}K{i + 1}";
+            <div class="option colors">
+                <label>Lane @(i + 1) Colour</label>
+                <div class="color-sliders">
+                    <div class="color" style="background-color: @(GamePreferences.Settings.GetLaneColor(lane).Hex)" />
+                    <div class="column">
+                        <SliderControl Min=@(0) Max=@(360) Step=@(1f) Value:bind="@(GamePreferences.Settings.ColorHue[lane])" OnValueChanged=@((float val) => GamePreferences.Settings.SetLaneHue(lane, val)) class="hue" />
+                        <SliderControl Min=@(0) Max=@(1) Step=@(0.001f) Value:bind="@(GamePreferences.Settings.ColorValue[lane])" OnValueChanged=@((float val) => GamePreferences.Settings.SetLaneValue(lane, val)) class="sat" />
+                    </div>
+                </div>
+            </div>
+        }
     </div>
 </root>
 
@@ -106,6 +117,8 @@
     CustomDropDown ScrollDirectionDropDown = new();
     CustomDropDown GameplayStyleDropDown = new();
     CustomDropDown NoteStyleDropDown = new();
+
+    int LanePage = 3;
     protected override void OnAfterTreeRender(bool firstTime)
     {
         base.OnAfterTreeRender(firstTime);
@@ -165,5 +178,19 @@
         @* InKeybindsMenu = true; *@
     }
 
-    protected override int BuildHash() => System.HashCode.Combine(InKeybindsMenu);
+    string PageSelected(int i)
+    {
+        if(i == LanePage)
+        {
+            return "selected";
+        }
+        return "";
+    }
+
+    void SelectPage(int i)
+    {
+        LanePage = i;
+    }
+
+    protected override int BuildHash() => System.HashCode.Combine(InKeybindsMenu, LanePage);
 }

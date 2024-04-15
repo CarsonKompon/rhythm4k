@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Sandbox;
 
 namespace Rhythm4K;
@@ -45,6 +46,8 @@ public class RhythmSettings
     public bool HitEffects { get; set; } = true;
     public bool LightUpLanes { get; set; } = true;
 
+    public Dictionary<string, Color> LaneColors { get; set; } = new();
+
     public bool DoneFirstTimeSetup { get; set; } = false;
 
     int _noteStyle = -1;
@@ -56,4 +59,87 @@ public class RhythmSettings
         _noteTheme = NoteTheme.GetFromResourceName( NoteStyle.ToString().ToLower() );
         return _noteTheme;
     }
+
+    public Color GetLaneColor( string laneKey )
+    {
+        if ( LaneColors is null ) LaneColors = new();
+        if ( LaneColors.ContainsKey( laneKey ) )
+        {
+            return LaneColors[laneKey];
+        }
+        return Color.Black;
+    }
+
+    public void SetLaneColor( string laneKey, Color color )
+    {
+        LaneColors[laneKey] = color;
+    }
+
+    [JsonIgnore]
+    public Dictionary<string, float> ColorHue
+    {
+        get
+        {
+            var dict = new Dictionary<string, float>();
+            foreach ( var key in LaneColors.Keys )
+            {
+                var hsv = LaneColors[key].ToHsv();
+                dict[key] = hsv.Hue;
+            }
+            return dict;
+        }
+        set
+        {
+            foreach ( var key in value.Keys )
+            {
+                var color = GetLaneColor( key );
+                var hsv = color.ToHsv();
+                Log.Info( $"{key} {value[key]}" );
+                hsv.WithHue( value[key] / 255f );
+                SetLaneColor( key, hsv );
+            }
+        }
+    }
+
+    [JsonIgnore]
+    public Dictionary<string, float> ColorValue
+    {
+        get
+        {
+            var dict = new Dictionary<string, float>();
+            foreach ( var key in LaneColors.Keys )
+            {
+                var hsv = LaneColors[key].ToHsv();
+                dict[key] = hsv.Value;
+            }
+            return dict;
+        }
+        set
+        {
+            foreach ( var key in value.Keys )
+            {
+                var color = GetLaneColor( key );
+                var hsv = color.ToHsv();
+                hsv.WithValue( value[key] );
+                SetLaneColor( key, hsv );
+            }
+        }
+    }
+
+    public void SetLaneHue( string laneKey, float hue )
+    {
+        var color = GetLaneColor( laneKey );
+        var hsv = color.ToHsv();
+        hsv = hsv.WithHue( hue );
+        SetLaneColor( laneKey, hsv );
+    }
+
+    public void SetLaneValue( string laneKey, float value )
+    {
+        var color = GetLaneColor( laneKey );
+        var hsv = color.ToHsv();
+        hsv = hsv.WithValue( value ).WithSaturation( 1f );
+        SetLaneColor( laneKey, hsv );
+    }
+
 }

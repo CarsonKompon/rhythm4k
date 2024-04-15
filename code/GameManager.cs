@@ -20,10 +20,13 @@ public sealed class GameManager : Component, IMusicPlayer
 	[Property] public float PeakThreshold { get; set; } = 1.08f;
 	public float AdjustedPeakThreshold { get; private set; } = 0f;
 
+	[Property] List<GameObject> BackgroundFX { get; set; }
+
 	public Beatmap Beatmap { get; set; }
 	public BeatmapSet BeatmapSet { get; set; }
 	public List<Lane> Lanes { get; set; } = new();
 	public List<NoteComponent> Notes { get; set; } = new();
+	public int LaneCount = 4;
 
 	public bool IsPlaying { get; private set; } = false;
 	public bool IsPaused { get; private set; } = false;
@@ -71,6 +74,7 @@ public sealed class GameManager : Component, IMusicPlayer
 			Scene.Load( MenuScene );
 			return;
 		}
+		LaneCount = Beatmap.Lanes;
 		Replay = new Replay( Beatmap );
 		AudioLatency = GamePreferences.Settings.AudioLatency / 1000f;
 
@@ -78,6 +82,11 @@ public sealed class GameManager : Component, IMusicPlayer
 		StartSong();
 
 		Instance = this;
+
+		foreach ( var thing in BackgroundFX )
+		{
+			thing.Enabled = GamePreferences.Settings.BackgroundEffects;
+		}
 	}
 
 	protected override void OnUpdate()
@@ -409,6 +418,11 @@ public sealed class GameManager : Component, IMusicPlayer
 	{
 		var noteObject = NotePrefab.Clone( Lanes[note.Lane].StartPosition.Transform.Position );
 		noteObject.SetParent( GameObject );
+		var modelRenderer = noteObject.Components.GetInChildrenOrSelf<ModelRenderer>();
+		var color = GamePreferences.Settings.GetLaneColor( Beatmap.Lanes + "K" + (note.Lane + 1) );
+		if ( color.ToHsv().Value <= 0 ) modelRenderer.Tint = Color.White;
+		else modelRenderer.Tint = color.ToHsv().WithSaturation( 0.9f );
+		Log.Info( modelRenderer.Tint );
 		var noteScript = noteObject.Components.Get<NoteComponent>();
 		noteScript.Note = note;
 		noteScript.Lane = Lanes[note.Lane];

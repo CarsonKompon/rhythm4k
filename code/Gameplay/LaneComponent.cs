@@ -24,7 +24,8 @@ public sealed class Lane : Component
 		BurstPrefab = SceneUtility.GetPrefabScene( theme.BurstPrefab );
 		LaneHitHighlight = receptor.Children.Where( x => x.Tags.Has( "highlight" ) ).FirstOrDefault()?.Components?.Get<ModelRenderer>();
 
-		StartingColor = LaneModel.Tint;
+		StartingColor = GamePreferences.Settings.GetLaneColor( Beatmap.Loaded.Lanes + "K" + (LaneIndex + 1) ).WithAlpha( 0.7f );
+		Log.Info( $"{LaneIndex} {StartingColor}" );
 	}
 
 	public void SetLane( int index )
@@ -40,7 +41,7 @@ public sealed class Lane : Component
 		if ( GameManager.Instance.IsPaused ) return;
 		if ( Input.Down( LaneKey ) && GamePreferences.Settings.LightUpLanes )
 		{
-			LaneModel.Tint = new Color( 0xFF333333 ).WithAlpha( StartingColor.a + MathF.Sin( Time.Now * 20f ) / 50f );
+			LaneModel.Tint = Color.Lerp( StartingColor, Color.White, 0.4f ).WithAlpha( StartingColor.a + MathF.Sin( Time.Now * 20f ) / 50f );
 		}
 
 		LaneModel.Tint = Color.Lerp( LaneModel.Tint, StartingColor, Time.Delta * 20f );
@@ -52,6 +53,11 @@ public sealed class Lane : Component
 	{
 		if ( !GamePreferences.Settings.HitEffects ) return;
 		LaneHitHighlight.Tint = Color.White;
-		BurstPrefab.Clone( EndPosition.Transform.World.Position );
+		var pos = EndPosition.Transform.World.Position;
+		if ( GamePreferences.Settings.GameStyle == 1 )
+		{
+			pos += Vector3.Up * 20f + Vector3.Backward * 20f;
+		}
+		BurstPrefab.Clone( pos );
 	}
 }

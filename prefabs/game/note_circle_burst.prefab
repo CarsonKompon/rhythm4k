@@ -1,0 +1,179 @@
+{
+  "RootObject": {
+    "__guid": "2ca7cbbb-f137-4942-b6d6-d88aaa38bb54",
+    "Name": "note_circle_burst",
+    "Tags": "particles",
+    "Enabled": true,
+    "NetworkMode": 2,
+    "Components": [
+      {
+        "__type": "Sandbox.ParticleEffect",
+        "__guid": "d84a9fbf-9688-4445-a257-280d1d5b4fb5",
+        "Alpha": {
+          "Type": "Curve",
+          "CurveA": [
+            {
+              "y": 1,
+              "in": 3.4210525,
+              "out": -3.4210525
+            },
+            {
+              "x": 1,
+              "in": 0.11290337,
+              "out": -0.11290337
+            }
+          ],
+          "Constants": "1,0,0,0"
+        },
+        "ApplyColor": true,
+        "ApplyRotation": false,
+        "ApplyShape": true,
+        "Bounce": {
+          "Constants": "1,0,0,0"
+        },
+        "Brightness": {
+          "Constants": "3.3,0,0,0"
+        },
+        "Bumpiness": {},
+        "Collision": false,
+        "CollisionRadius": 1,
+        "Damping": {
+          "Type": "Range",
+          "Evaluation": "Particle",
+          "Constants": "0.5,2,0,0"
+        },
+        "DieOnCollisionChance": {},
+        "Force": true,
+        "ForceDirection": "0,0,1600",
+        "ForceScale": {
+          "Type": "Range",
+          "Evaluation": "Particle",
+          "Constants": "0.5,1,0,0"
+        },
+        "Friction": {
+          "Constants": "1,0,0,0"
+        },
+        "Gradient": {
+          "Evaluation": "Particle",
+          "GradientA": {
+            "color": [
+              {
+                "t": 0.5,
+                "c": "1,1,1,1"
+              }
+            ],
+            "alpha": []
+          },
+          "GradientB": {
+            "color": [
+              {
+                "t": 0.5,
+                "c": "1,1,1,1"
+              }
+            ],
+            "alpha": []
+          },
+          "ConstantA": "1,1,1,1",
+          "ConstantB": "1,1,1,1"
+        },
+        "Lifetime": {
+          "Type": "Range",
+          "Evaluation": "Particle",
+          "Constants": "0.05,0.1,0,0"
+        },
+        "MaxParticles": 20,
+        "PerParticleTimeScale": {
+          "Constants": "1,0.4,0,0"
+        },
+        "PreWarm": 0,
+        "PushStrength": {},
+        "Roll": {
+          "Type": "Range",
+          "Evaluation": "Particle",
+          "Constants": "0,360,0,0"
+        },
+        "Scale": {
+          "Type": "Curve",
+          "CurveA": {
+            "rangey": "0,40",
+            "frames": [
+              {
+                "y": 1,
+                "in": -2.6315794,
+                "out": 2.6315794
+              },
+              {
+                "x": 1,
+                "y": 1,
+                "in": -0.056075174,
+                "out": 0.056075174
+              }
+            ]
+          },
+          "Constants": "1,0,0,0"
+        },
+        "SequenceId": {},
+        "SequenceSpeed": {
+          "Constants": "1,0,0,0"
+        },
+        "SequenceTime": {
+          "Constants": "1,0,0,0"
+        },
+        "SheetSequence": false,
+        "Space": "World",
+        "StartVelocity": {
+          "Type": "Range",
+          "Evaluation": "Particle"
+        },
+        "Stretch": {
+          "Constants": "-0.5,0.3,0,0"
+        },
+        "TimeScale": 1,
+        "Tint": "1,1,1,1"
+      },
+      {
+        "__type": "Sandbox.ParticleSpriteRenderer",
+        "__guid": "8051146d-00ef-4a87-b534-6f1073e3447c",
+        "Additive": true,
+        "BlurAmount": 0.64,
+        "BlurOpacity": 0.18,
+        "BlurSpacing": 0.11,
+        "DepthFeather": 0,
+        "FaceVelocity": false,
+        "FogStrength": 1,
+        "LeadingTrail": true,
+        "MotionBlur": true,
+        "Opaque": false,
+        "RotationOffset": 90,
+        "Scale": 1,
+        "Shadows": false,
+        "SortMode": "Unsorted",
+        "Texture": "materials/particles/shapes/circle1.vtex"
+      },
+      {
+        "__type": "Sandbox.ParticleBoxEmitter",
+        "__guid": "e8f7e020-653d-42b0-bdad-4cb973d9d889",
+        "Burst": 100,
+        "Delay": 0,
+        "DestroyOnEnd": false,
+        "Duration": 1,
+        "Loop": true,
+        "OnEdge": false,
+        "Rate": 0,
+        "Size": "0,0,11.4003"
+      },
+      {
+        "__type": "DestroyAfter",
+        "__guid": "382e04b3-ad4d-42ee-b4a7-34bf4f7e9e70",
+        "Time": 1
+      }
+    ],
+    "Children": []
+  },
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "ResourceVersion": 1,
+  "__version": 1,
+  "__references": []
+}

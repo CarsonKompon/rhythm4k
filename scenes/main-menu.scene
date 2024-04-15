@@ -8,7 +8,7 @@
       "NetworkMode": 2,
       "Components": [
         {
-          "__type": "CameraComponent",
+          "__type": "Sandbox.CameraComponent",
           "__guid": "a5f9521c-435e-4477-829c-63e1d9d7adc3",
           "BackgroundColor": "1,1,1,1",
           "ClearFlags": "All",
@@ -25,7 +25,7 @@
           "ZNear": 10
         },
         {
-          "__type": "Bloom",
+          "__type": "Sandbox.Bloom",
           "__guid": "b69c5c14-c21e-465c-935a-c656267f6351",
           "BloomColor": {
             "color": [
@@ -54,7 +54,7 @@
           "ThresholdWidth": 0.5
         },
         {
-          "__type": "Tonemapping",
+          "__type": "Sandbox.Tonemapping",
           "__guid": "e4821adb-6421-4c6d-be34-78555f1bbf72",
           "ExposureCompensation": 0,
           "MaximumExposure": 2,
@@ -62,12 +62,12 @@
           "Rate": 1
         },
         {
-          "__type": "Sharpen",
+          "__type": "Sandbox.Sharpen",
           "__guid": "9bb512c4-fcb9-4930-ae18-228a3ca005d9",
           "Scale": 0.2
         },
         {
-          "__type": "MainMenuCameraManager",
+          "__type": "Rhythm4K.MainMenuCameraManager",
           "__guid": "3865c893-fd56-461b-89fb-ecc683b7eeeb",
           "FrontPageCamera": {
             "_type": "gameobject",
@@ -100,7 +100,7 @@
       "NetworkMode": 2,
       "Components": [
         {
-          "__type": "ScreenPanel",
+          "__type": "Sandbox.ScreenPanel",
           "__guid": "0e5d0624-b00a-4d84-8fe4-f0edf1b1bb8d",
           "AutoScreenScale": true,
           "Opacity": 1,
@@ -121,7 +121,7 @@
       "NetworkMode": 2,
       "Components": [
         {
-          "__type": "ScreenPanel",
+          "__type": "Sandbox.ScreenPanel",
           "__guid": "dfedd2bf-dc6e-4c06-8681-f31306071308",
           "AutoScreenScale": true,
           "Opacity": 1,
@@ -129,8 +129,18 @@
           "ZIndex": 100
         },
         {
-          "__type": "MainMenuScreen",
+          "__type": "Rhythm4K.MainMenuScreen",
           "__guid": "f14cb509-9fcf-4389-9a00-7809a1c9e799",
+          "BackgroundFX": [
+            {
+              "_type": "gameobject",
+              "go": "5dc15d53-dd0d-41d2-ac58-fd2793c3778b"
+            },
+            {
+              "_type": "gameobject",
+              "go": "035a67d6-8d91-40fd-aeff-e806d56dc435"
+            }
+          ],
           "GameScene2D": "scenes/game-2d.scene",
           "GameScene2DUpscroll": "scenes/game-2d-upscroll.scene",
           "GameScene3D": "scenes/game-3d.scene",
@@ -148,7 +158,7 @@
       "NetworkMode": 2,
       "Components": [
         {
-          "__type": "DirectionalLight",
+          "__type": "Sandbox.DirectionalLight",
           "__guid": "8ac45885-5e50-44e1-b5c7-9afbf65bbc26",
           "FogMode": "Enabled",
           "FogStrength": 1,
@@ -219,7 +229,7 @@
               "NetworkMode": 2,
               "Components": [
                 {
-                  "__type": "ModelRenderer",
+                  "__type": "Sandbox.ModelRenderer",
                   "__guid": "60e65cde-278e-4cb5-b6a6-93efd7e31a72",
                   "BodyGroups": 18446744073709551615,
                   "Model": "models/globe_banner.vmdl",
@@ -232,7 +242,7 @@
                   "RotationSpeed": "0,-15,0"
                 },
                 {
-                  "__type": "MonitorComponent",
+                  "__type": "Sandbox.MonitorComponent",
                   "__guid": "2c138bda-7bb7-43f9-a856-524542647714",
                   "AttributeName": "",
                   "DebugDraw": false,
@@ -252,7 +262,7 @@
                   "CurrentPanelScale": 0,
                   "CurrentPanelScaleFromScreen": 0,
                   "CurrentPanelScaleToScreen": 0,
-                  "CurrentScreenSize": "1658,933",
+                  "CurrentScreenSize": "878,494",
                   "CustomPanelBounds": {
                     "Size": "1024,256"
                   },
@@ -300,7 +310,7 @@
               "NetworkMode": 2,
               "Components": [
                 {
-                  "__type": "ModelRenderer",
+                  "__type": "Sandbox.ModelRenderer",
                   "__guid": "e5d648cc-ca4e-447f-b5c5-0058f54bb3dd",
                   "BodyGroups": 18446744073709551615,
                   "MaterialOverride": "materials/dark/dev_grid_dark.vmat",
@@ -309,7 +319,7 @@
                   "Tint": "1,1,1,1"
                 },
                 {
-                  "__type": "MusicReactive",
+                  "__type": "Rhythm4K.MusicReactive",
                   "__guid": "8dc62fd8-e489-410a-94dd-84cab55e0c04",
                   "PlayerObject": {
                     "_type": "gameobject",
@@ -331,7 +341,7 @@
       "NetworkMode": 2,
       "Components": [
         {
-          "__type": "MusicReactiveParticle",
+          "__type": "Rhythm4K.MusicReactiveParticle",
           "__guid": "9b857d12-63ec-4c2b-b436-d38d7bca932b",
           "Particles": [
             {
@@ -363,7 +373,7 @@
           "NetworkMode": 2,
           "Components": [
             {
-              "__type": "ParticleEffect",
+              "__type": "Sandbox.ParticleEffect",
               "__guid": "403a4b20-ff7b-430e-85dd-d659583487f5",
               "Alpha": {
                 "Type": "Curve",
@@ -472,7 +482,7 @@
               "Tint": "1,1,1,1"
             },
             {
-              "__type": "ParticleSpriteRenderer",
+              "__type": "Sandbox.ParticleSpriteRenderer",
               "__guid": "2797c923-6f40-441f-81ef-e1c13664f784",
               "Additive": false,
               "BlurAmount": 0.5,
@@ -491,7 +501,7 @@
               "Texture": "materials/particles/shapes/circle1.vtex"
             },
             {
-              "__type": "ParticleBoxEmitter",
+              "__type": "Sandbox.ParticleBoxEmitter",
               "__guid": "2ac75256-7580-4783-8ad3-7b8caa31556b",
               "Burst": 0,
               "Delay": 0,
@@ -513,7 +523,7 @@
           "NetworkMode": 2,
           "Components": [
             {
-              "__type": "ParticleEffect",
+              "__type": "Sandbox.ParticleEffect",
               "__guid": "9507533f-803e-477d-bf13-4428fecaf9f4",
               "Alpha": {
                 "Type": "Curve",
@@ -622,7 +632,7 @@
               "Tint": "1,1,1,1"
             },
             {
-              "__type": "ParticleSpriteRenderer",
+              "__type": "Sandbox.ParticleSpriteRenderer",
               "__guid": "93651552-a78b-454f-9a3a-c1c5023f8eb7",
               "Additive": false,
               "BlurAmount": 0.5,
@@ -641,7 +651,7 @@
               "Texture": "materials/particles/shapes/circle1.vtex"
             },
             {
-              "__type": "ParticleBoxEmitter",
+              "__type": "Sandbox.ParticleBoxEmitter",
               "__guid": "337536fb-cac7-424f-9ed0-da598c1911cf",
               "Burst": 0,
               "Delay": 0,
@@ -701,7 +711,7 @@
       "NetworkMode": 2,
       "Components": [
         {
-          "__type": "SongListCarousel",
+          "__type": "Rhythm4K.SongListCarousel",
           "__guid": "4d34be53-c2d7-4830-92ae-406a3a3fd5b9",
           "SongPanelCount": 24,
           "SongPanelPrefab": {
@@ -722,7 +732,7 @@
           "NetworkMode": 2,
           "Components": [
             {
-              "__type": "WorldPanel",
+              "__type": "Sandbox.WorldPanel",
               "__guid": "35cf5b3f-9ec1-4307-969b-d55d93d3d274",
               "HorizontalAlign": "Center",
               "LookAtCamera": false,
@@ -731,7 +741,7 @@
               "VerticalAlign": "Center"
             },
             {
-              "__type": "SongListInfoPanel",
+              "__type": "Rhythm4K.SongListInfoPanel",
               "__guid": "a1f5c81d-0c00-4073-9855-53f2bf919bec"
             }
           ]
@@ -762,7 +772,7 @@
   },
   "Title": "minimal",
   "Description": "",
-  "LastSaved": "2024-04-08T19:15:12.6241082-04:00",
+  "LastSaved": "2024-04-14T20:07:54.4477343-04:00",
   "ResourceVersion": 1,
   "__version": 1,
   "__references": [
