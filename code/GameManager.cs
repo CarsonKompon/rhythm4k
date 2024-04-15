@@ -264,7 +264,11 @@ public sealed class GameManager : Component, IMusicPlayer
 
 		Music.Position = Scene.Camera.Transform.Position;
 		Music.Paused = IsPaused;
-		_currentTime = SongTime;
+		Log.Info( Music.Duration );
+		if ( MathF.Abs( SongTime - Music.Duration ) <= 0.025f )
+		{
+			_currentTime = SongTime;
+		}
 
 		// if ( SongTime > 0 )
 		// {
