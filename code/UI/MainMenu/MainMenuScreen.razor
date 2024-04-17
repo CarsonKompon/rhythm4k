@@ -230,47 +230,54 @@
         EnergyHistory.Add( energy );
         if ( EnergyHistory.Count > 64 ) EnergyHistory.RemoveAt( 0 );
 
-        // Energy History Average
-        EnergyHistoryAverage = 0f;
-		if((EnergyHistory?.Count ?? 0) > 0)
+		try
 		{
-			for ( int i = 0; i < EnergyHistory.Count; i++ )
+			// Energy History Average
+			EnergyHistoryAverage = 0f;
+			if((EnergyHistory?.Count ?? 0) > 0)
 			{
-				EnergyHistoryAverage += EnergyHistory[i];
+				for ( int i = 0; i < EnergyHistory.Count; i++ )
+				{
+					EnergyHistoryAverage += EnergyHistory[i];
+				}
+				EnergyHistoryAverage /= (EnergyHistory?.Count ?? 1);
 			}
-			EnergyHistoryAverage /= (EnergyHistory?.Count ?? 1);
+
+			// Beat Detection
+			float energySum = 0f;
+			foreach ( var energyValue in EnergyHistory )
+			{
+				energySum += energyValue;
+			}
+			float energyMean = energySum / EnergyHistory.Count;
+
+			float variance = 0f;
+			foreach ( var energyValue in EnergyHistory )
+			{
+				variance += (energyValue - energyMean) * (energyValue - energyMean);
+			}
+			float energyStdDev = (float)Math.Sqrt( variance / EnergyHistory.Count );
+
+			// Adjusted Peak Threshold Calculation
+			AdjustedPeakThreshold = PeakThreshold * energyStdDev;
+
+			if ( EnergyHistoryAverage > 0.05f && Energy > EnergyHistoryAverage + AdjustedPeakThreshold )
+			{
+				if ( !IsPeaking )
+				{
+					OnBeat?.Invoke();
+				}
+				IsPeaking = true;
+			}
+			else
+			{
+				IsPeaking = false;
+			}
 		}
-
-        // Beat Detection
-        float energySum = 0f;
-        foreach ( var energyValue in EnergyHistory )
-        {
-            energySum += energyValue;
-        }
-        float energyMean = energySum / EnergyHistory.Count;
-
-        float variance = 0f;
-        foreach ( var energyValue in EnergyHistory )
-        {
-            variance += (energyValue - energyMean) * (energyValue - energyMean);
-        }
-        float energyStdDev = (float)Math.Sqrt( variance / EnergyHistory.Count );
-
-        // Adjusted Peak Threshold Calculation
-        AdjustedPeakThreshold = PeakThreshold * energyStdDev;
-
-        if ( EnergyHistoryAverage > 0.05f && Energy > EnergyHistoryAverage + AdjustedPeakThreshold )
-        {
-            if ( !IsPeaking )
-            {
-                OnBeat?.Invoke();
-            }
-            IsPeaking = true;
-        }
-        else
-        {
-            IsPeaking = false;
-        }
+		catch(Exception e)
+		{
+			Log.Info("ignore this :3");
+		}
 	}
 
 	void PlayRandomSong()

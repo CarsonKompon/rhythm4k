@@ -5,11 +5,7 @@
   "Ident": "rhythm4k",
   "Tags": null,
   "Schema": 1,
-  "HasAssets": true,
-  "AssetsPath": "",
   "Resources": "/beatmaps/*\n/fonts/*\n/sprites/*",
-  "HasCode": true,
-  "CodePath": "/code/",
   "PackageReferences": [],
   "EditorReferences": null,
   "Metadata": {
