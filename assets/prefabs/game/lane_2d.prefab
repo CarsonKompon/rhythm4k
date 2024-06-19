@@ -1,9 +1,11 @@
 {
   "RootObject": {
     "__guid": "a3e2d29c-584f-4b44-91bf-9063b7f84289",
+    "Flags": 0,
     "Name": "lane_2d",
     "Enabled": true,
     "NetworkMode": 2,
+    "NetworkInterpolation": true,
     "Components": [
       {
         "__type": "Rhythm4K.Lane",
@@ -11,12 +13,6 @@
         "EndPosition": {
           "_type": "gameobject",
           "go": "07ecc7aa-63d6-4fbf-8aca-3be602977c2d"
-        },
-        "LaneHitHighlight": {
-          "_type": "component",
-          "component_id": "70e24571-f5c7-4d5d-b682-8c40fe94a5f6",
-          "go": "ae30303b-6f8e-4ce8-beb8-64d18ea1c378",
-          "component_type": "ModelRenderer"
         },
         "LaneKeyScreen": {
           "_type": "component",
@@ -43,10 +39,12 @@
     "Children": [
       {
         "__guid": "e6f4a96c-e327-4665-b452-38ac79a01181",
+        "Flags": 0,
         "Name": "Plane",
         "Scale": "15,1,1",
         "Enabled": true,
         "NetworkMode": 2,
+        "NetworkInterpolation": true,
         "Components": [
           {
             "__type": "Sandbox.ModelRenderer",
@@ -71,38 +69,47 @@
       },
       {
         "__guid": "0d94cba6-eaef-45e0-b45f-648a6a36c750",
+        "Flags": 0,
         "Name": "Receptor",
         "Position": "-416,0,0",
         "Enabled": true,
-        "NetworkMode": 2
+        "NetworkMode": 2,
+        "NetworkInterpolation": true
       },
       {
         "__guid": "1667379d-9249-4749-b763-fe8c90abe83b",
+        "Flags": 0,
         "Name": "StartPosition",
         "Position": "736,0,0",
         "Enabled": true,
-        "NetworkMode": 2
+        "NetworkMode": 2,
+        "NetworkInterpolation": true
       },
       {
         "__guid": "07ecc7aa-63d6-4fbf-8aca-3be602977c2d",
+        "Flags": 0,
         "Name": "EndPosition",
         "Position": "-416,0,0",
         "Enabled": true,
-        "NetworkMode": 2
+        "NetworkMode": 2,
+        "NetworkInterpolation": true
       },
       {
         "__guid": "7ae2d61e-8784-4728-ae68-8150bf1c5d84",
+        "Flags": 0,
         "Name": "KeyPrompt",
         "Position": "-512,0,32",
         "Rotation": "0.7071066,0.00000005039391,0.7071067,0.0000001880727",
         "Scale": "1.33,1.33,1.33",
         "Enabled": true,
         "NetworkMode": 2,
+        "NetworkInterpolation": true,
         "Components": [
           {
             "__type": "Sandbox.WorldPanel",
             "__guid": "47a37006-1ef1-4110-a997-a954e7face1a",
             "HorizontalAlign": "Center",
+            "InteractionRange": 1000,
             "LookAtCamera": false,
             "PanelSize": "512,512",
             "RenderScale": 1,
@@ -114,12 +121,13 @@
           }
         ]
       }
-    ]
+    ],
+    "__variables": []
   },
   "ShowInMenu": false,
   "MenuPath": null,
   "MenuIcon": null,
   "ResourceVersion": 1,
-  "__version": 1,
-  "__references": []
+  "__references": [],
+  "__version": 1
 }

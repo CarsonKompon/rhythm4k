@@ -3,9 +3,11 @@
   "GameObjects": [
     {
       "__guid": "3ee1c9f4-07be-4e0b-8b23-67bee2d8ec8a",
+      "Flags": 0,
       "Name": "Camera",
       "Enabled": true,
       "NetworkMode": 2,
+      "NetworkInterpolation": true,
       "Components": [
         {
           "__type": "Sandbox.CameraComponent",
@@ -56,9 +58,13 @@
         {
           "__type": "Sandbox.Tonemapping",
           "__guid": "e4821adb-6421-4c6d-be34-78555f1bbf72",
+          "__version": 1,
+          "ExposureBias": 2,
           "ExposureCompensation": 0,
+          "ExposureMethod": "RGB",
           "MaximumExposure": 2,
           "MinimumExposure": 1,
+          "Mode": "Legacy",
           "Rate": 1
         },
         {
@@ -94,10 +100,12 @@
     },
     {
       "__guid": "c114ae8e-84fb-4182-abe3-f1941120215a",
+      "Flags": 0,
       "Name": "Carson Intro",
       "Position": "-126.4292,-187.5311,115.5769",
       "Enabled": true,
       "NetworkMode": 2,
+      "NetworkInterpolation": true,
       "Components": [
         {
           "__type": "Sandbox.ScreenPanel",
@@ -115,10 +123,12 @@
     },
     {
       "__guid": "4d95cd53-bf92-4e77-816b-ac40b5edb5ee",
+      "Flags": 0,
       "Name": "Main Menu",
       "Position": "-126.4292,-187.5311,115.5769",
       "Enabled": true,
       "NetworkMode": 2,
+      "NetworkInterpolation": true,
       "Components": [
         {
           "__type": "Sandbox.ScreenPanel",
@@ -151,11 +161,13 @@
     },
     {
       "__guid": "e3d0ee96-22dd-4bc9-a586-7a1d4cef42be",
+      "Flags": 0,
       "Name": "Sun",
       "Position": "-126.4292,-187.5311,115.5769",
       "Tags": "light_directional,light",
       "Enabled": true,
       "NetworkMode": 2,
+      "NetworkInterpolation": true,
       "Components": [
         {
           "__type": "Sandbox.DirectionalLight",
@@ -170,19 +182,23 @@
     },
     {
       "__guid": "971a284c-dbe5-46d4-a257-3eb9e16d6c2c",
+      "Flags": 0,
       "Name": "Globe",
       "Position": "129.0822,-45.99046,-17.09949",
       "Rotation": "0.047414,0,0,0.9988753",
       "Enabled": true,
       "NetworkMode": 2,
+      "NetworkInterpolation": true,
       "Children": [
         {
           "__guid": "5dc15d53-dd0d-41d2-ac58-fd2793c3778b",
+          "Flags": 0,
           "Name": "Visualizer Bars",
           "Position": "0,0,0",
           "Rotation": "0,-0,-0.8660254,0.5",
           "Enabled": true,
           "NetworkMode": 2,
+          "NetworkInterpolation": true,
           "Components": [
             {
               "__type": "VisualizerBarManager",
@@ -208,10 +224,12 @@
         },
         {
           "__guid": "2188e77c-72ce-4fc5-8d37-1f7a91a01b6f",
+          "Flags": 0,
           "Name": "Ball",
           "Position": "0,0,0",
           "Enabled": true,
           "NetworkMode": 2,
+          "NetworkInterpolation": true,
           "Components": [
             {
               "__type": "RotateConstantly",
@@ -222,11 +240,13 @@
           "Children": [
             {
               "__guid": "51cbbdb4-0a33-4e47-acc3-d93334f94f95",
+              "Flags": 0,
               "Name": "Banner",
               "Position": "0,0,0",
               "Scale": "0.2719812,0.2719812,0.2719812",
               "Enabled": true,
               "NetworkMode": 2,
+              "NetworkInterpolation": true,
               "Components": [
                 {
                   "__type": "Sandbox.ModelRenderer",
@@ -262,7 +282,7 @@
                   "CurrentPanelScale": 0,
                   "CurrentPanelScaleFromScreen": 0,
                   "CurrentPanelScaleToScreen": 0,
-                  "CurrentScreenSize": "878,494",
+                  "CurrentScreenSize": "1250,565",
                   "CustomPanelBounds": {
                     "Size": "1024,256"
                   },
@@ -289,10 +309,12 @@
               "Children": [
                 {
                   "__guid": "b782fdfe-256b-4b90-8ffc-aa609f5450cf",
+                  "Flags": 0,
                   "Name": "Panels",
                   "Position": "0,0,0",
                   "Enabled": true,
                   "NetworkMode": 2,
+                  "NetworkInterpolation": true,
                   "Components": [
                     {
                       "__type": "GlobeBanner",
@@ -304,10 +326,12 @@
             },
             {
               "__guid": "2938742b-92df-4842-af6f-25a2cb5e8acf",
+              "Flags": 0,
               "Name": "Ball Model",
               "Position": "0,0,0",
               "Enabled": true,
               "NetworkMode": 2,
+              "NetworkInterpolation": true,
               "Components": [
                 {
                   "__type": "Sandbox.ModelRenderer",
@@ -335,10 +359,12 @@
     },
     {
       "__guid": "035a67d6-8d91-40fd-aeff-e806d56dc435",
+      "Flags": 0,
       "Name": "Particles",
       "Position": "72.67223,-33.38036,-39.26431",
       "Enabled": true,
       "NetworkMode": 2,
+      "NetworkInterpolation": true,
       "Components": [
         {
           "__type": "Rhythm4K.MusicReactiveParticle",
@@ -366,11 +392,13 @@
       "Children": [
         {
           "__guid": "c379e973-3ac4-41d8-a4b0-675e056d1723",
+          "Flags": 0,
           "Name": "Smoke",
           "Position": "169.0495,29.73524,-36.9696",
           "Tags": "particles",
           "Enabled": true,
           "NetworkMode": 2,
+          "NetworkInterpolation": true,
           "Components": [
             {
               "__type": "Sandbox.ParticleEffect",
@@ -516,11 +544,13 @@
         },
         {
           "__guid": "cc2617a1-3ea3-4576-af47-ad4faacdaa4b",
+          "Flags": 0,
           "Name": "Smoke (1)",
           "Position": "-111.0149,-215.8893,-61.19439",
           "Tags": "particles",
           "Enabled": true,
           "NetworkMode": 2,
+          "NetworkInterpolation": true,
           "Components": [
             {
               "__type": "Sandbox.ParticleEffect",
@@ -668,47 +698,59 @@
     },
     {
       "__guid": "94f6ad63-b460-4928-976f-84b0c32e5bd2",
+      "Flags": 0,
       "Name": "Camera Positions",
       "Enabled": true,
       "NetworkMode": 2,
+      "NetworkInterpolation": true,
       "Children": [
         {
           "__guid": "debaac08-50f9-40de-9493-8015f8280960",
+          "Flags": 0,
           "Name": "Front Page",
           "Enabled": true,
-          "NetworkMode": 2
+          "NetworkMode": 2,
+          "NetworkInterpolation": true
         },
         {
           "__guid": "e1093b4a-24b9-4dd4-b524-8e22f1d53f35",
+          "Flags": 0,
           "Name": "Play Page",
           "Position": "72.96117,74.97603,1.847654",
           "Rotation": "0.02316115,0.05650399,-0.3785685,0.9235566",
           "Enabled": true,
-          "NetworkMode": 2
+          "NetworkMode": 2,
+          "NetworkInterpolation": true
         },
         {
           "__guid": "efd37291-348d-4e78-bee4-e0f62b640206",
+          "Flags": 0,
           "Name": "Options Page",
           "Position": "-77.28035,47.37448,6.222516",
           "Rotation": "0.02002498,0.04070397,-0.3384628,0.9398859",
           "Enabled": true,
-          "NetworkMode": 2
+          "NetworkMode": 2,
+          "NetworkInterpolation": true
         },
         {
           "__guid": "d0612e12-b3fe-4e90-9684-4164d74dd9c0",
+          "Flags": 0,
           "Name": "Song Select Page",
           "Position": "31.65883,0.03831151,-14.15643",
           "Rotation": "0.050069,0.05466101,-0.6735957,0.7353735",
           "Enabled": true,
-          "NetworkMode": 2
+          "NetworkMode": 2,
+          "NetworkInterpolation": true
         }
       ]
     },
     {
       "__guid": "51ca35c4-742d-4ab7-bf94-4e3e32a35fee",
+      "Flags": 0,
       "Name": "Song List Carousel",
       "Position": "-97.26666,-138.9301,-37.10004",
       "NetworkMode": 2,
+      "NetworkInterpolation": true,
       "Components": [
         {
           "__type": "Rhythm4K.SongListCarousel",
@@ -725,16 +767,19 @@
       "Children": [
         {
           "__guid": "70318540-0e96-498b-940f-054a38782cd5",
+          "Flags": 0,
           "Name": "Info Panel",
           "Position": "171.2573,-10.21446,-0.08668518",
           "Rotation": "0,0,0.7933533,0.6087615",
           "Enabled": true,
           "NetworkMode": 2,
+          "NetworkInterpolation": true,
           "Components": [
             {
               "__type": "Sandbox.WorldPanel",
               "__guid": "35cf5b3f-9ec1-4307-969b-d55d93d3d274",
               "HorizontalAlign": "Center",
+              "InteractionRange": 1000,
               "LookAtCamera": false,
               "PanelSize": "1978.4,1717.797",
               "RenderScale": 1,
@@ -751,9 +796,9 @@
   ],
   "SceneProperties": {
     "FixedUpdateFrequency": 50,
-    "Lerping": true,
     "MaxFixedUpdates": 5,
     "NetworkFrequency": 60,
+    "NetworkInterpolation": true,
     "ThreadedAnimation": true,
     "TimeScale": 1,
     "UseFixedUpdate": true,
@@ -772,10 +817,10 @@
   },
   "Title": "minimal",
   "Description": "",
-  "LastSaved": "2024-04-15T08:21:13.4944373-04:00",
+  "LastSaved": "2024-06-19T17:47:02.9716184-04:00",
   "ResourceVersion": 1,
-  "__version": 1,
   "__references": [
     "matek.dev_grid_dark"
-  ]
+  ],
+  "__version": 1
 }

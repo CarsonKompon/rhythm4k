@@ -3,12 +3,14 @@
   "GameObjects": [
     {
       "__guid": "97f364ea-76c8-49c0-9732-6f6afb1ccc5a",
+      "Flags": 0,
       "Name": "Camera",
       "Position": "-139.5225,-0.0002531592,949.7272",
       "Rotation": "0,0.7071069,0,0.7071069",
       "Tags": "maincamera",
       "Enabled": true,
       "NetworkMode": 2,
+      "NetworkInterpolation": true,
       "Components": [
         {
           "__type": "Sandbox.CameraComponent",
@@ -31,10 +33,12 @@
     },
     {
       "__guid": "6528f295-82e4-4c4a-b2c5-3714cb045473",
+      "Flags": 0,
       "Name": "Game Manager",
       "Position": "-0.0002441406,0,0.0002441406",
       "Enabled": true,
       "NetworkMode": 2,
+      "NetworkInterpolation": true,
       "Components": [
         {
           "__type": "Rhythm4K.GameManager",
@@ -66,12 +70,14 @@
     },
     {
       "__guid": "820cb0ed-11fb-44ca-a075-b54ee6897018",
+      "Flags": 0,
       "Name": "Sun",
       "Position": "-1500.599,235.6494,629.5671",
       "Rotation": "0,0.3826834,0,0.9238796",
       "Tags": "light_directional,light",
       "Enabled": true,
       "NetworkMode": 2,
+      "NetworkInterpolation": true,
       "Components": [
         {
           "__type": "Sandbox.DirectionalLight",
@@ -86,10 +92,12 @@
     },
     {
       "__guid": "111e7647-a45f-4a84-b841-d777deff5d2e",
+      "Flags": 0,
       "Name": "Screen UI",
       "Position": "-441.111,20.81034,33.97163",
       "Enabled": true,
       "NetworkMode": 2,
+      "NetworkInterpolation": true,
       "Components": [
         {
           "__type": "Sandbox.ScreenPanel",
@@ -113,9 +121,11 @@
     },
     {
       "__guid": "be885363-730b-4aa2-876a-1770926139d3",
+      "Flags": 0,
       "Name": "Results UI",
       "Position": "-441.111,20.81034,33.97163",
       "NetworkMode": 2,
+      "NetworkInterpolation": true,
       "Components": [
         {
           "__type": "Sandbox.ScreenPanel",
@@ -163,10 +173,12 @@
       "Children": [
         {
           "__guid": "d774cc6c-69cb-4279-9741-a1de031f86f3",
+          "Flags": 0,
           "Name": "Tooltip UI",
           "Position": "-711.5023,211.8166,690.6369",
           "Enabled": true,
           "NetworkMode": 2,
+          "NetworkInterpolation": true,
           "Components": [
             {
               "__type": "Sandbox.ScreenPanel",
@@ -186,18 +198,20 @@
     },
     {
       "__guid": "03ec13b4-f8d3-4add-8765-f762891c07a5",
+      "Flags": 0,
       "Name": "Object",
       "Position": "-53.92128,-0.00001525879,-1975.974",
       "Rotation": "0,0,-0.7071067,0.7071068",
       "Scale": "9.20517,9.20517,9.20517",
       "Enabled": true,
       "NetworkMode": 2,
+      "NetworkInterpolation": true,
       "Components": [
         {
           "__type": "VisualizerBarManager",
           "__guid": "276b7b82-e6c5-4e86-a138-eb694e9aedfa",
           "Amplitude": 0.1,
-          "BarCount": 512,
+          "BarCount": 128,
           "BarWavyness": 8,
           "BarWavynessAmplitude": 14.300189,
           "BarWidth": 0.01,
@@ -217,10 +231,12 @@
     },
     {
       "__guid": "0f2d76a2-b016-48d1-bd00-d8f4a54d8e33",
+      "Flags": 0,
       "Name": "Particles",
       "Position": "-963.6552,-33.37906,521.7537",
       "Enabled": true,
       "NetworkMode": 2,
+      "NetworkInterpolation": true,
       "Components": [
         {
           "__type": "Rhythm4K.MusicReactiveParticle",
@@ -242,11 +258,13 @@
       "Children": [
         {
           "__guid": "6dc34da6-99f1-48fd-8f9b-342ff0f9d4a9",
+          "Flags": 0,
           "Name": "Smoke",
           "Position": "0,0,0",
           "Tags": "particles",
           "Enabled": true,
           "NetworkMode": 2,
+          "NetworkInterpolation": true,
           "Components": [
             {
               "__type": "Sandbox.ParticleEffect",
@@ -395,9 +413,9 @@
   ],
   "SceneProperties": {
     "FixedUpdateFrequency": 50,
-    "Lerping": true,
     "MaxFixedUpdates": 5,
     "NetworkFrequency": 30,
+    "NetworkInterpolation": true,
     "ThreadedAnimation": true,
     "TimeScale": 1,
     "UseFixedUpdate": true,
@@ -416,8 +434,8 @@
   },
   "Title": "game-3d",
   "Description": "",
-  "LastSaved": "2024-04-14T20:08:48.8553247-04:00",
+  "LastSaved": "2024-06-19T17:42:00.2680559-04:00",
   "ResourceVersion": 1,
-  "__version": 1,
-  "__references": []
+  "__references": [],
+  "__version": 1
 }
