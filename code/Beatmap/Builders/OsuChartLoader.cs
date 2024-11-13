@@ -130,6 +130,12 @@ public class OsuChartLoader : IChartLoader
                         case "Version":
                             beatmap.DifficultyName = value;
                             break;
+                        case "BeatmapID":
+                            beatmap.OsuId = value;
+                            break;
+                        case "BeatmapSetID":
+                            beatmap.OsuSetId = value;
+                            break;
                     }
                 }
             }

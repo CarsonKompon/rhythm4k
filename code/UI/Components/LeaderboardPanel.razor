@@ -1,0 +1,48 @@
+@using Sandbox;
+@using Sandbox.UI;
+@inherits Panel
+
+@namespace Rhythm4K
+
+
+<root>
+    @foreach (var entry in Leaderboard.Entries)
+    {
+        <div class="entry @(entry.SteamId == Game.SteamId ? "is-me" : "")">
+            <div class="backing" />
+            <span class="rank">##@(entry.Rank)</span>
+            <img src="avatar:@(entry.SteamId)" />
+            <span class="name">@entry.DisplayName</span>
+            <span class="score">@entry.Value</span>
+        </div>
+    }
+</root>
+
+@code
+{
+    public Beatmap Beatmap { get; set; }
+    public int MaxEntries { get; set; } = 10;
+    Sandbox.Services.Leaderboards.Board2 Leaderboard;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        FetchLeaderboardInfo();
+    }
+
+    async void FetchLeaderboardInfo()
+    {
+        var statId = Beatmap.LeaderboardId + "score";
+        Log.Info($"Fetching leaderboard for {statId}");
+        Leaderboard = Sandbox.Services.Leaderboards.GetFromStat(statId);
+        Leaderboard.SetAggregationMax();
+        Leaderboard.SetSortDescending();
+        Leaderboard.CenterOnMe();
+        Leaderboard.MaxEntries = MaxEntries;
+
+        await Leaderboard.Refresh();
+        Log.Info($"Leaderboard for {statId} has {Leaderboard.Entries.Count()} entries");
+        StateHasChanged();
+    }
+}

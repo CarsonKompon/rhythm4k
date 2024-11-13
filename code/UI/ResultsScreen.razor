@@ -232,20 +232,17 @@
 									<label class="value">@($"{GameManager.Beatmap.GetHighscore():N0}")</label>
 									<i class=@(difference <= 0 ? "same" : "positive")>@(difference <= 0 ? "remove" : "arrow_upward")</i>
 								</div>
-								@if (difference > 0)
-								{
-									<div class="difference">
-										<label class="@diffClass">@($"+{difference:N0}")</label>
-										<TooltipPanel>
-											<TooltipContent>
-												<div class="column">
-													<label class="bold">Previous Highscore:</label>
-													<label class="value">@($"{(PreviousScore == 0 ? "N/A" : ($"{PreviousScore:N0}"))}")</label>
-												</div>
-											</TooltipContent>
-										</TooltipPanel>
-									</div>
-								}
+								<div class="difference @(difference > 0 ? "" : "hidden")">
+									<label class="@diffClass">@($"+{difference:N0}")</label>
+									<TooltipPanel>
+										<TooltipContent>
+											<div class="column">
+												<label class="bold">Previous Highscore:</label>
+												<label class="value">@($"{(PreviousScore == 0 ? "N/A" : ($"{PreviousScore:N0}"))}")</label>
+											</div>
+										</TooltipContent>
+									</TooltipPanel>
+								</div>
 							</div>
 						}
 					</div>
@@ -308,11 +305,6 @@
 		}
 		Average /= total;
 		Average *= 1000f;
-
-		foreach (var child in GameObject.Children)
-		{
-			child.Enabled = true;
-		}
 	}
 
 	protected override void OnUpdate()

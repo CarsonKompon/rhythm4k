@@ -12,88 +12,88 @@
 		{
 			var set = all[Index];
 			var list = set.Beatmaps.OrderBy(x => x.Difficulty).ToList();
-					<div class="cover-art">
+			<div class="cover-art">
 				@if (!string.IsNullOrEmpty(set.CoverArt) && set.CoverArt.StartsWith("http"))
 				{
-								<img src="@set.CoverArt" />
+					<img src="@set.CoverArt" />
 				}
 				else
 				{
-								<Image Texture=@set.GetCoverTexture() />
+					<Image Texture=@set.GetCoverTexture() />
 				}
-						<div class="info">
-							<h1>@set.Name</h1>
-							<h3 class="artist">@set.Artist</h3>
-						</div>
-					</div>
-					<div class="extras @(SelectedIndex >= 0 ? "" : "hidden")">
+				@if (SelectedIndex >= 0)
+				{
+					<LeaderboardPanel Beatmap=@list.ElementAt(SelectedIndex) />
+				}
+				<div class="info">
+					<h1>@set.Name</h1>
+					<h3 class="artist">@set.Artist</h3>
+				</div>
+			</div>
+			<div class="extras @(SelectedIndex >= 0 ? "" : "hidden")">
 				@if (SelectedIndex >= 0)
 				{
 					var selectedChart = list.ElementAt(SelectedIndex);
 					var highscore = selectedChart.GetHighscore();
-								<div class="extra">
-						@* <i>access_time</i> *@
-									<label>⌚</label>
-									<label>@selectedChart.GetSongLength()</label>
-								</div>
-								<div class="extra">
-						@* <i>piano</i> *@
-									<label>🎹</label>
-									<label>@selectedChart.Lanes</label>
-								</div>
-								<div class="extra">
-						@* <i>music_note</i> *@
-									<label>🎵</label>
-									<label>@selectedChart.Notes.Count</label>
-								</div>
+					<div class="extra">
+						<label>⌚</label>
+						<label>@selectedChart.GetSongLength()</label>
+					</div>
+					<div class="extra">
+						<label>🎹</label>
+						<label>@selectedChart.Lanes</label>
+					</div>
+					<div class="extra">
+						<label>🎵</label>
+						<label>@selectedChart.Notes.Count</label>
+					</div>
 					@if (highscore > 0)
 					{
-										<div class="fill" />
-										<div class="extra">
-							@* <i>star</i> *@
-											<label>🏆</label>
-											<label>@($"{highscore:n0}")</label>
-										</div>
+						<div class="fill" />
+						<div class="extra">
+							<label>🏆</label>
+							<label>@($"{highscore:n0}")</label>
+						</div>
 					}
 				}
-					</div>
-					<div class="chart-list">
+			</div>
+			<div class="chart-list">
 				@foreach (var chart in list)
 				{
 					var index = list.IndexOf(chart);
-								<div class="chart @(index == SelectedIndex ? "selected" : "")" onclick=@(() => SelectButton(index))>
-									<div class="info">
-										<label class="name">@(!string.IsNullOrEmpty(chart.DifficultyName) ? chart.DifficultyName : (!string.IsNullOrEmpty(chart.Name) ? chart.Name : "Unknown"))</label>
-										<label class="author">by @(!string.IsNullOrEmpty(chart.Charter) ? chart.Charter : "Unknown")</label>
-									</div>
+					<div class="chart @(index == SelectedIndex ? "selected" : "")" onclick=@(() => SelectButton(index))>
+						<div class="info">
+							<label class="name">@(!string.IsNullOrEmpty(chart.DifficultyName) ? chart.DifficultyName : (!string.IsNullOrEmpty(chart.Name) ? chart.Name : "Unknown"))</label>
+							<label class="author">by @(!string.IsNullOrEmpty(chart.Charter) ? chart.Charter : "Unknown")</label>
+						</div>
 						@if (chart.GetHighscore() > 0)
 						{
-											<label>🌟</label>
+							<label>🌟</label>
 						}
-									<div class="difficulty">@chart.Difficulty</div>
-								</div>
+						<div class="difficulty">@chart.Difficulty</div>
+					</div>
 				}
-					</div>
-					<div class="buttons">
-						<MainMenuButton Text="Back" onclick=@BackButton class="back" />
-						<MainMenuButton Text="Play" onclick=@PlayButton class=@(SelectedIndex == -1 ? "disabled" : "") />
-					</div>
+			</div>
+			<div class="buttons">
+				<MainMenuButton Text="Back" onclick=@BackButton class="back" />
+				<MainMenuButton Text="Play" onclick=@PlayButton class=@(SelectedIndex == -1 ? "disabled" : "") />
+			</div>
 		}
 		else
 		{
-					<div class="no-charts">
+			<div class="no-charts">
 				@if (BeatmapSet.All.Count > 0)
 				{
-								<label>No chart selected...</label>
+					<label>No chart selected...</label>
 				}
 				else
 				{
-								<label>You have no Beatmaps...</label>
+					<label>You have no Beatmaps...</label>
 				}
-						<div class="buttons">
-							<MainMenuButton Text="Back" onclick=@BackButton class="back" />
-						</div>
-					</div>
+				<div class="buttons">
+					<MainMenuButton Text="Back" onclick=@BackButton class="back" />
+				</div>
+			</div>
 		}
 	}
 </root>

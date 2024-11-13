@@ -442,14 +442,19 @@ ResultsScreen
 									color: rgb(209, 21, 68);
 								}
 
-								TooltipPanel
+								// TooltipPanel
+								// {
+								// 	pointer-events: all;
+								// 	position: absolute;
+								// 	top: 0;
+								// 	left: 0;
+								// 	right: 0;
+								// 	bottom: 0;
+								// }
+
+								&.hidden
 								{
-									pointer-events: all;
-									position: absolute;
-									top: 0;
-									left: 0;
-									right: 0;
-									bottom: 0;
+									display: none;
 								}
 							}
 						}

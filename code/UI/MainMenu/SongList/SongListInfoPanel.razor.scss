@@ -27,7 +27,7 @@ SongListInfoPanel
 		box-shadow: 4px 4px 16px black;
 		flex-shrink: 0;
 
-		Image, img
+		> Image, > img
 		{
 			position: absolute;
 			top: 0;
@@ -36,6 +36,16 @@ SongListInfoPanel
 			height: 100%;
 			background-size: cover;
 			background-position: center;
+		}
+
+		LeaderboardPanel
+		{
+			position: absolute;
+			top: 0px;
+			bottom: 0px;
+			right: 0px;
+			width: 400px;
+			background-image: linear-gradient(0deg, transparent 0%, rgba(black, 0.8) 50%, black 100%);
 		}
 
 		> .info

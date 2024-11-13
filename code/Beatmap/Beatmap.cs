@@ -27,6 +27,10 @@ public class Beatmap
     public float SampleLength { get; set; }
     public float Length { get; set; }
 
+    public string OsuId { get; set; }
+    public string OsuSetId { get; set; }
+    public string LeaderboardId => $"{OsuSetId}-{OsuId}";
+
     public string FilePath { get; set; }
     [JsonIgnore] public BaseFileSystem FileSystem { get; set; }
 
