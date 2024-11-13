@@ -25,6 +25,7 @@
 		<div class="song-progress">
 			<div class="fill" style="width: @(GameManager.CurrentTimeNoLatency / (GameManager?.Beatmap?.Length ?? 100f) * 100f)%"></div>
 		</div>
+		<LeaderboardPanel Beatmap=@Beatmap.Loaded />
 	}
 	<div class="pause-menu @(GameManager.Instance.IsPaused ? "" : "hidden")">
 		<h1>Paused</h1>
