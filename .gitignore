@@ -3,6 +3,7 @@
 # https://git-scm.com/docs/gitignore
 
 # Auto-generated code editor files
+.sbox/*
 .vs/*
 .vscode/*
 *.csproj
