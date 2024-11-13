@@ -25,6 +25,7 @@ SongListInfoPanel
 		aspect-ratio: 3;
 		transform: skewX(-2deg);
 		box-shadow: 4px 4px 16px black;
+		flex-shrink: 0;
 
 		Image, img
 		{
@@ -54,6 +55,7 @@ SongListInfoPanel
 		align-items: center;
 		gap: 16px;
 		text-shadow: 2px 2px 4px black;
+		flex-shrink: 0;
 
 		.extra
 		{
@@ -94,36 +96,34 @@ SongListInfoPanel
 		width: 100%;
 		flex-grow: 1;
 		flex-direction: column;
-		max-height: 300px;
-		overflow-y: scroll;
-		overflow-x: hidden;
 		gap: 8px;
+		overflow: scroll;
 
 		.chart
 		{
 			width: 100%;
-			flex-shrink: 0;
+			// flex-shrink: 0;
 			justify-content: space-between;
 			align-items: center;
 			background-color: #2c2c2c;
+			color: white;
 			padding: 8px;
 			pointer-events: all;
 			cursor: pointer;
+			flex-shrink: 0;
 
 			> .info
 			{
 				flex-direction: column;
 				flex-grow: 1;
 				
-				h3
+				.name
 				{
 					font-size: 32px;
 					font-weight: 800;
-					text-overflow: ellipsis;
-					white-space: nowrap;
 				}
 
-				h4
+				.author
 				{
 					font-size: 12px;
 					font-weight: 400;
@@ -153,6 +153,7 @@ SongListInfoPanel
 	{
 		width: 100%;
 		justify-content: space-evenly;
+		flex-shrink: 0;
 	}
 
 	MainMenuButton

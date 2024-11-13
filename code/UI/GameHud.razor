@@ -7,7 +7,7 @@
 @namespace Rhythm4K
 
 <root>
-	@if(!GameManager.IsCalibrating)
+	@if (!GameManager.IsCalibrating)
 	{
 		<div class="score">
 			<h1>Score</h1>
@@ -23,15 +23,15 @@
 		</div>
 		<div class="judgement" @ref="JudgementPanel"></div>
 		<div class="song-progress">
-			<div class="fill" style="width: @(GameManager.CurrentTimeNoLatency / GameManager.Beatmap.Length * 100f)%"></div>
+			<div class="fill" style="width: @(GameManager.CurrentTimeNoLatency / (GameManager?.Beatmap?.Length ?? 100f) * 100f)%"></div>
 		</div>
 	}
 	<div class="pause-menu @(GameManager.Instance.IsPaused ? "" : "hidden")">
 		<h1>Paused</h1>
 		<div class="options">
 			<div class="button" onclick=@ContinueButton>Continue</div>
-			<div class="button"onclick=@RetryButton>Retry</div>
-			<div class="button"onclick=@QuitButton>Quit</div>
+			<div class="button" onclick=@RetryButton>Retry</div>
+			<div class="button" onclick=@QuitButton>Quit</div>
 		</div>
 		<div class="info">
 			<label>Retry Count: @(GameManager.RetryCount)</label>
@@ -63,9 +63,9 @@
 
 	protected override void OnUpdate()
 	{
-		if(JudgementPanel is null) return;
+		if (JudgementPanel is null) return;
 
-		if(TimeSinceLastJudgement > 2f && JudgementPanel.Children.Count() > 0)
+		if (TimeSinceLastJudgement > 2f && JudgementPanel.Children.Count() > 0)
 		{
 			JudgementPanel.DeleteChildren();
 			TimeSinceLastJudgement = 0f;
@@ -74,7 +74,7 @@
 
 	public void SetJudgement(string judgement)
 	{
-		if(JudgementPanel is null) return;
+		if (JudgementPanel is null) return;
 		JudgementPanel.DeleteChildren(true);
 		var label = JudgementPanel.AddChild<Label>();
 		label.AddClass(judgement.ToLower());
@@ -84,8 +84,8 @@
 
 	public void SetCombo(int combo)
 	{
-		if(combo == _lastCombo) return;
-		if(ComboPanel is null) return;
+		if (combo == _lastCombo) return;
+		if (ComboPanel is null) return;
 		ComboPanel.DeleteChildren(true);
 		var label = ComboPanel.AddChild<Label>();
 		label.Text = $"{combo.ToString()}x";
@@ -110,5 +110,5 @@
 		Scene.Load(GameManager.MenuScene);
 	}
 
-	protected override int BuildHash() => System.HashCode.Combine( Time.Now );
+	protected override int BuildHash() => System.HashCode.Combine(Time.Now);
 }

@@ -10,14 +10,14 @@
 <root>
 	<SongDownloadPanel />
 
-	@if(InSetupWizard)
+	@if (InSetupWizard)
 	{
 		<SetupWizard />
 		return;
 	}
 
-    <MainMenu @ref="MainMenu" />
-	@if((MainMenu?.CurrentUrl ?? "") == "/")
+	<MainMenu @ref="MainMenu" />
+	@if ((MainMenu?.CurrentUrl ?? "") == "/")
 	{
 		<div class="now-playing">
 			<i>music_note</i>
@@ -28,7 +28,7 @@
 		</div>
 	}
 	<div class="loading-in @(LoadingIn ? "" : "hidden")">
-		@if(Beatmap.Loaded is not null)
+		@if (Beatmap.Loaded is not null)
 		{
 			var chart = Beatmap.Loaded;
 			var set = chart.GetBeatmapSet();
@@ -70,7 +70,7 @@
 	[Property] public SceneFile GameScene2D { get; set; }
 	[Property] public SceneFile GameScene3DUpscroll { get; set; }
 	[Property] public SceneFile GameScene2DUpscroll { get; set; }
-	MainMenu MainMenu { get; set;}
+	MainMenu MainMenu { get; set; }
 
 	public string CurrentUrl => MainMenu?.CurrentUrl ?? "";
 	public bool LoadingIn { get; set; } = false;
@@ -83,13 +83,13 @@
 	public ReadOnlySpan<float> Spectrum => (Music is null) ? null : Music.Spectrum;
 	[Property] public Action OnBeat { get; set; }
 	[Property] public float PeakThreshold { get; set; } = 1.08f;
-    public float AdjustedPeakThreshold { get; private set; } = 0f;
+	public float AdjustedPeakThreshold { get; private set; } = 0f;
 
 	public bool IsPeaking { get; set; } = false;
 	public float Energy { get; set; } = 0f;
-    public float EnergyHistoryAverage { get; set; } = 0f;
-    public float PeakKickVolume { get; set; } = 0f;
-    List<float> EnergyHistory = new();
+	public float EnergyHistoryAverage { get; set; } = 0f;
+	public float PeakKickVolume { get; set; } = 0f;
+	List<float> EnergyHistory = new();
 
 	public bool InSetupWizard { get; set; } = false;
 
@@ -111,7 +111,7 @@
 
 	protected override void OnTreeFirstBuilt()
 	{
-		if(!string.IsNullOrEmpty(StartingUrl))
+		if (!string.IsNullOrEmpty(StartingUrl))
 		{
 			Navigate(StartingUrl);
 			MainMenuCameraManager.Instance.SetTarget(StartingUrl, true);
@@ -121,8 +121,8 @@
 
 	async void LoadSongs()
 	{
-		if(string.IsNullOrEmpty(StartingUrl)) Beatmap.Loaded = null;
-		if(BeatmapSet.All.Count == 0)
+		if (string.IsNullOrEmpty(StartingUrl)) Beatmap.Loaded = null;
+		if (BeatmapSet.All.Count == 0)
 		{
 			await BeatmapSet.LoadAll();
 		}
@@ -134,9 +134,9 @@
 	{
 		Mixer.Master.ClearProcessors();
 		var allProcessors = TypeLibrary.GetTypes<AudioProcessor>();
-		foreach(var processor in allProcessors)
+		foreach (var processor in allProcessors)
 		{
-			if(processor.Name == "LowPassProcessor")
+			if (processor.Name == "LowPassProcessor")
 			{
 				Mixer.Master.AddProcessor(TypeLibrary.Create<AudioProcessor>(processor.TargetType));
 				FilterProcessor = Mixer.Master.GetProcessors().FirstOrDefault();
@@ -148,7 +148,7 @@
 	{
 		Music?.Stop();
 		Music?.Dispose();
-		if(FilterProcessor is not null)
+		if (FilterProcessor is not null)
 		{
 			FilterProcessor.Mix = 0f;
 		}
@@ -158,24 +158,25 @@
 	{
 		base.OnUpdate();
 
-		foreach(var thing in BackgroundFX)
+		foreach (var thing in BackgroundFX)
 		{
 			thing.Enabled = GamePreferences.Settings.BackgroundEffects;
 		}
 
-		if(LoadingIn)
+		if (LoadingIn)
 		{
-			if(Input.EscapePressed)
+			if (Input.EscapePressed)
 			{
 				Beatmap.Loaded = null;
 				LoadingIn = false;
+				Input.EscapePressed = false;
 			}
-			else if(TimeSinceLoadingIn > 2f)
+			else if (TimeSinceLoadingIn > 2f)
 			{
 				StartGame();
 			}
 
-			if(FilterProcessor is not null)
+			if (FilterProcessor is not null)
 			{
 				FilterProcessor.Mix = FilterProcessor.Mix.LerpTo(0.8f, Time.Delta * 2f);
 			}
@@ -183,100 +184,94 @@
 		}
 		else
 		{
-			if(FilterProcessor is not null)
+			if (FilterProcessor is not null)
 			{
 				FilterProcessor.Mix = FilterProcessor.Mix.LerpTo(0f, Time.Delta * 20f);
-			}	
+			}
 
 			var volume = GamePreferences.Settings.MasterVolume / 100f * (Application.IsFocused ? 1f : (GamePreferences.Settings.UnfocusedVolume / 100f));
 			Mixer.Master.Volume = Mixer.Master.Volume.LerpTo(volume, Time.Delta * 10f);
-		
-			if(Input.EscapePressed)
-			{	
-				if(MainMenu.CurrentUrl == "/song-select") Navigate("/play");
-				else if(MainMenu.CurrentUrl == "/play") Navigate("/");
-				else if(MainMenu.CurrentUrl == "/settings")
+
+			if (Input.EscapePressed)
+			{
+				if (MainMenu.CurrentUrl == "/song-select") Navigate("/play");
+				else if (MainMenu.CurrentUrl == "/play") Navigate("/");
+				else if (MainMenu.CurrentUrl == "/settings")
 				{
 					GamePreferences.SaveSettings();
 					Navigate("/");
 				}
-				else if(MainMenu.CurrentUrl == "/browse") Navigate("/play");
+				else if (MainMenu.CurrentUrl == "/browse") Navigate("/play");
+				Input.EscapePressed = false;
 			}
 
-			if(TimeSinceLastSong > Music.Duration + 2f)
+			if (Music is not null && TimeSinceLastSong > Music.Duration + 2f)
 			{
 				PlayRandomSong();
 				TimeSinceLastSong = 0;
 			}
 		}
 
-		if(Music is null) return;
+		if (Music is null) return;
 		Music.Position = Scene.Camera.Transform.Position;
 		Music.Volume = Music.Volume.LerpTo(1f, Time.Delta * 2f);
 
 		var spectrum = Music.Spectrum;
-		if(spectrum.Length <= 0) return;
+		if (spectrum.Length <= 0) return;
 
-        // Energy Calculations
-        var energy = 0f;
-        float length = spectrum.Length;
-        for ( int i = 0; i < length; i++ )
-        {
-            energy += spectrum[i];
-        }
-        energy /= length;
-        Energy = Energy.LerpTo( energy, Time.Delta * 30f );
-
-        EnergyHistory.Add( energy );
-        if ( EnergyHistory.Count > 64 ) EnergyHistory.RemoveAt( 0 );
-
-		try
+		// Energy Calculations
+		if (EnergyHistory is null) return;
+		var energy = 0f;
+		float length = spectrum.Length;
+		for (int i = 0; i < length; i++)
 		{
-			// Energy History Average
-			EnergyHistoryAverage = 0f;
-			if((EnergyHistory?.Count ?? 0) > 0)
-			{
-				for ( int i = 0; i < EnergyHistory.Count; i++ )
-				{
-					EnergyHistoryAverage += EnergyHistory[i];
-				}
-				EnergyHistoryAverage /= (EnergyHistory?.Count ?? 1);
-			}
-
-			// Beat Detection
-			float energySum = 0f;
-			foreach ( var energyValue in EnergyHistory )
-			{
-				energySum += energyValue;
-			}
-			float energyMean = energySum / EnergyHistory.Count;
-
-			float variance = 0f;
-			foreach ( var energyValue in EnergyHistory )
-			{
-				variance += (energyValue - energyMean) * (energyValue - energyMean);
-			}
-			float energyStdDev = (float)Math.Sqrt( variance / EnergyHistory.Count );
-
-			// Adjusted Peak Threshold Calculation
-			AdjustedPeakThreshold = PeakThreshold * energyStdDev;
-
-			if ( EnergyHistoryAverage > 0.05f && Energy > EnergyHistoryAverage + AdjustedPeakThreshold )
-			{
-				if ( !IsPeaking )
-				{
-					OnBeat?.Invoke();
-				}
-				IsPeaking = true;
-			}
-			else
-			{
-				IsPeaking = false;
-			}
+			energy += spectrum[i];
 		}
-		catch(Exception e)
+		energy /= length;
+		Energy = Energy.LerpTo(energy, Time.Delta * 30f);
+
+		EnergyHistory.Add(energy);
+		if (EnergyHistory.Count > 64) EnergyHistory.RemoveAt(0);
+
+		// Energy History Average
+		EnergyHistoryAverage = 0f;
+		if ((EnergyHistory?.Count ?? 0) == 0) return;
+
+		for (int i = 0; i < EnergyHistory.Count; i++)
 		{
-			Log.Info("ignore this :3");
+			EnergyHistoryAverage += EnergyHistory[i];
+		}
+		EnergyHistoryAverage /= (EnergyHistory?.Count ?? 1);
+
+		// Beat Detection
+		float energySum = 0f;
+		foreach (var energyValue in EnergyHistory)
+		{
+			energySum += energyValue;
+		}
+		float energyMean = energySum / EnergyHistory.Count;
+
+		float variance = 0f;
+		foreach (var energyValue in EnergyHistory)
+		{
+			variance += (energyValue - energyMean) * (energyValue - energyMean);
+		}
+		float energyStdDev = (float)Math.Sqrt(variance / EnergyHistory.Count);
+
+		// Adjusted Peak Threshold Calculation
+		AdjustedPeakThreshold = PeakThreshold * energyStdDev;
+
+		if (EnergyHistoryAverage > 0.05f && Energy > EnergyHistoryAverage + AdjustedPeakThreshold)
+		{
+			if (!IsPeaking)
+			{
+				OnBeat?.Invoke();
+			}
+			IsPeaking = true;
+		}
+		else
+		{
+			IsPeaking = false;
 		}
 	}
 
@@ -284,8 +279,8 @@
 	{
 		Music?.Stop();
 		Music?.Dispose();
-		var set = BeatmapSet.All.OrderBy(x => System.Guid.NewGuid() ).FirstOrDefault();
-		if(set is null || System.Random.Shared.Float() < 0.1)
+		var set = BeatmapSet.All.OrderBy(x => System.Guid.NewGuid()).FirstOrDefault();
+		if (set is null || System.Random.Shared.Float() < 0.1)
 		{
 			Music = MusicPlayer.Play(FileSystem.Mounted, "sounds/music/menu-music.mp3");
 			CurrentSong = null;
@@ -304,13 +299,13 @@
 		var song = beatmap.GetBeatmapSet();
 		var currentPath = (CurrentSong is null) ? "" : (CurrentSong.GetBeatmapSet().Path + "/" + CurrentSong.AudioFilename);
 		var newPath = song.Path + "/" + beatmap.AudioFilename;
-		
-		if(currentPath == newPath) return;
+
+		if (currentPath == newPath) return;
 		CurrentSong = beatmap;
 		Music?.Stop();
 		Music?.Dispose();
 		Music = MusicPlayer.Play(FileSystem.Data, newPath);
-		if(SongListInfoPanel.Instance.GameObject.Enabled)
+		if (SongListInfoPanel.Instance.GameObject.Enabled)
 		{
 			Music.Seek(MathF.Max(beatmap.SampleStart, 0f));
 		}
@@ -321,7 +316,7 @@
 	public void FadeToPlay(Beatmap beatmap)
 	{
 		Beatmap.Loaded = beatmap;
-        LoadingIn = true;
+		LoadingIn = true;
 		TimeSinceLoadingIn = 0f;
 	}
 
@@ -332,7 +327,7 @@
 
 	public void StartGame()
 	{
-		if(GamePreferences.Settings.GameStyle == 0)
+		if (GamePreferences.Settings.GameStyle == 0)
 		{
 			Scene.Load(GamePreferences.Settings.Downscroll ? GameScene2D : GameScene2DUpscroll);
 		}
@@ -343,7 +338,7 @@
 	}
 
 	protected override int BuildHash()
-    {
-        return System.HashCode.Combine(LoadingIn, CurrentSong);
-    }
+	{
+		return System.HashCode.Combine(LoadingIn, CurrentSong);
+	}
 }

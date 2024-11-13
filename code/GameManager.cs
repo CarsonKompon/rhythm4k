@@ -334,6 +334,7 @@ public sealed class GameManager : Component, IMusicPlayer
 		if ( Input.EscapePressed )
 		{
 			SetPause( !IsPaused );
+			Input.EscapePressed = false;
 		}
 	}
 

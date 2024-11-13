@@ -3,31 +3,30 @@
 @using System.Linq;
 @using Sandbox;
 @using Sandbox.UI;
-@using Sandbox.UI.GameMenu;
 @inherits Panel
 @attribute [StyleSheet]
 
 @namespace Rhythm4K.Osu
 
 <root onclick=@DownloadBeatmap class="@DownloadingClass()">
-    <div class="background" />
-    <span @ref="CoverImage" class="image">
+	<div class="background" />
+	<span @ref="CoverImage" class="image">
 		@if (Downloaded)
 		{
 			<span class="overlay downloaded">Downloaded <i>file_download</i></span>
 		}
-		else if(Downloading)
+		else if (Downloading)
 		{
 			<span class="overlay downloading">Downloading <i>cached</i></span>
 		}
 	</span>
-    <div class="info">
-        <span class="title">@BeatmapSet.Title</span>
-        <div class="sub">
-            <span class="artist">@BeatmapSet.Artist</span>
-            <span class="creator">@BeatmapSet.Creator</span>
-        </div>
-    </div>
+	<div class="info">
+		<span class="title">@BeatmapSet.Title</span>
+		<div class="sub">
+			<span class="artist">@BeatmapSet.Artist</span>
+			<span class="creator">@BeatmapSet.Creator</span>
+		</div>
+	</div>
 </root>
 
 @code
@@ -44,7 +43,7 @@
 
 		if (firstTime)
 		{
-			if(BeatmapSet.Covers.TryGetValue("cover", out var coverImage))
+			if (BeatmapSet.Covers.TryGetValue("cover", out var coverImage))
 			{
 				CoverUrl = coverImage.ToString();
 				CoverImage.Style.SetBackgroundImage(CoverUrl);
@@ -54,25 +53,25 @@
 		}
 	}
 
-    public override void Tick()
-    {
-        base.Tick();
+	public override void Tick()
+	{
+		base.Tick();
 
-        if(Downloading && BeatmapSet.IsDownloaded())
-        {
-            Downloading = false;
-            Downloaded = true;
-        }
-    }
+		if (Downloading && BeatmapSet.IsDownloaded())
+		{
+			Downloading = false;
+			Downloaded = true;
+		}
+	}
 
 	public void DownloadBeatmap()
 	{
-		if(BeatmapSet.IsDownloaded())
+		if (BeatmapSet.IsDownloaded())
 		{
 			return;
 		}
 
-        Downloading = true;
+		Downloading = true;
 
 		SongDownloadPanel.Instance?.QueueOsuDownload(BeatmapSet, CoverUrl);
 	}
@@ -87,5 +86,5 @@
 	{
 		return HashCode.Combine(Downloaded, Downloading);
 	}
-	
+
 }

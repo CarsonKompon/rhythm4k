@@ -7,7 +7,6 @@
 @using System.IO.Compression;
 @using Sandbox;
 @using Sandbox.UI;
-@using Sandbox.UI.GameMenu;
 @inherits Panel
 @attribute [StyleSheet]
 
@@ -22,23 +21,23 @@
 
         <div class="search">
             <CustomDropDown @ref="StatusDropDown" onchange=@Search />
-            <TextEntry onsubmit=@Search Value:bind=@SearchText Tooltip="Search for songs by title, artist, or URL" Placeholder="Enter a search query..." ></TextEntry>
+            <TextEntry onsubmit=@Search Value:bind=@SearchText Tooltip="Search for songs by title, artist, or URL" Placeholder="Enter a search query..."></TextEntry>
             <span class="button" onclick=@Search>Search</span>
         </div>
     </div>
 
     <div class="content">
-        @if(Loading)
+        @if (Loading)
         {
             <span class="loading">Loading...</span>
         }
         else
         {
-            @foreach(var beatmap in LoadedBeatmaps)
+            @foreach (var beatmap in LoadedBeatmaps)
             {
                 <ChorusButton BeatmapSet=@beatmap />
             }
-            @if(LoadedBeatmaps.Count() > 0 && Page < MaxPages)
+            @if (LoadedBeatmaps.Count() > 0 && Page < MaxPages)
             {
                 <span class="load-more" onclick=@LoadMoreBeatmaps>Load more...</span>
             }
@@ -48,11 +47,11 @@
 
 @code
 {
-	public List<ChorusBeatmap> LoadedBeatmaps { get; set; } = new();
-	public string SearchText { get; set; } = "";
-	public int Page { get; set; } = 0;
-	public int MaxPages { get; set; } = 0;
-	public bool Loading { get; private set; } = false;
+    public List<ChorusBeatmap> LoadedBeatmaps { get; set; } = new();
+    public string SearchText { get; set; } = "";
+    public int Page { get; set; } = 0;
+    public int MaxPages { get; set; } = 0;
+    public bool Loading { get; private set; } = false;
 
     CustomDropDown StatusDropDown { get; set; }
 
@@ -68,18 +67,18 @@
             LoadTopBeatmaps();
 
             StatusDropDown.Options = new()
-            {
-                new Option("All", 0),
-                new Option("Ranked", 1),
-                @* new Option("Approved", 2), *@
-                new Option("Qualified", 2),
-                new Option("Loved", 3),
-                new Option("Unranked", 4),
-            };
+{
+new Option("All", 0),
+new Option("Ranked", 1),
+    @* new Option("Approved", 2), *@
+new Option("Qualified", 2),
+new Option("Loved", 3),
+new Option("Unranked", 4),
+};
             StatusDropDown.Selected = StatusDropDown.Options[1];
         }
     }
-    
+
     private async void Search()
     {
         Loading = true;
@@ -109,16 +108,16 @@
 
     private async void LoadMoreBeatmaps()
     {
-        if(lastQuery is null) return;
-        if(Page >= MaxPages) return;
+        if (lastQuery is null) return;
+        if (Page >= MaxPages) return;
         lastQuery.Page++;
 
         var response = await Request();
         LoadedBeatmaps.AddRange(response.Beatmaps);
-        
+
         @* Page++;
-        var response = await Http.RequestJsonAsync<ChorusSearch>(lastQuery + "&p=" + Page.ToString());
-        LoadedBeatmaps.AddRange(response.Beatmaps); *@
+var response = await Http.RequestJsonAsync<ChorusSearch>(lastQuery + "&p=" + Page.ToString());
+LoadedBeatmaps.AddRange(response.Beatmaps); *@
     }
 
     async Task<ChorusSearch> Request()

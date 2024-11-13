@@ -3,43 +3,42 @@
 @using System.Linq;
 @using Sandbox;
 @using Sandbox.UI;
-@using Sandbox.UI.GameMenu;
 @inherits Panel
 @attribute [StyleSheet]
 
 @namespace Rhythm4K.Chorus
 
 <root onclick=@DownloadBeatmap class="@DownloadingClass()">
-    <div class="background" />
-    <span @ref="CoverImage" class="image">
+	<div class="background" />
+	<span @ref="CoverImage" class="image">
 		@if (Downloaded)
 		{
 			<span class="overlay downloaded">Downloaded <i>file_download</i></span>
 		}
-		else if(Downloading)
+		else if (Downloading)
 		{
 			<span class="overlay downloading">Downloading <i>cached</i></span>
 		}
 		<div class="instruments">
-			@if(true)
+			@if (true)
 			{
 				var instruments = new List<string>();
-				@foreach(var info in BeatmapSet.NotesData.NoteInformation)
+				@foreach (var info in BeatmapSet.NotesData.NoteInformation)
 				{
-					if(instruments.Contains(info.Instrument)) continue;
+					if (instruments.Contains(info.Instrument)) continue;
 					instruments.Add(info.Instrument);
 					<img src=@($"https://enchor.us/assets/images/instruments/{info.Instrument}.png") class="instrument" />
 				}
 			}
 		</div>
 	</span>
-    <div class="info">
-        <span class="title">@BeatmapSet.Name</span>
-        <div class="sub">
-            <span class="artist">@BeatmapSet.Artist</span>
-            <span class="creator">@BeatmapSet.Charter</span>
-        </div>
-    </div>
+	<div class="info">
+		<span class="title">@BeatmapSet.Name</span>
+		<div class="sub">
+			<span class="artist">@BeatmapSet.Artist</span>
+			<span class="creator">@BeatmapSet.Charter</span>
+		</div>
+	</div>
 </root>
 
 @code
@@ -57,34 +56,34 @@
 		if (firstTime)
 		{
 			string coverArt = BeatmapSet?.AlbumArtMd5?.ToString() ?? "";
-			if(!string.IsNullOrEmpty(coverArt))
+			if (!string.IsNullOrEmpty(coverArt))
 			{
 				CoverImage.Style.SetBackgroundImage($"https://files.enchor.us/{coverArt}.jpg");
 			}
-			
+
 			Downloaded = BeatmapSet.IsDownloaded();
 		}
 	}
 
-    public override void Tick()
-    {
-        base.Tick();
+	public override void Tick()
+	{
+		base.Tick();
 
-        if(Downloading && BeatmapSet.IsDownloaded())
-        {
-            Downloading = false;
-            Downloaded = true;
-        }
-    }
+		if (Downloading && BeatmapSet.IsDownloaded())
+		{
+			Downloading = false;
+			Downloaded = true;
+		}
+	}
 
 	public void DownloadBeatmap()
 	{
-		if(BeatmapSet.IsDownloaded())
+		if (BeatmapSet.IsDownloaded())
 		{
 			return;
 		}
 
-        Downloading = true;
+		Downloading = true;
 
 		SongDownloadPanel.Instance?.QueueChorusDownload(BeatmapSet);
 	}
@@ -99,5 +98,5 @@
 	{
 		return HashCode.Combine(Downloaded, Downloading);
 	}
-	
+
 }

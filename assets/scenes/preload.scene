@@ -3,13 +3,13 @@
   "GameObjects": [
     {
       "__guid": "1e15abe7-8b73-4b6c-9c5e-5241147a16e8",
+      "Flags": 0,
       "Name": "Camera",
       "Tags": "maincamera",
       "Enabled": true,
-      "NetworkMode": 2,
       "Components": [
         {
-          "__type": "CameraComponent",
+          "__type": "Sandbox.CameraComponent",
           "__guid": "f20a58ea-bbce-4afc-b76b-ddaaddae11a2",
           "BackgroundColor": "0.10233,0.10233,0.10233,1",
           "ClearFlags": "All",
@@ -29,14 +29,14 @@
     },
     {
       "__guid": "ab513843-f04c-4977-93a7-1682ec6d7144",
+      "Flags": 0,
       "Name": "Sun",
       "Position": "149.995,149.995,-212.125",
       "Tags": "light_directional,light",
       "Enabled": true,
-      "NetworkMode": 2,
       "Components": [
         {
-          "__type": "DirectionalLight",
+          "__type": "Sandbox.DirectionalLight",
           "__guid": "020e2881-afd9-4e44-8799-a9ca9855a223",
           "FogMode": "Enabled",
           "FogStrength": 1,
@@ -48,13 +48,13 @@
     },
     {
       "__guid": "14cbdaed-812f-44e5-a705-9e265047e5b7",
+      "Flags": 0,
       "Name": "Screen",
       "Position": "149.995,149.995,-212.125",
       "Enabled": true,
-      "NetworkMode": 2,
       "Components": [
         {
-          "__type": "ScreenPanel",
+          "__type": "Sandbox.ScreenPanel",
           "__guid": "7ad86d55-a29c-407f-949b-c2a1af0d20c2",
           "AutoScreenScale": true,
           "Opacity": 1,
@@ -62,7 +62,7 @@
           "ZIndex": 100
         },
         {
-          "__type": "PreloaderPanel",
+          "__type": "Rhythm4K.PreloaderPanel",
           "__guid": "09e03810-5dbb-4379-8ce2-8e0267323211",
           "MenuScene": "scenes/main-menu.scene"
         }
@@ -71,9 +71,9 @@
   ],
   "SceneProperties": {
     "FixedUpdateFrequency": 50,
-    "Lerping": true,
     "MaxFixedUpdates": 5,
     "NetworkFrequency": 30,
+    "NetworkInterpolation": true,
     "ThreadedAnimation": true,
     "TimeScale": 1,
     "UseFixedUpdate": true,
@@ -92,8 +92,7 @@
   },
   "Title": "preload",
   "Description": "",
-  "LastSaved": "2024-03-28T12:17:17.4851253-04:00",
   "ResourceVersion": 1,
-  "__version": 1,
-  "__references": []
+  "__references": [],
+  "__version": 1
 }

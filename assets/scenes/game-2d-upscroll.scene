@@ -9,8 +9,6 @@
       "Rotation": "0,0.7071069,0,0.7071069",
       "Tags": "maincamera",
       "Enabled": true,
-      "NetworkMode": 2,
-      "NetworkInterpolation": true,
       "Components": [
         {
           "__type": "Sandbox.CameraComponent",
@@ -38,8 +36,6 @@
       "Position": "-1425.922,-0,675.8569",
       "Rotation": "0,0.258819,0,0.9659258",
       "Enabled": true,
-      "NetworkMode": 2,
-      "NetworkInterpolation": true,
       "Children": [
         {
           "__guid": "6528f295-82e4-4c4a-b2c5-3714cb045473",
@@ -48,8 +44,6 @@
           "Position": "1351.714,0,0.0003662109",
           "Rotation": "0,-0.258819,0,0.9659259",
           "Enabled": true,
-          "NetworkMode": 2,
-          "NetworkInterpolation": true,
           "Components": [
             {
               "__type": "Rhythm4K.GameManager",
@@ -89,8 +83,6 @@
       "Rotation": "0,0.3826834,0,0.9238796",
       "Tags": "light_directional,light",
       "Enabled": true,
-      "NetworkMode": 2,
-      "NetworkInterpolation": true,
       "Components": [
         {
           "__type": "Sandbox.DirectionalLight",
@@ -109,8 +101,6 @@
       "Name": "Screen UI",
       "Position": "-441.111,20.81034,33.97163",
       "Enabled": true,
-      "NetworkMode": 2,
-      "NetworkInterpolation": true,
       "Components": [
         {
           "__type": "Sandbox.ScreenPanel",
@@ -137,8 +127,6 @@
       "Flags": 0,
       "Name": "Results UI",
       "Position": "-441.111,20.81034,33.97163",
-      "NetworkMode": 2,
-      "NetworkInterpolation": true,
       "Components": [
         {
           "__type": "Sandbox.ScreenPanel",
@@ -146,7 +134,7 @@
           "AutoScreenScale": true,
           "Opacity": 1,
           "Scale": 1,
-          "ZIndex": 80
+          "ZIndex": 120
         },
         {
           "__type": "Rhythm4K.ResultsScreen",
@@ -190,8 +178,6 @@
           "Name": "Tooltip UI",
           "Position": "-711.5023,211.8166,690.6369",
           "Enabled": true,
-          "NetworkMode": 2,
-          "NetworkInterpolation": true,
           "Components": [
             {
               "__type": "Sandbox.ScreenPanel",
@@ -217,8 +203,6 @@
       "Rotation": "0,0,-0.7071067,0.7071068",
       "Scale": "9.20517,9.20517,9.20517",
       "Enabled": true,
-      "NetworkMode": 2,
-      "NetworkInterpolation": true,
       "Components": [
         {
           "__type": "VisualizerBarManager",
@@ -248,8 +232,6 @@
       "Name": "Particles",
       "Position": "-963.6552,-33.37906,521.7537",
       "Enabled": true,
-      "NetworkMode": 2,
-      "NetworkInterpolation": true,
       "Components": [
         {
           "__type": "Rhythm4K.MusicReactiveParticle",
@@ -276,8 +258,6 @@
           "Position": "0,0,0",
           "Tags": "particles",
           "Enabled": true,
-          "NetworkMode": 2,
-          "NetworkInterpolation": true,
           "Components": [
             {
               "__type": "Sandbox.ParticleEffect",
@@ -352,9 +332,12 @@
                 "Constants": "5,8,0,0"
               },
               "MaxParticles": 5000,
+              "OrbitalForce": {},
+              "OrbitalPull": {},
               "PerParticleTimeScale": {
                 "Constants": "1,0.4,0,0"
               },
+              "Pitch": {},
               "PreWarm": 1,
               "PushStrength": {},
               "Roll": {
@@ -379,6 +362,7 @@
               },
               "SheetSequence": true,
               "Space": "World",
+              "StartDelay": {},
               "StartVelocity": {
                 "Type": "Range",
                 "Evaluation": "Particle",
@@ -386,12 +370,14 @@
               },
               "Stretch": {},
               "TimeScale": 0.65889215,
-              "Tint": "1,1,1,1"
+              "Tint": "1,1,1,1",
+              "Yaw": {}
             },
             {
               "__type": "Sandbox.ParticleSpriteRenderer",
               "__guid": "bbc322b9-d0a4-44a5-957a-1364dd660394",
               "Additive": false,
+              "Alignment": "LookAtCamera",
               "BlurAmount": 0.49,
               "BlurOpacity": 0.55,
               "BlurSpacing": 0.44,
@@ -399,6 +385,7 @@
               "FaceVelocity": false,
               "FogStrength": 1,
               "LeadingTrail": true,
+              "Lighting": false,
               "MotionBlur": true,
               "Opaque": false,
               "RotationOffset": 0,
@@ -417,6 +404,7 @@
               "Loop": true,
               "OnEdge": false,
               "Rate": 178.24,
+              "RateOverDistance": 0,
               "Size": "175.7,420.8002,124.6996"
             }
           ]
@@ -447,7 +435,6 @@
   },
   "Title": "game-3d",
   "Description": "",
-  "LastSaved": "2024-06-19T17:42:05.7770862-04:00",
   "ResourceVersion": 1,
   "__references": [],
   "__version": 1

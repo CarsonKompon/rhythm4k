@@ -5,15 +5,15 @@
 @namespace Rhythm4K
 
 <root>
-	@if(true)
+	@if (true)
 	{
 		var all = SongListCarousel.Instance.CurrentSetList;
-		@if(all.Count > 0)
+		@if (all.Count > 0)
 		{
 			var set = all[Index];
 			var list = set.Beatmaps.OrderBy(x => x.Difficulty).ToList();
 			<div class="cover-art">
-				@if(!string.IsNullOrEmpty(set.CoverArt) && set.CoverArt.StartsWith("http"))
+				@if (!string.IsNullOrEmpty(set.CoverArt) && set.CoverArt.StartsWith("http"))
 				{
 					<img src="@set.CoverArt" />
 				}
@@ -27,42 +27,46 @@
 				</div>
 			</div>
 			<div class="extras @(SelectedIndex >= 0 ? "" : "hidden")">
-				@if(SelectedIndex >= 0)
+				@if (SelectedIndex >= 0)
 				{
-					var chart = list.ElementAt(SelectedIndex);
-					var highscore = chart.GetHighscore();
+					var selectedChart = list.ElementAt(SelectedIndex);
+					var highscore = selectedChart.GetHighscore();
 					<div class="extra">
-						<i>access_time</i>
-						<label>@chart.GetSongLength()</label>
+						@* <i>access_time</i> *@
+						<label>⌚</label>
+						<label>@selectedChart.GetSongLength()</label>
 					</div>
 					<div class="extra">
-						<i>piano</i>
-						<label>@chart.Lanes</label>
+						@* <i>piano</i> *@
+						<label>🎹</label>
+						<label>@selectedChart.Lanes</label>
 					</div>
 					<div class="extra">
-						<i>music_note</i>
-						<label>@chart.Notes.Count</label>
+						@* <i>music_note</i> *@
+						<label>🎵</label>
+						<label>@selectedChart.Notes.Count</label>
 					</div>
-					@if(highscore > 0)
+					@if (highscore > 0)
 					{
 						<div class="fill" />
 						<div class="extra">
-							<i>star</i>
+							@* <i>star</i> *@
+							<label>⭐</label>
 							<label>@($"{highscore:n0}")</label>
 						</div>
 					}
 				}
 			</div>
 			<div class="chart-list">
-				@foreach(var chart in list)
+				@foreach (var chart in list)
 				{
 					var index = list.IndexOf(chart);
 					<div class="chart @(index == SelectedIndex ? "selected" : "")" onclick=@(() => SelectButton(index))>
 						<div class="info">
-							<h3>@(!string.IsNullOrEmpty(chart.DifficultyName) ? chart.DifficultyName : (!string.IsNullOrEmpty(chart.Name) ? chart.Name : "Unknown"))</h3>
-							<h4>by @(!string.IsNullOrEmpty(chart.Charter) ? chart.Charter : "Unknown")</h4>
+							<label class="name">@(!string.IsNullOrEmpty(chart.DifficultyName) ? chart.DifficultyName : (!string.IsNullOrEmpty(chart.Name) ? chart.Name : "Unknown"))</label>
+							<label class="author">by @(!string.IsNullOrEmpty(chart.Charter) ? chart.Charter : "Unknown")</label>
 						</div>
-						@if(chart.GetHighscore() > 0)
+						@if (chart.GetHighscore() > 0)
 						{
 							<i>star</i>
 						}
@@ -71,14 +75,14 @@
 				}
 			</div>
 			<div class="buttons">
-				<MainMenuButton Text="Back" onclick=@BackButton class="back"/>
-				<MainMenuButton Text="Play" onclick=@PlayButton class=@(SelectedIndex == -1 ? "disabled" : "")/>
+				<MainMenuButton Text="Back" onclick=@BackButton class="back" />
+				<MainMenuButton Text="Play" onclick=@PlayButton class=@(SelectedIndex == -1 ? "disabled" : "") />
 			</div>
 		}
 		else
 		{
 			<div class="no-charts">
-				@if(BeatmapSet.All.Count > 0)
+				@if (BeatmapSet.All.Count > 0)
 				{
 					<label>No chart selected...</label>
 				}
@@ -87,7 +91,7 @@
 					<label>You have no Beatmaps...</label>
 				}
 				<div class="buttons">
-					<MainMenuButton Text="Back" onclick=@BackButton class="back"/>
+					<MainMenuButton Text="Back" onclick=@BackButton class="back" />
 				</div>
 			</div>
 		}
@@ -103,8 +107,8 @@
 		{
 			var index = SongListCarousel.Instance.SelectedIndex;
 			var count = SongListCarousel.Instance.CurrentSetList.Count;
-			if(count == 0) return 0;
-			while(index < 0)
+			if (count == 0) return 0;
+			while (index < 0)
 			{
 				index += count;
 			}
@@ -122,7 +126,10 @@
 
 	protected override void OnUpdate()
 	{
-		if(!playingSong && timeSinceLastSelection > 0.25f && BeatmapSet.All.Count > 0)
+		if (Index < 0 || Index >= SongListCarousel.Instance.CurrentSetList.Count)
+			return;
+
+		if (!playingSong && timeSinceLastSelection > 0.25f && BeatmapSet.All.Count > 0)
 		{
 			var set = SongListCarousel.Instance.CurrentSetList[Index];
 			var list = set.Beatmaps.OrderBy(x => x?.Difficulty).ToList();
@@ -134,7 +141,9 @@
 
 	void PlayButton()
 	{
-		if(SelectedIndex == -1)
+		if (SelectedIndex == -1)
+			return;
+		if (Index < 0 || Index >= SongListCarousel.Instance.CurrentSetList.Count)
 			return;
 
 		var set = SongListCarousel.Instance.CurrentSetList[Index];
@@ -149,7 +158,7 @@
 
 	void SelectButton(int index)
 	{
-		if(SelectedIndex == index)
+		if (SelectedIndex == index)
 		{
 			Instance?.PlayButton();
 			return;
@@ -164,5 +173,5 @@
 		playingSong = false;
 	}
 
-	protected override int BuildHash() => System.HashCode.Combine( Index, SelectedIndex, SongListCarousel.Instance?.SortOrder );
+	protected override int BuildHash() => System.HashCode.Combine(Index, SelectedIndex, SongListCarousel.Instance?.SortOrder);
 }
