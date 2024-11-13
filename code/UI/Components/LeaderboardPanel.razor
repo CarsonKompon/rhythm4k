@@ -34,7 +34,6 @@
     async void FetchLeaderboardInfo()
     {
         var statId = Beatmap.LeaderboardId + "score";
-        Log.Info($"Fetching leaderboard for {statId}");
         Leaderboard = Sandbox.Services.Leaderboards.GetFromStat(statId);
         Leaderboard.SetAggregationMax();
         Leaderboard.SetSortDescending();
@@ -42,7 +41,6 @@
         Leaderboard.MaxEntries = MaxEntries;
 
         await Leaderboard.Refresh();
-        Log.Info($"Leaderboard for {statId} has {Leaderboard.Entries.Count()} entries");
         StateHasChanged();
     }
 }

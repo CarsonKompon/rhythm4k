@@ -46,7 +46,6 @@ public static class GameStats
         Stats[id].Scores.Add( new RhythmScore( score, maxCombo, accuracy ) );
 
         var statId = beatmap.LeaderboardId + "score";
-        Log.Info( $"Submitting score {score} to {statId}" );
         Sandbox.Services.Stats.SetValue( statId, score );
     }
 
