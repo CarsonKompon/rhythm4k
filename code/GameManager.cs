@@ -11,7 +11,6 @@ public sealed class GameManager : Component, IMusicPlayer
 	public static bool IsCalibrating = false;
 	public static int RetryCount = 0;
 
-	[Property] public GameObject ResultsScreen { get; set; }
 	[Property] public SceneFile MenuScene { get; set; }
 	[Property] public GameObject LanePrefab { get; set; }
 	[Property] float LaneSpacing { get; set; } = 64f;
@@ -95,7 +94,10 @@ public sealed class GameManager : Component, IMusicPlayer
 
 		if ( !IsFinished && _currentTime >= Beatmap.Length + 3f )
 		{
-			ResultsScreen.Enabled = true;
+			foreach ( var screen in Scene.Components.GetAll<PanelComponent>( FindMode.EverythingInSelfAndChildren ) )
+			{
+				screen.Enabled = true;
+			}
 			IsFinished = true;
 			IsPlaying = false;
 		}

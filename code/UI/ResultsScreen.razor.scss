@@ -51,9 +51,11 @@ ResultsScreen
 
 		.score-panel
 		{
+			position: relative;
 			width: 300px;
 			height: 300px;
 			flex-shrink: 0;
+
 			.progress
 			{
 				position: absolute;
@@ -549,7 +551,7 @@ ResultsScreen
 
 		.backing
 		{
-			left: 0px;
+			left: -8%;
 			width: 100%;
 			transform: skewX(-10deg) scaleY(0);
 		}

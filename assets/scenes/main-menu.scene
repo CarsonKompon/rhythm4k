@@ -57,6 +57,7 @@
           "__type": "Sandbox.Tonemapping",
           "__guid": "e4821adb-6421-4c6d-be34-78555f1bbf72",
           "__version": 1,
+          "AutoExposureEnabled": true,
           "ExposureBias": 2,
           "ExposureCompensation": 0,
           "ExposureMethod": "RGB",
@@ -109,6 +110,7 @@
           "AutoScreenScale": true,
           "Opacity": 1,
           "Scale": 1,
+          "ScaleStrategy": "ConsistentHeight",
           "ZIndex": 200
         },
         {
@@ -130,6 +132,7 @@
           "AutoScreenScale": true,
           "Opacity": 1,
           "Scale": 1,
+          "ScaleStrategy": "ConsistentHeight",
           "ZIndex": 100
         },
         {
@@ -184,7 +187,6 @@
           "__guid": "5dc15d53-dd0d-41d2-ac58-fd2793c3778b",
           "Flags": 0,
           "Name": "Visualizer Bars",
-          "Position": "0,0,0",
           "Rotation": "0,-0,-0.8660254,0.5",
           "Enabled": true,
           "Components": [
@@ -214,7 +216,6 @@
           "__guid": "2188e77c-72ce-4fc5-8d37-1f7a91a01b6f",
           "Flags": 0,
           "Name": "Ball",
-          "Position": "0,0,0",
           "Enabled": true,
           "Components": [
             {
@@ -228,7 +229,6 @@
               "__guid": "51cbbdb4-0a33-4e47-acc3-d93334f94f95",
               "Flags": 0,
               "Name": "Banner",
-              "Position": "0,0,0",
               "Scale": "0.2719812,0.2719812,0.2719812",
               "Enabled": true,
               "Components": [
@@ -236,7 +236,14 @@
                   "__type": "Sandbox.ModelRenderer",
                   "__guid": "60e65cde-278e-4cb5-b6a6-93efd7e31a72",
                   "BodyGroups": 18446744073709551615,
+                  "CreateAttachments": false,
                   "Model": "models/globe_banner.vmdl",
+                  "RenderOptions": {
+                    "GameLayer": true,
+                    "OverlayLayer": false,
+                    "BloomLayer": false,
+                    "AfterUILayer": false
+                  },
                   "RenderType": "Off",
                   "Tint": "1,1,1,1"
                 },
@@ -266,7 +273,7 @@
                   "CurrentPanelScale": 0,
                   "CurrentPanelScaleFromScreen": 0,
                   "CurrentPanelScaleToScreen": 0,
-                  "CurrentScreenSize": "1241,494",
+                  "CurrentScreenSize": "943,494",
                   "CustomPanelBounds": {
                     "Size": "1024,256"
                   },
@@ -295,7 +302,6 @@
                   "__guid": "b782fdfe-256b-4b90-8ffc-aa609f5450cf",
                   "Flags": 0,
                   "Name": "Panels",
-                  "Position": "0,0,0",
                   "Enabled": true,
                   "Components": [
                     {
@@ -310,15 +316,21 @@
               "__guid": "2938742b-92df-4842-af6f-25a2cb5e8acf",
               "Flags": 0,
               "Name": "Ball Model",
-              "Position": "0,0,0",
               "Enabled": true,
               "Components": [
                 {
                   "__type": "Sandbox.ModelRenderer",
                   "__guid": "e5d648cc-ca4e-447f-b5c5-0058f54bb3dd",
                   "BodyGroups": 18446744073709551615,
+                  "CreateAttachments": false,
                   "MaterialOverride": "materials/dark/dev_grid_dark.vmat",
                   "Model": "models/dev/sphere.vmdl",
+                  "RenderOptions": {
+                    "GameLayer": true,
+                    "OverlayLayer": false,
+                    "BloomLayer": false,
+                    "AfterUILayer": false
+                  },
                   "RenderType": "On",
                   "Tint": "1,1,1,1"
                 },
@@ -379,6 +391,7 @@
             {
               "__type": "Sandbox.ParticleEffect",
               "__guid": "403a4b20-ff7b-430e-85dd-d659583487f5",
+              "__version": 1,
               "Alpha": {
                 "Type": "Curve",
                 "CurveA": [
@@ -396,6 +409,7 @@
                 ],
                 "Constants": "1,0,0,0"
               },
+              "ApplyAlpha": true,
               "ApplyColor": true,
               "ApplyRotation": true,
               "ApplyShape": true,
@@ -449,6 +463,8 @@
                 "Constants": "5,8,0,0"
               },
               "MaxParticles": 5000,
+              "OrbitalForce": {},
+              "OrbitalPull": {},
               "PerParticleTimeScale": {
                 "Constants": "1,0.4,0,0"
               },
@@ -477,6 +493,7 @@
               },
               "SheetSequence": true,
               "Space": "World",
+              "StartDelay": {},
               "StartVelocity": {
                 "Type": "Range",
                 "Evaluation": "Particle",
@@ -499,8 +516,16 @@
               "FaceVelocity": false,
               "FogStrength": 1,
               "LeadingTrail": true,
+              "Lighting": false,
               "MotionBlur": false,
               "Opaque": false,
+              "Pivot": "0.5,0.5",
+              "RenderOptions": {
+                "GameLayer": true,
+                "OverlayLayer": false,
+                "BloomLayer": false,
+                "AfterUILayer": false
+              },
               "RotationOffset": 0,
               "Scale": 1,
               "Shadows": false,
@@ -533,6 +558,7 @@
             {
               "__type": "Sandbox.ParticleEffect",
               "__guid": "9507533f-803e-477d-bf13-4428fecaf9f4",
+              "__version": 1,
               "Alpha": {
                 "Type": "Curve",
                 "CurveA": [
@@ -550,6 +576,7 @@
                 ],
                 "Constants": "1,0,0,0"
               },
+              "ApplyAlpha": true,
               "ApplyColor": true,
               "ApplyRotation": true,
               "ApplyShape": true,
@@ -603,6 +630,8 @@
                 "Constants": "5,8,0,0"
               },
               "MaxParticles": 5000,
+              "OrbitalForce": {},
+              "OrbitalPull": {},
               "PerParticleTimeScale": {
                 "Constants": "1,0.4,0,0"
               },
@@ -631,6 +660,7 @@
               },
               "SheetSequence": true,
               "Space": "World",
+              "StartDelay": {},
               "StartVelocity": {
                 "Type": "Range",
                 "Evaluation": "Particle",
@@ -653,8 +683,16 @@
               "FaceVelocity": false,
               "FogStrength": 1,
               "LeadingTrail": true,
+              "Lighting": false,
               "MotionBlur": false,
               "Opaque": false,
+              "Pivot": "0.5,0.5",
+              "RenderOptions": {
+                "GameLayer": true,
+                "OverlayLayer": false,
+                "BloomLayer": false,
+                "AfterUILayer": false
+              },
               "RotationOffset": 0,
               "Scale": 1,
               "Shadows": false,
@@ -750,6 +788,12 @@
               "InteractionRange": 1000,
               "LookAtCamera": false,
               "PanelSize": "1978.4,1717.797",
+              "RenderOptions": {
+                "GameLayer": true,
+                "OverlayLayer": false,
+                "BloomLayer": false,
+                "AfterUILayer": false
+              },
               "RenderScale": 1,
               "VerticalAlign": "Center"
             },
@@ -767,9 +811,11 @@
     "MaxFixedUpdates": 5,
     "NetworkFrequency": 60,
     "NetworkInterpolation": true,
+    "PhysicsSubSteps": 1,
     "ThreadedAnimation": true,
     "TimeScale": 1,
     "UseFixedUpdate": true,
+    "Metadata": {},
     "NavMesh": {
       "Enabled": false,
       "IncludeStaticBodies": true,
@@ -783,11 +829,11 @@
       "IncludedBodies": ""
     }
   },
-  "Title": "minimal",
-  "Description": "",
-  "ResourceVersion": 1,
+  "ResourceVersion": 2,
+  "Title": null,
+  "Description": null,
   "__references": [
     "matek.dev_grid_dark#46449"
   ],
-  "__version": 1
+  "__version": 2
 }

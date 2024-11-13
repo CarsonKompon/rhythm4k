@@ -6,7 +6,7 @@
 @namespace Rhythm4K
 
 <root>
-	@if(!GameManager.IsCalibrating)
+	@if (!GameManager.IsCalibrating)
 	{
 		<div class="panel results">
 			<div class="song-info">
@@ -14,19 +14,19 @@
 				<label class="song-artist">@GameManager.Beatmap.Artist</label>
 			</div>
 			<div class="score-panel">
-				@if(true)
+				@if (true)
 				{
 					var progress = MathF.Min(Accuracy, 100f);
 					<div class="progress" style="background-image: conic-gradient( white, white @(progress + 0.1f)%, transparent @(progress)%);"></div>
 				}
 				<div class="progress-indicator" />
 				<div class="progress-backing" />
-				@if(true)
+				@if (true)
 				{
 					var rank = Judgement.GetRank(Accuracy);
 					<div class="rank @("rank-" + rank)">
 						<label>@rank</label>
-						<TooltipPanel >
+						<TooltipPanel>
 							<TooltipContent>
 								<div class="rank">
 									<label class="header">Rank @rank</label>
@@ -55,14 +55,14 @@
 						<label class="header">Accuracy</label>
 						<div class="value">
 							<label>@($"{Accuracy:N2}")%</label>
-							@if(Accuracy >= 100)
+							@if (Accuracy >= 100)
 							{
 								<TooltipPanel>
 									<Content>
-										<i>star</i>	
+										<i>star</i>
 									</Content>
 									<TooltipContent>100% Accuracy</TooltipContent>
-								</TooltipPanel>	
+								</TooltipPanel>
 							}
 						</div>
 					</div>
@@ -71,11 +71,11 @@
 						<div class="value">
 							<label>@GameManager.Replay.MaxCombo</label>
 							<label class="small">@($"/{GameManager.Replay.Hits.Count}")</label>
-							@if(GameManager.Replay.MaxCombo == GameManager.Replay.Hits.Count)
+							@if (GameManager.Replay.MaxCombo == GameManager.Replay.Hits.Count)
 							{
 								<TooltipPanel>
 									<Content>
-										<i>star</i>	
+										<i>star</i>
 									</Content>
 									<TooltipContent>Full Combo</TooltipContent>
 								</TooltipPanel>
@@ -83,14 +83,14 @@
 						</div>
 					</div>
 				</div>
-				@if(Judgements.Length > 0)
+				@if ((Judgements?.Length ?? 0) > 0)
 				{
 					var timings = Judgement.GetJudgementTimes(GameManager.Beatmap.Difficulty);
 					<div class="row timings">
 						<div class="stat">
 							<TooltipPanel class="header">
 								<Content>
-									<label >@Judgement.Names[0]</label>
+									<label>@Judgement.Names[0]</label>
 								</Content>
 								<TooltipContent>+/- @(timings[0] * 1000)ms</TooltipContent>
 							</TooltipPanel>
@@ -99,7 +99,7 @@
 						<div class="stat">
 							<TooltipPanel class="header">
 								<Content>
-									<label >@Judgement.Names[1]</label>
+									<label>@Judgement.Names[1]</label>
 								</Content>
 								<TooltipContent>+/- @(MathF.Round(timings[1] * 1000))ms</TooltipContent>
 							</TooltipPanel>
@@ -108,7 +108,7 @@
 						<div class="stat">
 							<TooltipPanel class="header">
 								<Content>
-									<label >@Judgement.Names[2]</label>
+									<label>@Judgement.Names[2]</label>
 								</Content>
 								<TooltipContent>+/- @(MathF.Round(timings[2] * 1000))ms</TooltipContent>
 							</TooltipPanel>
@@ -117,7 +117,7 @@
 						<div class="stat">
 							<TooltipPanel class="header">
 								<Content>
-									<label >@Judgement.Names[3]</label>
+									<label>@Judgement.Names[3]</label>
 								</Content>
 								<TooltipContent>+/- @(MathF.Round(timings[3] * 1000))ms</TooltipContent>
 							</TooltipPanel>
@@ -126,7 +126,7 @@
 						<div class="stat">
 							<TooltipPanel class="header">
 								<Content>
-									<label >@Judgement.Names[4]</label>
+									<label>@Judgement.Names[4]</label>
 								</Content>
 								<TooltipContent>+/- @(MathF.Round(timings[4] * 1000))ms</TooltipContent>
 							</TooltipPanel>
@@ -135,7 +135,7 @@
 						<div class="stat">
 							<TooltipPanel class="header">
 								<Content>
-									<label >@Judgement.Names[5]</label>
+									<label>@Judgement.Names[5]</label>
 								</Content>
 								<TooltipContent>> @(MathF.Round(timings[4] * 1000))ms</TooltipContent>
 							</TooltipPanel>
@@ -151,13 +151,13 @@
 		<div class="panel">
 			<label class="header">Timing Distribution</label>
 			<div class="timing">
-				@for(int i=0; i<75; i++)
+				@for (int i = 0; i < 75; i++)
 				{
 					var index = i - 38;
 					var timing = TimingDistribution[i];
 					var value = (timing / (float)TimingLimit) * Percent * 100f;
 					var targetRange = MathF.Round(MathX.Remap((float)i / 75f, 0f, 1f, -TimingRange, TimingRange) * 1000);
-					<TooltipPanel class="timing-bar" style="height: @(MathF.Max(value, 2.5f))%; background-color: @(TimingGradient.Evaluate((value == 0f) ? (0f) : (1f - MathF.Abs(index / (75f / 2f)))).ToString());" >
+					<TooltipPanel class="timing-bar" style="height: @(MathF.Max(value, 2.5f))%; background-color: @(TimingGradient.Evaluate((value == 0f) ? (0f) : (1f - MathF.Abs(index / (75f / 2f)))).ToString());">
 						<TooltipContent>
 							<div class="timing-bar">
 								<label>@(index == 0 ? 0 : targetRange)ms</label>
@@ -181,15 +181,15 @@
 				<label>@(MathF.Floor(TimingRange * 1000f))</label>
 			</div>
 		</div>
-		@if(GameManager.IsCalibrating)
+		@if (GameManager.IsCalibrating)
 		{
 			<div class="panel calibration">
 				<label class="header">Calibration</label>
 				<div class="stats">
 					<div class="stat center">
 						<label class="header">Audio Offset</label>
-					    <LeftRightNumberControl Step=@(1) Suffix="ms" Value:bind=@GamePreferences.Settings.AudioLatency />
-            		</div>
+						<LeftRightNumberControl Step=@(1) Suffix="ms" Value:bind=@GamePreferences.Settings.AudioLatency />
+					</div>
 					<div class="row">
 						<button onclick=@CalibrateToAverage>Calibrate to Average</button>
 						<button onclick=@CalibrateToMode>Calibrate to Mode</button>
@@ -223,7 +223,7 @@
 					</div>
 					<div class="stat">
 						<label class="header">Highscore</label>
-						@if(true)
+						@if (true)
 						{
 							var difference = (Score - PreviousScore);
 							var diffClass = (difference > 0 ? "positive" : (difference == 0 ? "same" : "negative"));
@@ -232,7 +232,7 @@
 									<label class="value">@($"{GameManager.Beatmap.GetHighscore():N0}")</label>
 									<i class=@(difference <= 0 ? "same" : "positive")>@(difference <= 0 ? "remove" : "arrow_upward")</i>
 								</div>
-								@if(difference > 0)
+								@if (difference > 0)
 								{
 									<div class="difference">
 										<label class="@diffClass">@($"+{difference:N0}")</label>
@@ -282,7 +282,7 @@
 	{
 		PreviousReplay = GameStats.GetStats(GameManager.Beatmap).Replay;
 		PreviousScore = GameManager.Beatmap.GetHighscore();
-		GameManager.Replay.Complete( (int)MathF.Round( GameManager.Score ) );
+		GameManager.Replay.Complete((int)MathF.Round(GameManager.Score));
 		Judgements = GameManager.Replay.GetJudgements();
 		TimingRange = Judgement.GetJudgementTimes(GameManager.Beatmap.Difficulty).Last();
 		TimingDistribution = GameManager.Replay.GetTimingDistribution(75, GameManager.Beatmap.Difficulty);
@@ -291,16 +291,16 @@
 		Average = 0f;
 		float most = 0f;
 		float total = 0f;
-		foreach(var hit in GameManager.Replay.Hits)
+		foreach (var hit in GameManager.Replay.Hits)
 		{
-			if(MathF.Abs(hit.Offset) >= TimingRange) continue;
+			if (MathF.Abs(hit.Offset) >= TimingRange) continue;
 			Average += hit.Offset;
 			total++;
 		}
-		for(int i=0; i<75; i++)
+		for (int i = 0; i < 75; i++)
 		{
 			var timing = TimingDistribution[i];
-			if(timing > most)
+			if (timing > most)
 			{
 				most = timing;
 				ModeAverage = MathF.Round(MathX.Remap((float)i / 75f, 0f, 1f, -TimingRange, TimingRange) * 1000);
@@ -308,23 +308,28 @@
 		}
 		Average /= total;
 		Average *= 1000f;
+
+		foreach (var child in GameObject.Children)
+		{
+			child.Enabled = true;
+		}
 	}
-	
+
 	protected override void OnUpdate()
 	{
-		if(MathF.Abs(Percent - lastPercent) > 0.04f)
+		if (MathF.Abs(Percent - lastPercent) > 0.04f)
 		{
 			var sound = Sound.Play("ui_tick");
 			sound.Pitch = 1f + Percent;
 			lastPercent = Percent;
 		}
 		Percent = Percent.LerpTo(1f, Time.Delta * 2f);
-		if(Percent >= 0.99f && Percent != 1f)
+		if (Percent >= 0.99f && Percent != 1f)
 		{
 			Percent = 1f;
 		}
 	}
-	
+
 	void CalibrateToAverage()
 	{
 		GamePreferences.Settings.AudioLatency = Average;
@@ -351,5 +356,5 @@
 		Scene.Load(GameManager.MenuScene);
 	}
 
-	protected override int BuildHash() => System.HashCode.Combine( Percent );
+	protected override int BuildHash() => System.HashCode.Combine(Percent);
 }
