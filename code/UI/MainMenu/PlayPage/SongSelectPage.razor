@@ -15,50 +15,69 @@
         <div class="tab @PageClass(4)" onclick=@(() => ClickOrder(4))>Highscore</div>
         <div class="tab @PageClass(5)" onclick=@(() => ClickOrder(5))>Length</div>
     </div>
-    <div class="scroll-bar" @ref="ScrollPanel">
+    <div class="scroll-bar" @ref="ScrollPanel" onmousedown=@ScrollDrag>
         <div class="bar" @ref="ScrollBar" style=@($"top: {ScrollBarPosition}%") />
     </div>
 </root>
 
 @code
 {
-    
+
     string PageClass(int order) => (SongListCarousel.Instance.SortOrder == order) ? "selected" : "";
 
     Panel ScrollPanel;
     Panel ScrollBar;
 
     float ScrollBarPosition = 0;
+    bool IsDragging = false;
 
     void ClickOrder(int order)
     {
         SongListCarousel.Instance.SortOrder = order;
     }
 
+    protected override void OnAfterTreeRender(bool firstTime)
+    {
+        base.OnAfterTreeRender(firstTime);
+
+        if (firstTime)
+        {
+            ButtonInput = PanelInputType.Game;
+            ScrollPanel.ButtonInput = PanelInputType.Game;
+            ScrollBar.ButtonInput = PanelInputType.Game;
+        }
+    }
+
     public override void Tick()
     {
         base.Tick();
+        Log.Info(Input.Down("Click"));
 
-        if(SongListInfoPanel.Instance is null) return;
+        if (SongListInfoPanel.Instance is null) return;
         var list = SongListCarousel.Instance?.CurrentSetList;
-        if(list is null) return;
+        if (list is null) return;
+
+        if (IsDragging)
+        {
+            SetScrollPos();
+            if (!Input.Down("Click"))
+                IsDragging = false;
+        }
 
         ScrollBarPosition = ScrollBarPosition.LerpTo(SongListInfoPanel.Instance.Index / (float)(list.Count - 1) * 90, 8f * Time.Delta);
     }
 
-    protected override void OnMouseMove( MousePanelEvent e )
+    void ScrollDrag()
     {
-        base.OnMouseMove( e );
-
-        if(!(ScrollBar.HasActive || ScrollPanel.HasActive)) return;
+        IsDragging = true;
         SetScrollPos();
     }
 
-    protected override void OnMouseDown(MousePanelEvent e)
+    protected override void OnMouseMove(MousePanelEvent e)
     {
-        base.OnMouseDown(e);
+        base.OnMouseMove(e);
 
-        if(!(ScrollBar.HasActive || ScrollPanel.HasActive)) return;
+        if (!IsDragging) return;
         SetScrollPos();
     }
 
