@@ -77,7 +77,7 @@ public sealed class SongListCarousel : Component
 		{
 			var panel = SongPanelPrefab.Clone( Transform.World );
 			panel.SetParent( GameObject );
-			panel.Transform.LocalPosition = new Vector3( MathF.Cos( angle ) * SongXSpread, 0f, MathF.Sin( angle ) * SongYSpread );
+			panel.LocalPosition = new Vector3( MathF.Cos( angle ) * SongXSpread, 0f, MathF.Sin( angle ) * SongYSpread );
 			angle -= MathF.PI * 2f / (float)SongPanelCount;
 			var panelScript = panel.Components.Get<SongListPanel>();
 			SongPanels.Add( panelScript );
@@ -182,9 +182,9 @@ public sealed class SongListCarousel : Component
 				xSpread *= 1.05f;
 				targetScale *= 1.2f;
 			}
-			panel.Transform.LocalPosition = panel.Transform.LocalPosition.LerpTo( new Vector3( (xSpread / 2f) + (MathF.Cos( angle ) * xSpread * Zoom / 2f), 0f, MathF.Sin( angle ) * SongYSpread * Zoom ), 20f * Time.Delta );
-			panel.Transform.LocalRotation = Rotation.From( 0f, 90f, 0f );
-			panel.Transform.LocalScale = panel.Transform.LocalScale.LerpTo( targetScale, 5f * Time.Delta );
+			panel.LocalPosition = panel.LocalPosition.LerpTo( new Vector3( (xSpread / 2f) + (MathF.Cos( angle ) * xSpread * Zoom / 2f), 0f, MathF.Sin( angle ) * SongYSpread * Zoom ), 20f * Time.Delta );
+			panel.LocalRotation = Rotation.From( 0f, 90f, 0f );
+			panel.LocalScale = panel.LocalScale.LerpTo( targetScale, 5f * Time.Delta );
 			angle -= MathF.PI * 2f / (float)SongPanelCount;
 			index++;
 		}

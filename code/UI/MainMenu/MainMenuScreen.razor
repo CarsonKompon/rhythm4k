@@ -213,7 +213,8 @@
 		}
 
 		if (Music is null) return;
-		Music.Position = Scene.Camera.Transform.Position;
+		if (!(Scene?.Camera?.IsValid() ?? false)) return;
+		Music.Position = Scene.Camera.WorldPosition;
 		Music.Volume = Music.Volume.LerpTo(1f, Time.Delta * 2f);
 
 		var spectrum = Music.Spectrum;

@@ -67,8 +67,8 @@ public sealed class VisualizerBarManager : Component
             var bar = Bars[i];
             var width = BarWidth;
             var targetScale = new Vector3( width, width, value * Amplitude );
-            bar.Transform.LocalScale = bar.Transform.LocalScale.LerpTo( targetScale, Time.Delta * 10f );
-            bar.Transform.LocalPosition = new Vector3(
+            bar.LocalScale = bar.LocalScale.LerpTo( targetScale, Time.Delta * 10f );
+            bar.LocalPosition = new Vector3(
                 MathF.Sin( i / (float)_barCount * (2 * MathF.PI) ) * RingRadius,
                 MathF.Cos( i / (float)_barCount * (2 * MathF.PI) ) * RingRadius,
                 value + (MathF.Sin( time + (i / (_barCount / (float)BarWavyness)) * (2 * MathF.PI) ) * BarWavynessAmplitude)
@@ -95,7 +95,7 @@ public sealed class VisualizerBarManager : Component
             if ( Prefab is null ) continue;
             var bar = Prefab.Clone();
             bar.SetParent( GameObject );
-            bar.Transform.LocalPosition = new Vector3( MathF.Sin( i / (float)_barCount * (2 * MathF.PI) ) * RingRadius, MathF.Cos( i / (float)_barCount * (2 * MathF.PI) ) * RingRadius, 0 );
+            bar.LocalPosition = new Vector3( MathF.Sin( i / (float)_barCount * (2 * MathF.PI) ) * RingRadius, MathF.Cos( i / (float)_barCount * (2 * MathF.PI) ) * RingRadius, 0 );
             bar.Enabled = true;
             Bars.Add( bar );
         }

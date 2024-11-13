@@ -12,7 +12,7 @@ public sealed class BezierCurveComponent : Component
     {
         if ( StartPoint != null && EndPoint != null )
         {
-            var bezier = BezierCurveGenerator.GenerateBezierCurve( StartPoint.Transform.Position, EndPoint.Transform.Position, StartPoint.Transform.Position + StartPoint.Transform.Rotation.Forward * 100f, EndPoint.Transform.Position + EndPoint.Transform.Rotation.Forward * 100f, 50 );
+            var bezier = BezierCurveGenerator.GenerateBezierCurve( StartPoint.WorldPosition, EndPoint.WorldPosition, StartPoint.WorldPosition + StartPoint.WorldRotation.Forward * 100f, EndPoint.WorldPosition + EndPoint.WorldRotation.Forward * 100f, 50 );
             for ( int i = 0; i < bezier.Count - 1; i++ )
             {
                 var p1 = Transform.World.PointToLocal( bezier[i] );
@@ -20,8 +20,8 @@ public sealed class BezierCurveComponent : Component
                 Gizmo.Draw.Line( p1, p2 );
             }
 
-            Gizmo.Draw.SolidSphere( Transform.World.PointToLocal( StartPoint.Transform.Position ), 1f );
-            Gizmo.Draw.SolidSphere( Transform.World.PointToLocal( EndPoint.Transform.Position ), 1f );
+            Gizmo.Draw.SolidSphere( Transform.World.PointToLocal( StartPoint.WorldPosition ), 1f );
+            Gizmo.Draw.SolidSphere( Transform.World.PointToLocal( EndPoint.WorldPosition ), 1f );
         }
     }
     protected override void OnUpdate()

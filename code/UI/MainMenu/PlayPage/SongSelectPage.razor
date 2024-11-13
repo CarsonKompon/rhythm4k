@@ -51,7 +51,6 @@
     public override void Tick()
     {
         base.Tick();
-        Log.Info(Input.Down("Click"));
 
         if (SongListInfoPanel.Instance is null) return;
         var list = SongListCarousel.Instance?.CurrentSetList;

@@ -189,7 +189,7 @@ public sealed class GameManager : Component, IMusicPlayer
 		foreach ( NoteComponent note in Notes )
 		{
 			if ( !note.IsValid() ) continue;
-			note.Transform.Position = note.Lane.StartPosition.Transform.Position.LerpTo( note.Lane.EndPosition.Transform.Position, 1f - (note.Note.BakedTime - note.CurrentTime) / ScreenTime, false );
+			note.WorldPosition = note.Lane.StartPosition.WorldPosition.LerpTo( note.Lane.EndPosition.WorldPosition, 1f - (note.Note.BakedTime - note.CurrentTime) / ScreenTime, false );
 
 			float timing = 0.15f;
 			var noteTime = note.Note.BakedTime;
@@ -264,7 +264,7 @@ public sealed class GameManager : Component, IMusicPlayer
 
 		if ( Music is null ) return;
 
-		Music.Position = Scene.Camera.Transform.Position;
+		Music.Position = Scene.Camera.WorldPosition;
 		Music.Paused = IsPaused;
 		if ( MathF.Abs( SongTime - Music.Duration ) > 1f )
 		{
@@ -422,7 +422,7 @@ public sealed class GameManager : Component, IMusicPlayer
 
 	NoteComponent CreateNote( Note note )
 	{
-		var noteObject = NotePrefab.Clone( Lanes[note.Lane].StartPosition.Transform.Position );
+		var noteObject = NotePrefab.Clone( Lanes[note.Lane].StartPosition.WorldPosition );
 		noteObject.SetParent( GameObject );
 		var modelRenderer = noteObject.Components.GetInChildrenOrSelf<ModelRenderer>();
 		var color = GamePreferences.Settings.GetLaneColor( Beatmap.Lanes + "K" + (note.Lane + 1) );
@@ -450,8 +450,8 @@ public sealed class GameManager : Component, IMusicPlayer
 			if ( ReverseLaneOrder ) index = laneCount - i - 1;
 			var lane = LanePrefab.Clone();
 			lane.SetParent( GameObject );
-			lane.Transform.LocalPosition = new Vector3( 0, laneOffset - index * LaneSpacing, 0 );
-			lane.Transform.Rotation = Transform.Rotation;
+			lane.LocalPosition = new Vector3( 0, laneOffset - index * LaneSpacing, 0 );
+			lane.WorldRotation = WorldRotation;
 			var laneScript = lane.Components.Get<Lane>();
 			laneScript.SetLane( i );
 			Lanes.Add( laneScript );

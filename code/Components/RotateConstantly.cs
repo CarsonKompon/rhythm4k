@@ -6,6 +6,6 @@ public sealed class RotateConstantly : Component
 
 	protected override void OnUpdate()
 	{
-		Transform.LocalRotation *= RotationSpeed * Time.Delta;
+		LocalRotation *= RotationSpeed * Time.Delta;
 	}
 }

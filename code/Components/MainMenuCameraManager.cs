@@ -30,8 +30,8 @@ public sealed class MainMenuCameraManager : Component
 		var targetRot = TargetTransform.Rotation;
 		var mouseOffset = new Vector2( Screen.Width / 2f, Screen.Height / 2f ) - Mouse.Position;
 		targetRot *= Rotation.From( -mouseOffset.y / 500f, mouseOffset.x / 500f, 0f );
-		Transform.Rotation = Rotation.Slerp( Transform.Rotation, targetRot, delta );
-		Transform.Position = Vector3.Lerp( Transform.Position, TargetTransform.Position, delta );
+		WorldRotation = Rotation.Slerp( WorldRotation, targetRot, delta );
+		WorldPosition = Vector3.Lerp( WorldPosition, TargetTransform.Position, delta );
 
 		string url = MainMenuScreen.Instance?.CurrentUrl ?? "";
 		if ( currentUrl != url )
@@ -63,8 +63,8 @@ public sealed class MainMenuCameraManager : Component
 		}
 		if ( instant )
 		{
-			Transform.Position = TargetTransform.Position;
-			Transform.Rotation = TargetTransform.Rotation;
+			WorldPosition = TargetTransform.Position;
+			WorldRotation = TargetTransform.Rotation;
 		}
 	}
 

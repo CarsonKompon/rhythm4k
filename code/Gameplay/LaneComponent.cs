@@ -20,7 +20,7 @@ public sealed class Lane : Component
 	protected override void OnStart()
 	{
 		var theme = GamePreferences.Settings.GetNoteTheme();
-		var receptor = SceneUtility.GetPrefabScene( theme.ReceptorPrefab ).Clone( Receptor.Transform.Position );
+		var receptor = SceneUtility.GetPrefabScene( theme.ReceptorPrefab ).Clone( Receptor.WorldPosition );
 		BurstPrefab = SceneUtility.GetPrefabScene( theme.BurstPrefab );
 		LaneHitHighlight = receptor.Children.Where( x => x.Tags.Has( "highlight" ) ).FirstOrDefault()?.Components?.Get<ModelRenderer>();
 

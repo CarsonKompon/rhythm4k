@@ -21,6 +21,6 @@ public class MusicReactive : Component
 
     protected override void OnUpdate()
     {
-        Transform.LocalScale = MathF.Min( 0.9f + Player.Energy / 25f, 1.08f );
+        LocalScale = MathF.Min( 0.9f + Player.Energy / 25f, 1.08f );
     }
 }
