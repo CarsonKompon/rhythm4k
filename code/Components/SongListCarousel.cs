@@ -112,6 +112,12 @@ public sealed class SongListCarousel : Component
 
 	protected override void OnUpdate()
 	{
+		if(BeatmapSet.All.Count != CurrentSetList.Count)
+		{
+			CurrentSetList = GetCurrentSetList();
+			ResetButtons();
+		}
+
 		CurrentAngle = MathX.LerpDegrees( CurrentAngle, TargetAngle + AngleOffset, Time.Delta * 10f );
 
 		if ( worldInput is not null )
